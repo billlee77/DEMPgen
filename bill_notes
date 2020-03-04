@@ -1,0 +1,30 @@
+Note Feb 24th, 2020: 
+
+Work on eic_evgen
+
+1. Initiating process for massive input parameters are separated into a different eic_pim.cc. Global parameters are now decleared in the eic_pim.h and defined in eic_pim.cc. 
+
+2. eic.cc are not made into a function can be called, my the main.cc.
+
+3. tssa_sigL_Para.h and tssa_sigT_Para.h are not merged into tssa_sig_Para.h, the headers properly declared in the header files and functions are defined in tssa_sig_Para.cc.
+
+
+/*--------------------------------------------------*/
+Note Feb 25, 2020: 
+
+1. eic_evgen is included as part of the DEMP_EvGen
+
+
+/*--------------------------------------------------*/
+Note Mar 5, 2020:
+
+1. Generator name change DEMP_EvGen to DEMPgen 
+2. Main function in eiv_evgen is modified to accept Config.json file
+
+
+
+
+
+
+
+

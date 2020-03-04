@@ -1,0 +1,10 @@
+Total events tried                                                                         1000
+Total events recorded                                                                         0
+Number of events with w more than 10.6                                                      552
+Number of events with wsq negative                                                          363
+Number of events with qsq less than 4                                                        53
+Number of events with -t more than threshold                                                 31
+Number of events with w less than threshold                                                   0
+Number of events with mom not conserve                                                        0
+Number of events with Sigma negative                                                          0
+Number of lund events                                                                         0
