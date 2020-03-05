@@ -3,3 +3,4 @@ data/RootFiles/
 *.root
 *.lund
 build/
+*_job.txt
