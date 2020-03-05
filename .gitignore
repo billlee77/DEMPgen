@@ -1,0 +1,5 @@
+data/LundFiles/
+data/RootFiles/
+*.root
+*.lund
+build/
