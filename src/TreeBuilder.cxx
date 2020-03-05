@@ -17,7 +17,7 @@ TreeBuilder::TreeBuilder(const char * name)
   extern Json::Value obj;
 
   tree_name = name;
-  string str_copy = obj["output_file"].asString();
+  string str_copy = "RootFiles/" + obj["file_name"].asString() + ".root";
   file_name = str_copy.c_str();
 
   cout << obj["output_file"].asString() << endl;

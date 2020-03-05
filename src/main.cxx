@@ -57,6 +57,8 @@ TFile * WorkFile;
 
 Json::Value obj; //Declared here for global access
 
+string get_date(void);
+
 
 int main(int argc, char** argv){
  
@@ -69,15 +71,27 @@ int main(int argc, char** argv){
    int nEvents = obj["n_events"].asInt();
    cout << "Generating "<< nEvents << " events."<<endl;
 
+   TString file_name = obj["file_name"].asString();
+
+   if (file_name == "") {
+
+	 file_name.Form("%i", nEvents);
+	
+	 file_name = file_name + "_" + get_date();
+
+   } 
+
+//	cout << "File name: " << file_name << "  " << get_date() << endl;
+//	exit(0);
+
+
    if (obj["experiment"].asString() == "eic") {
  
 		cout << "EIC is used " << endl;
  
   	 	int target_direction = obj["Targ_dir"].asInt();
   		int kinematics_type = obj["Kinematics_type"].asInt();
-
- 
- 		eic(nEvents, target_direction, kinematics_type);
+ 		eic(nEvents, target_direction, kinematics_type, file_name);
  
    } else if (obj["experiment"].asString() == "solid") {
  
@@ -926,3 +940,27 @@ int main(int argc, char** argv){
  
   return 0;
 }
+
+
+
+string get_date(void) {
+ 
+  int MAX_DATE = 22;
+
+  time_t now;
+   char the_date[MAX_DATE];
+
+   the_date[0] = '\0';
+
+   now = time(NULL);
+
+   if (now != -1)
+   {
+      strftime(the_date, MAX_DATE, "%Y_%h_%d_%H_%M_%S", localtime(&now));
+   }
+
+   return string(the_date);
+}
+
+	
+
