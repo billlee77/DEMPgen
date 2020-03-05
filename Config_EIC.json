@@ -6,12 +6,12 @@
     // and degrees for angles.
     // n_events indicates number of attempts
 	// "experiment" : "eic" or "solid"
-    //"experiment" : "solid",
+   // "experiment" : "solid",
     "experiment" : "eic",
 
-//	"file_name" : "example_output",
-    "n_events" : 10000,
-//    "output_file" : "RootFiles/Test.root",
+    "file_name" : "DEMPGen_1000000_1",
+    "n_events" : 1000000,
+    "output_file" : "RootFiles/Test.root",
 
 	//**************************************
     /// This section if for EIC simulation only

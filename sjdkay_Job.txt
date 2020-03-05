@@ -1,0 +1,12 @@
+#!/bin/csh
+#PBS -N DEMPGen_1000000_5
+#PBS -m abe
+#PBS -M sjdkay@jlab.org
+#PBS -r n
+#PBS -o  /home/sjdkay/trq_output/DEMPGen_1000000_5.out
+#PBS -e  /home/sjdkay/trq_output/DEMPGen_1000000_5.err
+date
+cd /home/apps/eic_evgen/
+./run_EIC_Batch.csh 5 1000000
+date
+exit
