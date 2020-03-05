@@ -23,7 +23,7 @@ class TreeBuilder
   int nVars;
 
   const char* tree_name;
-  const char* file_name;
+//  const char* file_name;
 
   TTree * Tree_Out;
   TFile * File_Out;
@@ -31,7 +31,7 @@ class TreeBuilder
   void Retrieve();
 public:
 
-  TreeBuilder(const char * name);
+  TreeBuilder(const char*, const char*);
 
   void AddParticle(Particle * p);
   void AddDouble(double * x, const char* name);

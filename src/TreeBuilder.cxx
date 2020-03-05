@@ -11,20 +11,19 @@
 
 using namespace std;
 
-TreeBuilder::TreeBuilder(const char * name)
-{
+TreeBuilder::TreeBuilder(const char * file_name, const char * name) {
 
   extern Json::Value obj;
 
   tree_name = name;
-  string str_copy = "RootFiles/" + obj["file_name"].asString() + ".root";
-  file_name = str_copy.c_str();
 
-  cout << obj["output_file"].asString() << endl;
+//  string str_copy = "RootFiles/" + obj["file_name"].asString() + ".root";
+//  file_name = str_copy.c_str();
+//
+//  cout << obj["output_file"].asString() << endl;
+//  cout << file_name << endl;
+//  cout << file_name <<endl;
 
-  cout << file_name << endl;
-
-  cout << file_name <<endl;
 
   File_Out = new TFile(file_name, "RECREATE");
   Tree_Out = new TTree(tree_name, tree_name);

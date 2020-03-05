@@ -41,7 +41,7 @@
 
 
 void eic();
-void eic(int, int, int);
+void eic(int, int, int, TString);
 
 
 

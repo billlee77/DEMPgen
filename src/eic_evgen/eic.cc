@@ -42,13 +42,13 @@ void eic() {
    	cout << "Enter the number of events: ";        cin >> fNEvents;         cout << endl;
    	cout << "Enter the file number: ";             cin >> fNFile;           cout << endl;
  
-	eic(target_direction, kinematics_type, fNEvents);
+//	eic(target_direction, kinematics_type, fNEvents);
 
 }
 
 
 
-void eic(int event_number, int target_direction, int kinematics_type) {
+void eic(int event_number, int target_direction, int kinematics_type, TString file_name) {
 
 
 	fNFile = 1;
@@ -81,11 +81,11 @@ void eic(int event_number, int target_direction, int kinematics_type) {
 
 
    string sTFile;
-   sTFile = Form("./LundFiles/eic_demp_%i.txt",(int)fNFile);
+   sTFile = Form("./LundFiles/eic_%s.txt", file_name.Data());
    string sRFile;
-   sRFile = Form("./RootFiles/eic_demp_%i.root",(int)fNFile);
+   sRFile = Form("./RootFiles/eic_%s.root", file_name.Data());
    string sLFile;
-   sLFile= Form("./LundFiles/input_%i.dat",(int)fNFile);
+   sLFile= Form("./LundFiles/eic_input_%s.dat", file_name.Data());
    
    ofstream ppiOut ( sLFile.c_str() );
    ofstream ppiDetails ( sTFile.c_str() );

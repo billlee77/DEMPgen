@@ -184,7 +184,10 @@ int main(int argc, char** argv){
    
      int event_status = 0;
    
-     TreeBuilder * Output = new TreeBuilder("t1");
+
+	 file_name = "RootFiles/Solid_DEMP_" + file_name + ".root";
+
+     TreeBuilder * Output = new TreeBuilder(file_name.Data(), "t1");
    
      Output->AddEvent(VertEvent);
      //Output->AddEvent(CofMEvent);
