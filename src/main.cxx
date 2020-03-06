@@ -59,6 +59,7 @@ Json::Value obj; //Declared here for global access
 
 string get_date(void);
 
+int Gen_seed;
 
 int main(int argc, char** argv){
  
@@ -81,6 +82,9 @@ int main(int argc, char** argv){
 
    } 
 
+
+   int gen_seed = obj["generator_seed"].asInt();
+
 //	cout << "File name: " << file_name << "  " << get_date() << endl;
 //	exit(0);
 
@@ -91,10 +95,12 @@ int main(int argc, char** argv){
  
   	 	int target_direction = obj["Targ_dir"].asInt();
   		int kinematics_type = obj["Kinematics_type"].asInt();
- 		eic(nEvents, target_direction, kinematics_type, file_name);
+ 		eic(nEvents, target_direction, kinematics_type, file_name, gen_seed);
  
    } else if (obj["experiment"].asString() == "solid") {
  
+     Gen_seed = gen_seed;
+
      if (obj["ionization"].asBool())
        cout << "Ionization Enabled" << endl;
      if (obj["bremsstrahlung"].asBool())

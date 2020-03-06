@@ -6,12 +6,15 @@
     // and degrees for angles.
     // n_events indicates number of attempts
 	// "experiment" : "eic" or "solid"
-    //"experiment" : "solid",
-    "experiment" : "eic",
-
-//	"file_name" : "example_output",
-    "n_events" : 10000,
+    "experiment" : "solid",
 //    "output_file" : "RootFiles/Test.root",
+//    "experiment" : "eic",
+
+	"file_name" : "example_output",
+    "n_events" : 10000,
+    "generator_seed": 1234567,
+
+
 
 	//**************************************
     /// This section if for EIC simulation only

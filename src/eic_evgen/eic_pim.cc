@@ -25,6 +25,9 @@ TRandom2 *fRandom;
 TFile *f;                    
 TTree *t1;                    
 
+
+int fSeed;
+
 bool allset, print, kCalcFermi, kCalcBremss, kCalcIon, kCalcBremssEle, kCalcIonEle, kSConserve, kFSI, kMSele, kMS;
 int fWLessShell, fWLess1P9, fSDiff;
 long int fNEvents, fNRecorded, fNGenerated, fWSqNeg, fNMomConserve, fNSigmaNeg, fLundRecorded, fNFile; 
@@ -129,6 +132,8 @@ double fZASigma_UU_Col, fRorySigma_UT_Col, fSig_Phi_Minus_PhiS_Col, fSig_PhiS_Co
 double fepi1, fepi2, fradical;
 
 
+
+
 double fMomentum[300];
 
 double fProb[300] = {    
@@ -164,6 +169,18 @@ double fProb[300] = {
 0.00252913, 0.00245194, 0.00237706, 0.00230444, 0.00223399, 0.00216566, 0.00209939, 0.00203512, 0.00197277, 0.00191231 };
 
 
+pim::pim() {
+}
+
+
+
+pim::pim(int aaa) {
+
+	gen_seed = aaa;
+
+}
+
+
 
 /*--------------------------------------------------*/
 /*--------------------------------------------------*/
@@ -172,7 +189,12 @@ double fProb[300] = {
 void pim::Initilize() {
 
     fRandom = new TRandom2(0);
-    fRandom->GetSeed();
+//    fRandom->GetSeed();
+    fRandom->SetSeed(gen_seed);
+
+	cout << " Seed is : " << gen_seed << endl;
+//	exit(0);
+
 
     allset                                      = false;
     kCalcFermi                                  = false;

@@ -48,8 +48,9 @@ void eic() {
 
 
 
-void eic(int event_number, int target_direction, int kinematics_type, TString file_name) {
+void eic(int event_number, int target_direction, int kinematics_type, TString file_name, int fEIC_seed) {
 
+	fSeed = fEIC_seed;
 
 	fNFile = 1;
 
@@ -65,7 +66,11 @@ void eic(int event_number, int target_direction, int kinematics_type, TString fi
 
 
    double cos_t, sin_t;
-   pim myPim;
+
+   ///*--------------------------------------------------*/
+   /// Setting seed for generation and initiation
+  
+   pim myPim(fSeed);
    myPim.Initilize();
  
    TDatime dsTime;
@@ -779,3 +784,9 @@ void eic(int event_number, int target_direction, int kinematics_type, TString fi
 }
 
 
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+
+void SetEICSeed (int seed) {
+	fSeed = seed;
+}

@@ -14,10 +14,21 @@
 class pim {
 
   public:
+
+  pim(); 
+
+  pim(int);
+
   void Initilize();
+
   int CheckLaws(TLorentzVector P_E0, TLorentzVector P_t, TLorentzVector P_e, TLorentzVector P_pim, TLorentzVector P_pro);
   void setrootfile(std::string myRootFile );
   double fermiMomentum();
+
+  private:
+	Int_t gen_seed = 0;
+
+
   /* double correctedPhi(); */
   /* double correctedPhiS(); */
 

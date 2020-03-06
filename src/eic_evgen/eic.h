@@ -41,9 +41,11 @@
 
 
 void eic();
-void eic(int, int, int, TString);
+void eic(int, int, int, TString, int);
 
+extern int fSeed;
 
+void SetEICSeed(int);
 
 //using namespace std;
 
