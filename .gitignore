@@ -3,3 +3,5 @@ data/RootFiles/
 *.root
 *.lund
 build/
+*_job.txt
+Config_EIC_*
