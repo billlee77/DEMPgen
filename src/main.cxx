@@ -85,9 +85,13 @@ int main(int argc, char** argv){
 
    int gen_seed = obj["generator_seed"].asInt();
 
-//	cout << "File name: " << file_name << "  " << get_date() << endl;
-//	exit(0);
+   TString particle = obj["particle"].asString();
 
+//	cout << obj["experiment"].asString() << endl;
+//	cout << particle << endl;
+//	cout << "File name: " << file_name << "  " << get_date() << endl;
+//	cout << particle << endl;
+//	exit(0);
 
    if (obj["experiment"].asString() == "eic") {
  
@@ -95,7 +99,8 @@ int main(int argc, char** argv){
  
   	 	int target_direction = obj["Targ_dir"].asInt();
   		int kinematics_type = obj["Kinematics_type"].asInt();
- 		eic(nEvents, target_direction, kinematics_type, file_name, gen_seed);
+ 		eic(nEvents, target_direction, kinematics_type, file_name, gen_seed, particle);
+
  
    } else if (obj["experiment"].asString() == "solid") {
  

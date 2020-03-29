@@ -11,20 +11,18 @@
 /// Comment: Feb 24, 2020: all declearation of the global variables 
 //            and all functions for pim class are moved there 
 
-
-
-
-
 #include "eic_pim.h"
 
 using namespace std;
-
 
 TRandom2 *fRandom;                    
 
 TFile *f;                    
 TTree *t1;                    
 
+int gKinematics_type;
+
+TString gfile_name;
 
 int fSeed;
 
@@ -33,6 +31,10 @@ int fWLessShell, fWLess1P9, fSDiff;
 long int fNEvents, fNRecorded, fNGenerated, fWSqNeg, fNMomConserve, fNSigmaNeg, fLundRecorded, fNFile; 
 
 double fK, fm, fElectron_Kin_Col_GeV, fElectron_Kin_Col, fRand, fLumi, fuBcm2, fPI, fDEG2RAD, fRAD2DEG, fEBeam, fPBeam, fScatElec_Theta_I, fScatElec_Theta_F, fPion_Theta_I, fPion_Theta_F, fScatElec_E_Hi, fScatElec_E_Lo, fPSF; 
+
+
+double fOmega_Theta_I, fOmega_Theta_F, fOmega_Theta_Col, fOmega_Phi_Col;
+
 
 double fMandSConserve, fTop_Pion_Mom, fBot_Pion_Mom, fPion_Mom_Same, fEnergyConserve, fXMomConserve, fYMomConserve, fZMomConserve, fXMomConserve_RF, fYMomConserve_RF, fZMomConserve_RF, fEnergyConserve_RF; 
 
@@ -53,6 +55,8 @@ double fProton_MomX_RF, fProton_MomY_RF, fProton_MomZ_RF, fProton_Mom_RF, fProto
 double fScatElec_Angle, fScatElec_Alpha_RF, fScatElec_Beta_RF;
 
 double fVertex_X, fVertex_Y, fVertex_Z, fProton_Kin_Col_GeV, fElectron_Mass, fElectron_Mass_GeV, fProton_Mass, fProton_Mass_GeV, fNeutron_Mass, fNeutron_Mass_GeV, fPion_Mass, fPion_Mass_GeV, fPiion_Phi, fAlpha, fPi, fMom_Ratio, fMom_Dif, fPionEnergyCMLess, fSNotEqual, fMode_Epsi, fRecoilProton_Mass, fRecoilProton_Mass_GeV;
+
+double fOmega_Mass, fOmega_Mass_GeV; 
 
 double fElectron_Energy_Col, fElectron_MomZ_Col, fElectron_MomX_Col, fElectron_MomY_Col, fElectron_Theta_Col, fElectron_Phi_Col, fElectron_Mom_Col;
 
@@ -113,6 +117,8 @@ double fWFactor, fA, fFlux_Factor_Col, fFlux_Factor_RF, fJacobian_CM, fJacobian_
 
 double fZASigma_UU, fRorySigma_UT, fSigma_Col, fSigma_UUPara, fSig_VR, fSig_L, fSig_T;
 
+double fSig_fpi_6GeV;
+
 double fSigmaPhiS, fSigmaPhi_Minus_PhiS, fSigma2Phi_Minus_PhiS, fSigma3Phi_Minus_PhiS, fSigmaPhi_Plus_PhiS, fSigma2Phi_Plus_PhiS, fSig_Phi_Minus_PhiS, fSig_PhiS, fSig_2Phi_Minus_PhiS, fSig_Phi_Plus_PhiS, fSig_3Phi_Minus_PhiS, fSig_2Phi_Plus_PhiS, fEventWeight, fEventWeightMax, fZAWFactor, fRR, fPhaseSpaceWeight, fPhaseShiftWeight, fWilliamsWeight, fDedrickWeight, fCatchenWeight, fPhi, fPhiS, fPhi_Corrected, fPhiS_Corrected;
 
 double fElectron_Mom_Sq_RF, fElectron_Mom_Sq_Col, fProton_Mom_Sq_Col, fProton_Mom_Sq_CM, fProton_Mom_Sq_RF, fPhoton_Mom_Sq_Col, fPhoton_Mom_Sq_CM, fPhoton_Mom_Sq_RF, fPion_Mom_Sq_Col, fPion_Mom_Sq_CM, fPion_Mom_Sq_RF, fNeutron_Mom_Sq_Col, fNeutron_Mom_Sq_CM, fNeutron_Mom_Sq_RF, fScatElec_Mom_Sq_Col, fScatElec_Mom_Sq_RF;
@@ -127,9 +133,13 @@ double fTerm_PhiMinusPhi_S_Col, fTerm_Phi_S_Col, fTerm_2PhiMinusPhi_S_Col, fTerm
 
 double fPhi_Pion_LeptonPlane_RF, fCos_Phi_Pion_LeptonPlane_RF, fSin_Phi_Pion_LeptonPlane_RF, fPhi_TargPol_LeptonPlane_RF, fCos_Phi_TargPol_LeptonPlane_RF, fSin_Phi_TargPol_LeptonPlane_RF, fTheta_Pion_Photon_RF, fPhi_Pion_LeptonPlane_Col, fCos_Phi_Pion_LeptonPlane_Col, fSin_Phi_Pion_LeptonPlane_Col, fPhi_TargPol_LeptonPlane_Col, fCos_Phi_TargPol_LeptonPlane_Col, fSin_Phi_TargPol_LeptonPlane_Col, fTheta_Pion_Photon_Col;
 
+double fPhi_Omega_LeptonPlane_RF, fCos_Phi_Omega_LeptonPlane_RF, fSin_Phi_Omega_LeptonPlane_RF, fTheta_Omega_Photon_RF;
+
 double fZASigma_UU_Col, fRorySigma_UT_Col, fSig_Phi_Minus_PhiS_Col, fSig_PhiS_Col, fSig_2Phi_Minus_PhiS_Col, fSig_Phi_Plus_PhiS_Col, fSig_3Phi_Minus_PhiS_Col, fSig_2Phi_Plus_PhiS_Col;
 
 double fepi1, fepi2, fradical;
+
+double fOmega_Energy_CM, fOmega_Mom_CM, fOmega_Energy_CM_GeV, fOmega_Mom_CM_GeV;   
 
 
 
@@ -192,7 +202,7 @@ void pim::Initilize() {
 //    fRandom->GetSeed();
     fRandom->SetSeed(gen_seed);
 
-	cout << " Seed is : " << gen_seed << endl;
+	cout << "Seed Used: " << gen_seed << endl;
 //	exit(0);
 
 
@@ -219,6 +229,12 @@ void pim::Initilize() {
     fScatElec_E_Hi                              = 2.5;  // % of beam energy
     fPion_Theta_I                               = 0.0 * fDEG2RAD;
     fPion_Theta_F                               = 50.0 * fDEG2RAD;
+
+	fOmega_Theta_I                              = 0.0 * fDEG2RAD; 
+	fOmega_Theta_F                              = 360.0 * fDEG2RAD; 
+
+
+
     fPSF                                        = ( fEBeam * ( fScatElec_E_Hi - fScatElec_E_Lo ) * 
   						  ( sin( fScatElec_Theta_F ) - sin( fScatElec_Theta_I ) ) * 2 * fPI * 
   						  ( sin( fPion_Theta_F     ) - sin( fPion_Theta_I     ) ) * 2 * fPI );
@@ -232,8 +248,12 @@ void pim::Initilize() {
     fNeutron_Mass_GeV                           = fNeutron_Mass/1000.0;
     fRecoilProton_Mass                          = 938.27;
     fRecoilProton_Mass_GeV                      = fRecoilProton_Mass/1000.0;
-    fPion_Mass                                  = 139.57;
+    fPion_Mass                                  = 139.57018;
     fPion_Mass_GeV                              = fPion_Mass/1000.0;
+
+    fOmega_Mass                                 = 782.65;
+    fOmega_Mass_GeV                             = fOmega_Mass/1000.0;
+
     fDiff                                       = 0.5;
     fElectron_Kin_Col_GeV                       = fEBeam;
     fElectron_Kin_Col                           = fElectron_Kin_Col_GeV * 1000.0;
@@ -724,6 +744,9 @@ void pim::Initilize() {
     fSigma_Col                                  = 0;
     fSigma_UUPara                               = 0;
     fSig_VR                                     = 0;
+
+    fSig_fpi_6GeV                               = 0;
+
     fSig_L                                      = 0;
     fSig_T                                      = 0;
     fSigmaPhiS                                  = 0;
@@ -811,6 +834,20 @@ void pim::Initilize() {
     fPhi_Pion_LeptonPlane_RF                    = 0;
     fCos_Phi_Pion_LeptonPlane_RF                = 0;
     fSin_Phi_Pion_LeptonPlane_RF                = 0;
+
+    fPhi_Omega_LeptonPlane_RF                   = 0;
+    fCos_Phi_Omega_LeptonPlane_RF               = 0;
+    fSin_Phi_Omega_LeptonPlane_RF               = 0;
+	fTheta_Omega_Photon_RF                      = 0;
+
+	fOmega_Energy_CM                            = 0;
+	fOmega_Mom_CM                               = 0;
+	fOmega_Energy_CM_GeV                        = 0;
+	fOmega_Mom_CM_GeV                           = 0;
+
+
+
+
     fPhi_TargPol_LeptonPlane_RF                 = 0;
     fCos_Phi_TargPol_LeptonPlane_RF             = 0;
     fSin_Phi_TargPol_LeptonPlane_RF             = 0;
@@ -852,6 +889,8 @@ double pim::fermiMomentum() {
         kFermi = false;
       }
     }
+
+	cout << "Fermi momentum check: " << fMom << endl; 
   
     return fMom;
 }

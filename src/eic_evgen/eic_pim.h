@@ -5,7 +5,7 @@
 #include <string>
 
 #include "TFile.h"
-#include <TLorentzVector.h>
+#include "TLorentzVector.h"
 #include "TTree.h"
 
 #include "TRandom.h"
@@ -14,19 +14,19 @@
 class pim {
 
   public:
+  	pim(); 
+  	pim(int);
 
-  pim(); 
-
-  pim(int);
-
-  void Initilize();
-
-  int CheckLaws(TLorentzVector P_E0, TLorentzVector P_t, TLorentzVector P_e, TLorentzVector P_pim, TLorentzVector P_pro);
-  void setrootfile(std::string myRootFile );
-  double fermiMomentum();
+  	void Initilize();
+  	int CheckLaws(TLorentzVector P_E0, TLorentzVector P_t, TLorentzVector P_e, TLorentzVector P_pim, TLorentzVector P_pro);
+  	void setrootfile(std::string myRootFile );
+  	double fermiMomentum();
 
   private:
 	Int_t gen_seed = 0;
+	
+	std::string pParticle;
+	std::string pcharge;
 
 
   /* double correctedPhi(); */
@@ -43,6 +43,14 @@ extern TFile *f;
 
 extern TTree *t1;
 
+extern int gKinematics_type;
+extern TString gfile_name;
+extern TString gParticle;
+
+
+
+extern int fSeed;
+
 extern bool allset;
 extern bool kCalcFermi;
 extern bool kCalcBremss;
@@ -53,6 +61,25 @@ extern bool kSConserve;
 extern bool kFSI;
 extern bool kMSele;
 extern bool kMS;
+
+extern double fOmega_Mass; 
+extern double fOmega_Mass_GeV; 
+
+extern double fOmega_Theta_Col; 
+extern double fOmega_Phi_Col; 
+
+extern double fOmega_Theta_I; 
+extern double fOmega_Theta_F; 
+
+extern double fOmega_Energy_CM;    
+extern double fOmega_Mom_CM;       
+extern double fOmega_Energy_CM_GeV;
+extern double fOmega_Mom_CM_GeV;   
+
+extern double fPhi_Omega_LeptonPlane_RF;
+extern double fCos_Phi_Omega_LeptonPlane_RF; 
+extern double fSin_Phi_Omega_LeptonPlane_RF;
+extern double fTheta_Omega_Photon_RF;
 
 extern int fWLessShell;
 extern int fWLess1P9;
@@ -647,6 +674,8 @@ extern double fSigma_UUPara;
 extern double fSig_VR;
 extern double fSig_L;
 extern double fSig_T;
+
+extern double fSig_fpi_6GeV;
 
 extern double fSigmaPhiS;
 extern double fSigmaPhi_Minus_PhiS;
