@@ -1,6 +1,5 @@
 #include "reaction_rountine.h"
 #include "eic.h"
-#include "particleType.h"
 
 using namespace std;
 
@@ -42,6 +41,9 @@ PiPlus_Production::~PiPlus_Production() {
 
 	ppiOut.close();
 	ppiDetails.close();
+
+	delete rRand;
+
 
 //	cout << endl;
 //	cout << "Ending the process" << endl;
@@ -85,6 +87,8 @@ void PiPlus_Production::Init() {
 	
 	rParticle_charge = ExtractCharge(rParticle);
 
+	rRand = new TRandom2();	
+	rRand->SetSeed(fSeed);
 
 	sTFile = Form("./LundFiles/eic_%s.txt", gfile_name.Data());
    	sLFile= Form("./LundFiles/eic_input_%s.dat", gfile_name.Data());
@@ -117,19 +121,25 @@ void PiPlus_Production::Init() {
 	///*--------------------------------------------------*/
 	/// Getting the particle mass from the data base
  
-    fX_Mass = ParticleMass(ParticleEnum(rParticle))*1000; //MeV
+	produced_X = ParticleEnum(rParticle);
+
+    fX_Mass = ParticleMass(produced_X)*1000; //MeV
     fX_Mass_GeV = fX_Mass/1000; //GeV
+
+	
 
 	if (rParticle_charge = "+" ) {
 
-		rParticle_scat_nucleon  = "neutron"; 
+		rParticle_scat_nucleon  = "Neutron"; 
+		recoil_nucleon  = Neutron; 
 
 		f_Scat_Nucleon_Mass     = fNeutron_Mass;
 		f_Scat_Nucleon_Mass_GeV = f_Scat_Nucleon_Mass/1000;
 
 	} else if (rParticle_charge = "0" ) {
 		
-		rParticle_scat_nucleon  = "proton"; 
+		rParticle_scat_nucleon  = "Proton"; 
+		recoil_nucleon  = Proton; 
 
 		f_Scat_Nucleon_Mass     = fProton_Mass;
 		f_Scat_Nucleon_Mass_GeV = f_Scat_Nucleon_Mass/1000;
@@ -182,17 +192,17 @@ void PiPlus_Production::Processing_Event() {
     // ---------------------------------------------------------------------
     // Specify the energy and solid angle of scatterd electron in Collider (lab) frame
     // ---------------------------------------------------------------------
-    fScatElec_Theta_Col  = acos( fRandom->Uniform( cos( fScatElec_Theta_I ) , cos( fScatElec_Theta_F ) ) );
-    fScatElec_Phi_Col    = fRandom->Uniform( 0 , 2.0 * fPi);
-    fScatElec_Energy_Col = fRandom->Uniform( fScatElec_E_Lo * fElectron_Energy_Col , fScatElec_E_Hi * fElectron_Energy_Col );
+    fScatElec_Theta_Col  = acos( rRand->Uniform( cos( fScatElec_Theta_I ) , cos( fScatElec_Theta_F ) ) );
+    fScatElec_Phi_Col    = rRand->Uniform( 0 , 2.0 * fPi);
+    fScatElec_Energy_Col = rRand->Uniform( fScatElec_E_Lo * fElectron_Energy_Col , fScatElec_E_Hi * fElectron_Energy_Col );
 
     // ----------------------------------------------------
     // Produced Particle X in Collider frame
     // ----------------------------------------------------  
 
 	/// The generic produced particle in the exclusive reaction is labelled as X 
-	fX_Theta_Col      = acos( fRandom->Uniform( cos(fX_Theta_I), cos(fX_Theta_F ) ) ); 
-    fX_Phi_Col        = fRandom->Uniform( 0 , 2.0 * fPi );
+	fX_Theta_Col      = acos( rRand->Uniform( cos(fX_Theta_I), cos(fX_Theta_F ) ) ); 
+    fX_Phi_Col        = rRand->Uniform( 0 , 2.0 * fPi );
 
  //	fScatElec_Theta_Col  = 2.42585;
  //   fScatElec_Phi_Col    = 1.73913;
@@ -659,8 +669,8 @@ TLorentzVector PiPlus_Production::GetProtonVector_lab() {
 void PiPlus_Production::Consider_Proton_Fermi_Momentum() {
 
     fProton_Mom_Col   = fProton_Mom_Col + rFermiMomentum;
-    fProton_Theta_Col = acos( fRandom->Uniform( cos(0.0) , cos(fPi) ) );
-    fProton_Phi_Col   = fRandom->Uniform( 0 , 360 );
+    fProton_Theta_Col = acos( rRand->Uniform( cos(0.0) , cos(fPi) ) );
+    fProton_Phi_Col   = rRand->Uniform( 0 , 360 );
 
 	double px, py, pz, e;
 
@@ -723,7 +733,7 @@ void PiPlus_Production::Lund_Output() {
      ppiOut << setw(10) << "1" 
  	   << setw(10) << "1" 
  	   << setw(10) << "1" 
- 	   << setw(10) << "211" 
+ 	   << setw(10) << produced_X 
  	   << setw(10) << "0" 
  	   << setw(10) << "0" 
  	   << setw(16) << r_lX_g.X()
@@ -757,7 +767,7 @@ void PiPlus_Production::Lund_Output() {
      ppiOut << setw(10) << "3" 
  	   << setw(10) << "1" 
  	   << setw(10) << "1" 
- 	   << setw(10) << "2112" 
+ 	   << setw(10) << PDGtype(recoil_nucleon)
  	   << setw(10) << "0" 
  	   << setw(10) << "0" 
  	   << setw(16) << r_l_scat_nucleon.X() 

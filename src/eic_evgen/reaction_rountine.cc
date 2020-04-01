@@ -73,12 +73,17 @@ void Reaction::process_reaction() {
 
 	if (rParticle == "Pi+") {
 
-		cout << "asdadsadsad " << endl;
-
 		PiPlus_Production* r1 = new PiPlus_Production(rParticle);
 		r1->process_reaction();
 		delete r1;
-	} 
+
+	} else if (rParticle == "Pi0") {
+
+		Pi0_Production* r1 = new Pi0_Production(rParticle);
+		r1->process_reaction();
+		delete r1;	
+
+	}
 
 
 // // 

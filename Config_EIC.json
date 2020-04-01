@@ -21,7 +21,8 @@
 	"Kinematics_type" : 1,         // Kinematics type (1->FF, 2->TSSA)
 	// "particle": "omega", 		   // Choices: omega, pi+, pi0
 	//"particle": "omega", 		   // Choices: omega, pi+, pi0
-	"particle": "Pion+", 		   // Choices: omega, pi+, pi0
+	//"particle": "Pion+", 		   // Choices: omega, pi+, pi0
+	"particle": "Pi0", 		   // Choices: omega, pi+, pi0
 
 	//**************************************
 	/// This section is Solid only

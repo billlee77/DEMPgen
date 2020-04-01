@@ -10,11 +10,8 @@ Pi0_Production::Pi0_Production() {
 
 }
 
-
-
 /*--------------------------------------------------*/
-/// PiPlus_Production 
-
+/// Pi0_Production 
 
 Pi0_Production::Pi0_Production(TString particle_str) { 
 
@@ -23,12 +20,18 @@ Pi0_Production::Pi0_Production(TString particle_str) {
 
 }
 
+/*--------------------------------------------------*/
+
 Pi0_Production::~Pi0_Production() {
+
+	delete rRand;	
 
 	ppiOut.close();
 	ppiDetails.close();
 
 }
+
+/*--------------------------------------------------*/
 
 void Pi0_Production::process_reaction() {
  
@@ -46,7 +49,7 @@ void Pi0_Production::process_reaction() {
  
 }
 
-
+/*--------------------------------------------------*/
 
 void Pi0_Production::Processing_Event() {
 
@@ -68,17 +71,17 @@ void Pi0_Production::Processing_Event() {
     // ---------------------------------------------------------------------
     // Specify the energy and solid angle of scatterd electron in Collider (lab) frame
     // ---------------------------------------------------------------------
-    fScatElec_Theta_Col  = acos( fRandom->Uniform( cos( fScatElec_Theta_I ) , cos( fScatElec_Theta_F ) ) );
-    fScatElec_Phi_Col    = fRandom->Uniform( 0 , 2.0 * fPi);
-    fScatElec_Energy_Col = fRandom->Uniform( fScatElec_E_Lo * fElectron_Energy_Col , fScatElec_E_Hi * fElectron_Energy_Col );
+    fScatElec_Theta_Col  = acos( rRand->Uniform( cos( fScatElec_Theta_I ) , cos( fScatElec_Theta_F ) ) );
+    fScatElec_Phi_Col    = rRand->Uniform( 0 , 2.0 * fPi);
+    fScatElec_Energy_Col = rRand->Uniform( fScatElec_E_Lo * fElectron_Energy_Col , fScatElec_E_Hi * fElectron_Energy_Col );
 
     // ----------------------------------------------------
     // Produced Particle X in Collider frame
     // ----------------------------------------------------  
 
 	/// The generic produced particle in the exclusive reaction is labelled as X 
-	fX_Theta_Col      = acos( fRandom->Uniform( cos(fX_Theta_I), cos(fX_Theta_F ) ) ); 
-    fX_Phi_Col        = fRandom->Uniform( 0 , 2.0 * fPi );
+	fX_Theta_Col      = acos( rRand->Uniform( cos(fX_Theta_I), cos(fX_Theta_F ) ) ); 
+    fX_Phi_Col        = rRand->Uniform( 0 , 2.0 * fPi );
 
 	// ---------------------------------------------------------------------
     // Specify the energy and solid angle of scatterd electron in Collider (lab) frame
@@ -452,7 +455,13 @@ void Pi0_Production::Detail_Output() {
 
 }
 
+
+
 /*--------------------------------------------------*/
+/// Cross section model: Based on 12 GeV Hall C u-channel pi0 proposal
+/// Author: Garth Huber
+/// Date: April 1st, 2020
+
 
 Double_t Pi0_Production::Get_CrossSection(){
 
