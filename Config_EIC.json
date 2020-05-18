@@ -22,6 +22,7 @@
 	// "particle": "omega", 		   // Choices: omega, pi+, pi0
 	//"particle": "omega", 		   // Choices: omega, pi+, pi0
 	//"particle": "Pion+", 		   // Choices: omega, pi+, pi0
+	//"particle": "Pi0", 		   // Choices: omega, pi+, pi0
 	"particle": "Pi0", 		   // Choices: omega, pi+, pi0
 
 	//**************************************

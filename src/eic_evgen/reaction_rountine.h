@@ -14,6 +14,8 @@
 
 #include "particleType.h"
 
+#include "TCanvas.h"
+
 class Reaction{
 
 	public:
@@ -227,6 +229,8 @@ class Pi0_Production:PiPlus_Production{
 		void Detail_Output();
 		void Processing_Event();
 		Double_t Get_CrossSection();
+
+		void Pi0_decay(TLorentzVector);
 
 	private:
 		Double_t theta_X_rf;

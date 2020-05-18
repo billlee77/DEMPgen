@@ -111,6 +111,11 @@ void PiPlus_Production::Init() {
 	r_lproton = GetProtonVector_lab();
 	r_lprotong = GetProtonVector_lab() * fm;
 
+
+	//cout << "Init check ::   " << r_lprotong.E() << endl;
+
+
+
 	// ----------------------------------------------------
      // Electron in collider (lab) frame
 	cout << "Fermi momentum: " << rFermiMomentum << endl;
@@ -312,6 +317,12 @@ void PiPlus_Production::Processing_Event() {
      
 //     double ft = fc * fc - fb + fPion_Mass * fPion_Mass - fProton_Mass * fProton_Mass;
      double ft = fc * fc - fb + fX_Mass * fX_Mass - fProton_Mass * fProton_Mass;
+
+	cout << r_lprotong.Px() << "  " << r_lprotong.Py() << "  " << r_lprotong.Pz() << "  " << r_lprotong.E() << endl;
+	cout << lproton_rfg.Px() << "  " << lproton_rfg.Py() << "  " << lproton_rfg.Pz() << "  " << lproton_rfg.E() << endl;
+	cout << beta_col_rf.Px() << "  " << beta_col_rf.Py() << "  " << beta_col_rf.Pz() << endl;
+
+	exit(0);
      
      double fQA = 4.0 * ( fa * fa - fc * fc );
      double fQB = 4.0 * fc * ft;
@@ -642,7 +653,9 @@ void PiPlus_Production::Progress_Report() {
 
 TLorentzVector PiPlus_Production::GetProtonVector_lab() {
 
-	 fProton_Theta_Col = 50.0e-3;
+//	 fProton_Theta_Col = 50.0e-3;
+	 fProton_Theta_Col = 25.0e-3;
+
      fProton_Phi_Col   = fPi; 
      fProton_Mom_Col   = fPBeam * 1e3; 
      fVertex_X         = 0.; 
