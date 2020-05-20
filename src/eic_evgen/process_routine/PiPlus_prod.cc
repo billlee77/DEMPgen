@@ -42,7 +42,7 @@ PiPlus_Production::~PiPlus_Production() {
 	ppiOut.close();
 	ppiDetails.close();
 
-	delete rRand;
+//	delete rRand;
 
 
 //	cout << endl;
@@ -318,11 +318,11 @@ void PiPlus_Production::Processing_Event() {
 //     double ft = fc * fc - fb + fPion_Mass * fPion_Mass - fProton_Mass * fProton_Mass;
      double ft = fc * fc - fb + fX_Mass * fX_Mass - fProton_Mass * fProton_Mass;
 
-	cout << r_lprotong.Px() << "  " << r_lprotong.Py() << "  " << r_lprotong.Pz() << "  " << r_lprotong.E() << endl;
-	cout << lproton_rfg.Px() << "  " << lproton_rfg.Py() << "  " << lproton_rfg.Pz() << "  " << lproton_rfg.E() << endl;
-	cout << beta_col_rf.Px() << "  " << beta_col_rf.Py() << "  " << beta_col_rf.Pz() << endl;
+//	cout << r_lprotong.Px() << "  " << r_lprotong.Py() << "  " << r_lprotong.Pz() << "  " << r_lprotong.E() << endl;
+//	cout << lproton_rfg.Px() << "  " << lproton_rfg.Py() << "  " << lproton_rfg.Pz() << "  " << lproton_rfg.E() << endl;
+//	cout << beta_col_rf.Px() << "  " << beta_col_rf.Py() << "  " << beta_col_rf.Pz() << endl;
 
-	exit(0);
+	//exit(0);
      
      double fQA = 4.0 * ( fa * fa - fc * fc );
      double fQB = 4.0 * fc * ft;
@@ -621,7 +621,6 @@ void PiPlus_Production::Processing_Event() {
      fRatio = fNRecorded / fNGenerated;
 
 
-
 //	 cout << fSigma_Col << "    " << fEventWeight << endl;
 //	 exit(0);
 
@@ -783,15 +782,19 @@ void PiPlus_Production::Lund_Output() {
  	   << setw(10) << PDGtype(recoil_nucleon)
  	   << setw(10) << "0" 
  	   << setw(10) << "0" 
- 	   << setw(16) << r_l_scat_nucleon.X() 
- 	   << setw(16) << r_l_scat_nucleon.Y()
- 	   << setw(16) << r_l_scat_nucleon.Z()
- 	   << setw(16) << r_l_scat_nucleon.E()
+ 	   << setw(16) << r_l_scat_nucleon_g.X() 
+ 	   << setw(16) << r_l_scat_nucleon_g.Y()
+ 	   << setw(16) << r_l_scat_nucleon_g.Z()
+ 	   << setw(16) << r_l_scat_nucleon_g.E()
  	   << setw(16) << f_Scat_Nucleon_Mass_GeV
  	   << setw(16) << fVertex_X
  	   << setw(16) << fVertex_Y
  	   << setw(16) << fVertex_Z
  	   << endl;
+
+
+	  cout << "N momentum: " << r_l_scat_nucleon_g.P() << endl;
+
 
 }
 

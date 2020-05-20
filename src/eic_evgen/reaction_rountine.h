@@ -233,6 +233,7 @@ class Pi0_Production:PiPlus_Production{
 		void Pi0_decay(TLorentzVector);
 
 	private:
+
 		Double_t theta_X_rf;
 
 		Double_t ft_min;
@@ -240,6 +241,11 @@ class Pi0_Production:PiPlus_Production{
 
 		Double_t ft;
 		Double_t fu;
+
+		std::ofstream polar_out;     
+
+		TLorentzVector l_photon_1;
+		TLorentzVector l_photon_2;
 
 
 //  		template <class T> 

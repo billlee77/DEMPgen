@@ -35,6 +35,8 @@ Pi0_Production::~Pi0_Production() {
 
 void Pi0_Production::process_reaction() {
  
+	polar_out.open("test.txt", ofstream::out);
+
    	for( long long int i = 0; i < rNEvents; i++ ) {
  
  		rNEvent_itt = i;
@@ -45,7 +47,7 @@ void Pi0_Production::process_reaction() {
 		
  	}
 
-
+	polar_out.close();
  
  	Detail_Output();
  
@@ -79,9 +81,11 @@ void Pi0_Production::Processing_Event() {
 //    fScatElec_Phi_Col    = rRand->Uniform( 0 , 2.0 * fPi);
 //    fScatElec_Energy_Col = rRand->Uniform( fScatElec_E_Lo * fElectron_Energy_Col , fScatElec_E_Hi * fElectron_Energy_Col );
 
-    fScatElec_Theta_Col  = acos( rRand->Uniform( cos( 120 *fPi /180) , cos( 180 *fPi /180 ) ) );
-    fScatElec_Phi_Col    = rRand->Uniform( 0 , 2.0 * fPi);
-    fScatElec_Energy_Col = rRand->Uniform( 4 , 6);
+//    fScatElec_Theta_Col  = acos( rRand->Uniform( cos( 120 *fPi /180) , cos( 180 *fPi /180 ) ) );
+//    fScatElec_Phi_Col    = rRand->Uniform( 0 , 2.0 * fPi);
+
+    fScatElec_Theta_Col    = rRand->Uniform(fPi/2, fPi);
+    fScatElec_Energy_Col = rRand->Uniform(5000, 6500);
 
 
 
@@ -121,6 +125,12 @@ void Pi0_Production::Processing_Event() {
 //	fScatElec_Energy_Col = 5518;
 
 
+/*--------------------------------------------------*/
+// Q2=10.5 GeV,  S=25
+	fScatElec_Theta_Col = 144 * fPi /180;
+	fScatElec_Energy_Col = 5477;
+
+
 
 
 
@@ -130,7 +140,7 @@ void Pi0_Production::Processing_Event() {
 
 
 
-//   fScatElec_Phi_Col    = fPi;
+   fScatElec_Phi_Col    = fPi;
 
 
 
@@ -205,6 +215,15 @@ void Pi0_Production::Processing_Event() {
 
     fQsq_GeV = -1.* r_lphotong.Mag2();
 
+
+
+
+
+
+
+
+
+
 //     if ( fQsq_GeV < 5.0 ) {
 //        qsq_ev++;
 //        return;
@@ -223,7 +242,7 @@ void Pi0_Production::Processing_Event() {
 
 // 	cout << endl << endl;
 // 
-// 	cout << "W: "  << fW_GeV << "   s: " << fW_GeV*fW_GeV << "  "  << "Q2: " << fQsq_GeV << endl;
+ 	cout << "W: "  << fW_GeV << "   s: " << fW_GeV*fW_GeV << "  "  << "Q2: " << fQsq_GeV << endl;
 // 
 // 	cout << endl << endl;
 
@@ -237,6 +256,13 @@ void Pi0_Production::Processing_Event() {
       return;
     }    
  
+
+
+
+
+
+
+
     // ---------------------------------------------------------
     // Pion momentum in collider frame, analytic solution starts
     // ---------------------------------------------------------
@@ -337,21 +363,18 @@ void Pi0_Production::Processing_Event() {
  			     sqrt( pow( ( ( ( r_lproton + r_lelectron - r_lscatelec - r_lX ).Vect() ).Mag()),2) +
  				   pow( f_Scat_Nucleon_Mass ,2 ) ) );
 
-
-
-
-
-
-
-
-
-
-
     r_l_scat_nucleon_g = r_l_scat_nucleon * fm;
 
 
-//	cout << "Proton Momentum: " << r_l_scat_nucleon_g.Vect().Mag() << "   " << r_l_scat_nucleon_g.Vect().Theta() << "   Angle: "<< r_l_scat_nucleon_g.Vect().Theta() *180/fPi << endl;
-//	cout << "X Momentum: " << r_lX_g.Vect().Mag() << "   Angle: " << r_lX_g.Vect().Theta() << "   " << r_lX_g.Vect().Theta() *180/fPi<< endl ;
+
+
+
+
+
+
+
+	cout << "Proton Momentum: " << r_l_scat_nucleon_g.Vect().Mag() << "   " << r_l_scat_nucleon_g.Vect().Theta() << "   Angle: "<< r_l_scat_nucleon_g.Vect().Theta() *180/fPi << endl;
+	cout << "X Momentum: " << r_lX_g.Vect().Mag() << "   Angle: " << r_lX_g.Vect().Theta() << "   " << r_lX_g.Vect().Theta() *180/fPi<< endl ;
 
 //	cout << "Proton-X  Angle: " << r_lX_g.Vect().Angle(r_l_scat_nucleon_g.Vect())*180/fPi << endl ; 
 
@@ -425,12 +448,70 @@ void Pi0_Production::Processing_Event() {
      l_scat_nucleon_rf_g = l_scat_nucleon_rf * fm;
 
 
-//	 Pi0_decay(r_lX);
+	 Pi0_decay(r_lX);
 
      ////////////////////////////////////////////////////////////////////////////////////////////
      //                                          End                                           //
      // Transformation of e', pi- and recoil proton to target's rest frmae without energy loss //
      ////////////////////////////////////////////////////////////////////////////////////////////
+
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+/// Polar output
+
+	if (fQsq_GeV > 5 && fQsq_GeV < 12 && fWSq_GeV > 8 && fWSq_GeV < 12) {
+
+// 		cout << fQsq_GeV << "  " <<  fWSq_GeV << "  ";             
+// 
+// 		cout << r_lscatelecg.Vect().Theta()       << "  " <<  r_lscatelecg.Vect().Mag()    << "  " 
+// 			 << r_l_scat_nucleon_g.Vect().Theta() << "  " << r_l_scat_nucleon_g.Vect().Mag() << "  " 
+//              << r_lX_g.Vect().Theta()             << "  " << r_lX_g.Vect().Mag()                  
+// 			 << endl; 
+
+		
+		polar_out << fQsq_GeV << "  " <<  fWSq_GeV << "  ";             
+
+		polar_out << r_lscatelecg.Vect().Theta()  << "  " <<  r_lscatelecg.Vect().Mag()      << "  " 
+			 << r_l_scat_nucleon_g.Vect().Theta() << "  " << r_l_scat_nucleon_g.Vect().Mag() << "  " 
+             << r_lX_g.Vect().Theta()             << "  " << r_lX_g.Vect().Mag()             << "  "                
+             << l_photon_1.Vect().Theta()         << "  " << l_photon_1.Vect().Mag()         << "  "                
+             << l_photon_2.Vect().Theta()         << "  " << l_photon_2.Vect().Mag()                  
+			 << endl; 
+
+	}
+
+	exit(0);
+	return;
+
+
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	e_X_rf      = lX_rf.E();
@@ -438,7 +519,6 @@ void Pi0_Production::Processing_Event() {
 	double e_p_rf      = lproton_rf.E();
 
 	e_photon_rf = lphoton_rf.E();
-
 
      // e_photCM = (Wsq - qsq - m_psq)/invm/2.
      // e_omCM   = (Wsq + mass**2 - m_psq)/invm/2.
@@ -962,9 +1042,9 @@ Double_t Pi0_Production::Get_CrossSection(){
 void Pi0_Production::Pi0_decay(TLorentzVector pi0_vec) {
 
 
-	TH1D *h1 = new TH1D("h1", "h1", 100, -100, 100);
-	TH1D *h2 = new TH1D("h2", "h2", 100, -100, 100);
-	TH1D *h3 = new TH1D("h3", "h3", 100, -100, 100);
+// 	TH1D *h1 = new TH1D("h1", "h1", 100, -100, 100);
+// 	TH1D *h2 = new TH1D("h2", "h2", 100, -100, 100);
+// 	TH1D *h3 = new TH1D("h3", "h3", 100, -100, 100);
 
 
 	TVector3 beta_col_rf_pi0;
@@ -976,8 +1056,7 @@ void Pi0_Production::Pi0_decay(TLorentzVector pi0_vec) {
 	TLorentzVector l_photon_1_rf;
 	TLorentzVector l_photon_2_rf;
 
-	TLorentzVector l_photon_1;
-	TLorentzVector l_photon_2;
+
 
 //	TLorentzVector pi0_vec;
 	TLorentzVector pi0_vec_rf;
@@ -996,17 +1075,18 @@ void Pi0_Production::Pi0_decay(TLorentzVector pi0_vec) {
 	
 
 
-	for (int i =0;  i<=10000; i++) {
+//	for (int i =0;  i<=10000; i++) {
 
 	
 //	double photon_1_theta     = fPi/4;
 
 
-	double photon_1_theta     = fPi/1000 *i; 
- 
-    double photon_1_phi       = fPi/2;
-		
+//	double photon_1_theta     = fPi/1000 *i; 
+//   double photon_1_phi       = fPi/2;
 
+	double photon_1_theta = rRand->Uniform( 0, fPi ); 
+  	double photon_1_phi   = rRand->Uniform( 0, 2.0 * fPi);
+	
 
 
     double photon_1_Mom_Col  = photon_1_E;
@@ -1061,6 +1141,14 @@ void Pi0_Production::Pi0_decay(TLorentzVector pi0_vec) {
 
 	double photons_seperation = photons_1_sep + photons_2_sep;
  
+
+//	cout << "pi0_vec: "  << pi0_vec.Vect().Theta()    << "    " << pi0_vec.Vect().Theta()  << endl;
+//	cout << "Photon 1: " << l_photon_1.Vect().Theta() << "    " << l_photon_1.Vect().Phi() << endl;
+//	cout << "Photon 2: " << l_photon_2.Vect().Theta() << "    " << l_photon_2.Vect().Phi() << endl;
+
+
+//	exit(0);
+
 //	cout << "photon prjecton at 32 meters: " << sin(l_photon_1.Vect().Angle(pi0_vec.Vect())) * 32 
 //	                               << "    " <<  sin(l_photon_2.Vect().Angle(pi0_vec.Vect())) * 32 << "    "
 //								   << photons_seperation  << endl;
@@ -1088,38 +1176,38 @@ void Pi0_Production::Pi0_decay(TLorentzVector pi0_vec) {
 
 
 
-	h1->Fill(photons_seperation);	
-	h2->Fill(photons_1_sep);	
-	h3->Fill(-photons_2_sep);	
+//	h1->Fill(photons_seperation);	
+//	h2->Fill(photons_1_sep);	
+//	h3->Fill(-photons_2_sep);	
 
 
 
-	}
+//	}
 	
 
-	TCanvas* c1 = new TCanvas();
-
-	h3->SetFillColor(2);
-	h3->SetLineColor(2);
-
-	h2->SetFillColor(3);
-	h2->SetLineColor(3);
-
-//	h1->SetFillColor(4);
-	h1->SetLineColor(4);
-
-
-
-
-	h1->Draw("hist");
-	h2->Draw("same");
-	h3->Draw("same");
-
-
-	h1->Draw("same");
-
-	c1->Print("seperation.png");	
-
+// 	TCanvas* c1 = new TCanvas();
+// 
+// 	h3->SetFillColor(2);
+// 	h3->SetLineColor(2);
+// 
+// 	h2->SetFillColor(3);
+// 	h2->SetLineColor(3);
+// 
+// //	h1->SetFillColor(4);
+// 	h1->SetLineColor(4);
+// 
+// 
+// 
+// 
+// 	h1->Draw("hist");
+// 	h2->Draw("same");
+// 	h3->Draw("same");
+// 
+// 
+// 	h1->Draw("same");
+// 
+// 	c1->Print("seperation.png");	
+// 
 	
 //	cout << "/*--------------------------------------------------*/" << endl;
 
