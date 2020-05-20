@@ -69,19 +69,20 @@ Reaction::~Reaction() {
 void Reaction::process_reaction() {
 
 
-	cout << rParticle << endl;
-
 	if (rParticle == "Pi+") {
 
-		PiPlus_Production* r1 = new PiPlus_Production(rParticle);
-		r1->process_reaction();
-		delete r1;
+		PiPlus_Production* rr1 = new PiPlus_Production(rParticle);
+		rr1->process_reaction();
+		delete rr1;
 
 	} else if (rParticle == "Pi0") {
 
-		Pi0_Production* r1 = new Pi0_Production(rParticle);
-		r1->process_reaction();
-		delete r1;	
+//		Pi0_Production* r1 = new Pi0_Production("Eta");
+		Pi0_Production* rr1 = new Pi0_Production(rParticle);
+		rr1->process_reaction();
+
+		delete rr1;	
+//		exit(0);
 
 	}
 

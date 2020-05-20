@@ -11,7 +11,7 @@
 
     "file_name" : "DEMPGen_PionPlus_org",
 //    "file_name" : "DEMPGen_PionPlus_test",
-    "n_events" : 10000000,
+    "n_events" : 100000000,
     "output_file" : "RootFiles/Test.root",
     "generator_seed": 1234567,
 
@@ -22,6 +22,7 @@
 	// "particle": "omega", 		   // Choices: omega, pi+, pi0
 	//"particle": "omega", 		   // Choices: omega, pi+, pi0
 	//"particle": "Pion+", 		   // Choices: omega, pi+, pi0
+	//"particle": "Pi0", 		   // Choices: omega, pi+, pi0
 	"particle": "Pi0", 		   // Choices: omega, pi+, pi0
 
 	//**************************************
