@@ -603,6 +603,9 @@ void PiPlus_Production::Processing_Event() {
      fSigma_Col = r_fSig * fFlux_Factor_Col * fA * fJacobian_CM_Col;
 
 
+
+	 
+
      if ( ( fSigma_Col <= 0 ) || std::isnan( fSigma_Col ) ) { 
        fNSigmaNeg ++;
        return;
@@ -612,9 +615,12 @@ void PiPlus_Production::Processing_Event() {
      // -----------------------------------------------------------------------------------------------------------
      //             Lab cross section     Phase Space   Conversion     Luminosity                Total events tried
      // Hz        = ub / ( sr^2 * GeV ) * GeV * sr^2 * ( cm^2 / ub ) * ( # / ( cm^2 * sec ) ) / ( # )
- 
+ 	
      fEventWeight = fSigma_Col * fPSF * fuBcm2 * fLumi / fNEvents;   // in Hz
 
+	 // cout << fEventWeight << "  " << fSigma_Col << "  " << fPSF << "  " << fuBcm2 << "  " << fLumi << "  " << fNEvents << endl; 
+
+	 // exit(0);
      
      fNRecorded ++;
      fLundRecorded++;
@@ -791,9 +797,6 @@ void PiPlus_Production::Lund_Output() {
  	   << setw(16) << fVertex_Y
  	   << setw(16) << fVertex_Z
  	   << endl;
-
-
-	  cout << "N momentum: " << r_l_scat_nucleon_g.P() << endl;
 
 
 }
