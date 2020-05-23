@@ -215,9 +215,8 @@ void pim::Initilize() {
     kFSI                                        = false;
     kMSele                                      = false;
     kMS                                         = false;
-  
-    //fLumi                                       = 0.374e33; // https://eic.jlab.org/wiki/index.php/EIC_luminosity
-    fLumi                                       = 1e34; // Estimate above is for JLEIC?
+//    fLumi                                     = 0.374e33; // Jlab design
+    fLumi                                       = 1e34; // https://eic.jlab.org/wiki/index.php/EIC_luminosity
     fuBcm2                                      = 1.0e-30;
     fPI                                         = 3.1415926;
     fDEG2RAD                                    = fPI/180.0;

@@ -247,6 +247,7 @@ class Pi0_Production:PiPlus_Production{
 		TLorentzVector l_photon_1;
 		TLorentzVector l_photon_2;
 
+ 		void Pi0_Lund_Output();
 
 //  		template <class T> 
 //  		inline int 

@@ -197,17 +197,17 @@ void PiPlus_Production::Processing_Event() {
     // ---------------------------------------------------------------------
     // Specify the energy and solid angle of scatterd electron in Collider (lab) frame
     // ---------------------------------------------------------------------
-    fScatElec_Theta_Col  = acos( rRand->Uniform( cos( fScatElec_Theta_I ) , cos( fScatElec_Theta_F ) ) );
-    fScatElec_Phi_Col    = rRand->Uniform( 0 , 2.0 * fPi);
-    fScatElec_Energy_Col = rRand->Uniform( fScatElec_E_Lo * fElectron_Energy_Col , fScatElec_E_Hi * fElectron_Energy_Col );
+    fScatElec_Theta_Col  = acos( fRandom->Uniform( cos( fScatElec_Theta_I ) , cos( fScatElec_Theta_F ) ) );
+    fScatElec_Phi_Col    = fRandom->Uniform( 0 , 2.0 * fPi);
+    fScatElec_Energy_Col = fRandom->Uniform( fScatElec_E_Lo * fElectron_Energy_Col , fScatElec_E_Hi * fElectron_Energy_Col );
 
     // ----------------------------------------------------
     // Produced Particle X in Collider frame
     // ----------------------------------------------------  
 
 	/// The generic produced particle in the exclusive reaction is labelled as X 
-	fX_Theta_Col      = acos( rRand->Uniform( cos(fX_Theta_I), cos(fX_Theta_F ) ) ); 
-    fX_Phi_Col        = rRand->Uniform( 0 , 2.0 * fPi );
+	fX_Theta_Col      = acos( fRandom->Uniform( cos(fX_Theta_I), cos(fX_Theta_F ) ) ); 
+    fX_Phi_Col        = fRandom->Uniform( 0 , 2.0 * fPi );
 
  //	fScatElec_Theta_Col  = 2.42585;
  //   fScatElec_Phi_Col    = 1.73913;
@@ -603,6 +603,9 @@ void PiPlus_Production::Processing_Event() {
      fSigma_Col = r_fSig * fFlux_Factor_Col * fA * fJacobian_CM_Col;
 
 
+
+	 
+
      if ( ( fSigma_Col <= 0 ) || std::isnan( fSigma_Col ) ) { 
        fNSigmaNeg ++;
        return;
@@ -612,9 +615,12 @@ void PiPlus_Production::Processing_Event() {
      // -----------------------------------------------------------------------------------------------------------
      //             Lab cross section     Phase Space   Conversion     Luminosity                Total events tried
      // Hz        = ub / ( sr^2 * GeV ) * GeV * sr^2 * ( cm^2 / ub ) * ( # / ( cm^2 * sec ) ) / ( # )
- 
+ 	
      fEventWeight = fSigma_Col * fPSF * fuBcm2 * fLumi / fNEvents;   // in Hz
 
+	 // cout << fEventWeight << "  " << fSigma_Col << "  " << fPSF << "  " << fuBcm2 << "  " << fLumi << "  " << fNEvents << endl; 
+
+	 // exit(0);
      
      fNRecorded ++;
      fLundRecorded++;
@@ -681,8 +687,8 @@ TLorentzVector PiPlus_Production::GetProtonVector_lab() {
 void PiPlus_Production::Consider_Proton_Fermi_Momentum() {
 
     fProton_Mom_Col   = fProton_Mom_Col + rFermiMomentum;
-    fProton_Theta_Col = acos( rRand->Uniform( cos(0.0) , cos(fPi) ) );
-    fProton_Phi_Col   = rRand->Uniform( 0 , 360 );
+    fProton_Theta_Col = acos( fRandom->Uniform( cos(0.0) , cos(fPi) ) );
+    fProton_Phi_Col   = fRandom->Uniform( 0 , 360 );
 
 	double px, py, pz, e;
 
@@ -791,9 +797,6 @@ void PiPlus_Production::Lund_Output() {
  	   << setw(16) << fVertex_Y
  	   << setw(16) << fVertex_Z
  	   << endl;
-
-
-	  cout << "N momentum: " << r_l_scat_nucleon_g.P() << endl;
 
 
 }

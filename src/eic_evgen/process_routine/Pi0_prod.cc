@@ -779,7 +779,7 @@ void Pi0_Production::Processing_Event() {
      fLundRecorded++;
      fRatio = fNRecorded / fNGenerated;
 
-	 Lund_Output();
+	 Pi0_Lund_Output();
 
 
 //	exit(0);
@@ -797,6 +797,96 @@ void Pi0_Production::Detail_Output() {
    ppiDetails << "Number of lund events                        " << setw(50) << fLundRecorded << endl;
 
 }
+
+
+
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+
+void Pi0_Production::Pi0_Lund_Output() {
+
+     ppiOut << "3"
+ 	   << " \t " << fPhi           // var 1
+ 	   << " \t " << fPhiS          // var 2
+ 	   << " \t " << fx             // var 3
+ 	   << " \t " << "1"	       
+ 	   << " \t " << fQsq_GeV       // var 4
+ 	   << " \t " << fT_GeV         // var 5
+ 	   << " \t " << fW_GeV 	       // var 6
+ 	   << " \t " << fEpsilon       // var 7
+ 	   << " \t " << fEventWeight   // var 8	   
+ 	   << endl;
+       
+     // Produced Particle X
+     ppiOut << setw(10) << "1" 
+ 	   << setw(10) << "1" 
+ 	   << setw(10) << "1" 
+ 	   << setw(10) << produced_X 
+ 	   << setw(10) << "0" 
+ 	   << setw(10) << "0" 
+ 	   << setw(16) << r_lX_g.X()
+ 	   << setw(16) << r_lX_g.Y()   
+ 	   << setw(16) << r_lX_g.Z()  
+ 	   << setw(16) << r_lX_g.E()
+ 	   << setw(16) << fX_Mass_GeV
+ 	   << setw(16) << fVertex_X
+ 	   << setw(16) << fVertex_Y
+ 	   << setw(16) << fVertex_Z
+ 	   << endl;
+     
+     // Scattered electron
+     ppiOut << setw(10) << "2" 
+ 	   << setw(10) << "-1" 
+ 	   << setw(10) << "1" 
+ 	   << setw(10) << "11" 
+ 	   << setw(10) << "0" 
+ 	   << setw(10) << "0" 
+ 	   << setw(16) << r_lscatelecg.X() 
+ 	   << setw(16) << r_lscatelecg.Y() 
+ 	   << setw(16) << r_lscatelecg.Z() 
+ 	   << setw(16) << r_lscatelecg.E()
+ 	   << setw(16) << fElectron_Mass_GeV
+ 	   << setw(16) << fVertex_X
+ 	   << setw(16) << fVertex_Y
+ 	   << setw(16) << fVertex_Z
+ 	   << endl;
+ 	  
+     // Recoiled neutron
+     ppiOut << setw(10) << "3" 
+ 	   << setw(10) << "1" 
+ 	   << setw(10) << "1" 
+ 	   << setw(10) << PDGtype(recoil_nucleon)
+ 	   << setw(10) << "0" 
+ 	   << setw(10) << "0" 
+ 	   << setw(16) << r_l_scat_nucleon_g.X() 
+ 	   << setw(16) << r_l_scat_nucleon_g.Y()
+ 	   << setw(16) << r_l_scat_nucleon_g.Z()
+ 	   << setw(16) << r_l_scat_nucleon_g.E()
+ 	   << setw(16) << f_Scat_Nucleon_Mass_GeV
+ 	   << setw(16) << fVertex_X
+ 	   << setw(16) << fVertex_Y
+ 	   << setw(16) << fVertex_Z
+ 	   << endl;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
