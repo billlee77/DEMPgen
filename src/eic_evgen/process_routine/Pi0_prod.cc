@@ -1224,6 +1224,7 @@ void Pi0_Production::Pi0_decay(TLorentzVector pi0_vec) {
 //	cout << "angle: " << l_photon_1_rf.Vect().Angle(l_photon_2_rf.Vect()) * 180.0/fPi 
 //		 << "    " << l_photon_1.Vect().Angle(l_photon_2.Vect()) * 180.0/fPi << endl;
 
+//	exit(0);
 
 
 	double photons_1_sep = (sin(l_photon_1.Vect().Angle(pi0_vec.Vect())) * 32)*100; 
