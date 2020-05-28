@@ -87,8 +87,8 @@ void PiPlus_Production::Init() {
 	
 	rParticle_charge = ExtractCharge(rParticle);
 
-	rRand = new TRandom2();	
-	rRand->SetSeed(fSeed);
+//	rRand = new TRandom2();	
+//	rRand->SetSeed(fSeed);
 
 	sTFile = Form("./LundFiles/eic_%s.txt", gfile_name.Data());
    	sLFile= Form("./LundFiles/eic_input_%s.dat", gfile_name.Data());
@@ -131,7 +131,10 @@ void PiPlus_Production::Init() {
     fX_Mass = ParticleMass(produced_X)*1000; //MeV
     fX_Mass_GeV = fX_Mass/1000; //GeV
 
-	
+	cout << "asdasd "<< rParticle << "  " << produced_X << "  " << fX_Mass_GeV <<  endl;
+
+
+//	exit(0);	
 
 	if (rParticle_charge = "+" ) {
 
@@ -751,7 +754,8 @@ void PiPlus_Production::Lund_Output() {
      ppiOut << setw(10) << "1" 
  	   << setw(10) << "1" 
  	   << setw(10) << "1" 
- 	   << setw(10) << produced_X 
+// 	   << setw(10) << "11111111111"
+ 	   << setw(10) << PDGtype(produced_X)
  	   << setw(10) << "0" 
  	   << setw(10) << "0" 
  	   << setw(16) << r_lX_g.X()
@@ -809,7 +813,6 @@ void PiPlus_Production::Detail_Output() {
    ppiDetails << "Total events tried                           " << setw(50) << fNGenerated   << endl;
    ppiDetails << "Total events recorded                        " << setw(50) << fNRecorded    << endl;
 
-   ppiDetails << "Seed used for the Random Number Generator    " << setw(50) << fSeed         << endl;
  
    ppiDetails << "Number of events with w more than 10.6       " << setw(50) << w_ev          << endl;
    ppiDetails << "Number of events with wsq negative           " << setw(50) << w_neg_ev      << endl;
@@ -820,6 +823,8 @@ void PiPlus_Production::Detail_Output() {
    ppiDetails << "Number of events with mom not conserve       " << setw(50) << fNMomConserve << endl;
    ppiDetails << "Number of events with Sigma negative         " << setw(50) << fNSigmaNeg    << endl;
    ppiDetails << "Number of lund events                        " << setw(50) << fLundRecorded << endl;
+
+   ppiDetails << "Seed used for the Random Number Generator    " << setw(50) << fSeed         << endl;
 
 }
 
