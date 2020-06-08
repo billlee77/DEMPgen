@@ -200,7 +200,7 @@ void pim::Initilize() {
 
     fRandom = new TRandom2(0);
 //    fRandom->GetSeed();
-    fRandom->SetSeed(gen_seed);
+//    fRandom->SetSeed(gen_seed);
 
 	cout << "Seed Used: " << gen_seed << endl;
 //	exit(0);
