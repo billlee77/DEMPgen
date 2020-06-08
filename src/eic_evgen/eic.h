@@ -23,6 +23,7 @@
 #include <TVector3.h>
 #include <TLorentzVector.h>
 #include <TH1F.h>
+#include <TH2D.h>
 #include <TF1.h>
 
 #include "eic_pim.h"
