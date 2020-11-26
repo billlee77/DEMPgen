@@ -816,7 +816,7 @@ void PiPlus_Production::Detail_Output() {
  
    ppiDetails << "Number of events with w more than 10.6       " << setw(50) << w_ev          << endl;
    ppiDetails << "Number of events with wsq negative           " << setw(50) << w_neg_ev      << endl;
-   ppiDetails << "Number of events with qsq less than 4        " << setw(50) << qsq_ev        << endl;
+   ppiDetails << "Number of events with qsq less than 5        " << setw(50) << qsq_ev        << endl;
    ppiDetails << "Number of events with -t more than threshold " << setw(50) << t_ev          << endl;
  
    ppiDetails << "Number of events with w less than threshold  " << setw(50) << fWSqNeg       << endl;
