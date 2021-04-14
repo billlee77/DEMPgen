@@ -33,9 +33,14 @@
 #include "reaction_rountine.h"
 #include "legacy.h"
 
+#include "json/json.h"
+#include "json/json-forwards.h"
 
 void eic();
-void eic(int, int, int, TString, int, TString);
+//void eic(int, int, int, TString, int, TString);
+
+void eic(int, int, int, TString, int, TString, TString);
+void eic(Json::Value);
 
 extern int fSeed;
 

@@ -10,6 +10,7 @@
 
 #include "TRandom.h"
 #include "TRandom2.h"
+#include "TRandom3.h"
 
 class pim {
 
@@ -37,7 +38,9 @@ class pim {
 
 
 
-extern TRandom2 *fRandom;                    
+//extern TRandom2 *fRandom;                    
+
+extern TRandom3 *fRandom;                    
 
 extern TFile *f;
 
@@ -46,8 +49,9 @@ extern TTree *t1;
 extern int gKinematics_type;
 extern TString gfile_name;
 extern TString gParticle;
-
-
+extern bool gPi0_decay;
+extern std::string gDet_location;
+extern float fProton_incidence_phi;
 
 extern int fSeed;
 

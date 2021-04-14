@@ -12,8 +12,6 @@
 
 
 #include "eic.h"
-#include "json/json.h"
-#include "json/json-forwards.h"
 
 using std::setw;
 using std::setprecision;
@@ -48,7 +46,7 @@ void eic() {
 
 /*--------------------------------------------------*/
 
-void eic(int event_number, int target_direction, int kinematics_type, TString file_name, int fEIC_seed, TString particle) {
+void eic(int event_number, int target_direction, int kinematics_type, TString file_name, int fEIC_seed, TString particle, TString det_location) {
 
    	TString targetname;  
 	TString charge;
@@ -102,6 +100,105 @@ void eic(int event_number, int target_direction, int kinematics_type, TString fi
 
 /*--------------------------------------------------*/
 /*--------------------------------------------------*/
+
+void eic(Json::Value obj) {
+
+   	TString targetname;  
+ 	TString charge;
+
+	int target_direction = obj["Targ_dir"].asInt();
+ 	gKinematics_type     = obj["Kinematics_type"].asInt();
+
+   	if( target_direction == 1 ) targetname = "up";
+   	if( target_direction == 2 ) targetname = "down";
+ 
+ 	gfile_name = obj["file_name"].asString();
+ 
+ 	gPi0_decay = obj["pi0_decay"].asBool();
+
+ 	fNFile = 1;
+ 	fNEvents = obj["n_events"].asInt();
+ 	fSeed = obj["generator_seed"].asInt();
+ 
+ 	pim* myPim = new pim(fSeed);
+   	myPim->Initilize();
+ 
+//  	TDatime dsTime;
+//  	cout << "Start Time:   " << dsTime.GetHour() << ":" << dsTime.GetMinute() << endl;
+
+	TString particle = obj["particle"].asString();
+
+	particle = ExtractParticle(particle);
+	charge = ExtractCharge(particle);
+
+	///*--------------------------------------------------*/
+	/// The detector selection is determined here
+	/// The incidence proton phi angle is 
+
+	gDet_location = obj["det_location"].asString();
+
+	if (gDet_location == "ip8") {
+
+		fProton_incidence_phi = 0.0;
+
+	} else if (gDet_location == "ip6") {
+
+		fProton_incidence_phi = fPi;
+
+	} else {
+	
+		fProton_incidence_phi = 0.0;
+		cout << "The interaction point not recognized!" << endl;
+		cout << "Therefore default opition ip6 is used." << endl;
+
+	}
+	
+
+
+
+
+
+
+//	if (particle == "pi") {
+//		Exclusive_Pion_Prodoction(*myPim);
+//	} else if (particle == "omega") {
+//		Exclusive_Omega_Prodoction(*myPim);
+//	} else {
+//		cerr << "Choice of particle is not recognized." << endl;
+//		exit(0);
+//	}
+
+//    TDatime dsTime;
+//  	cout << "Start Time:   " << dsTime.GetHour() << ":" << dsTime.GetMinute() << endl;
+	
+//	TStopwatch tTime;
+//   	tTime.Start();
+//
+//	Exclusive_Pion_Prodoction(*myPim);
+//	
+//	tTime.Stop();
+//   	tTime.Print();
+
+	Reaction* r1 = new Reaction(particle);
+	r1->process_reaction();
+	delete r1;
+
+}
+
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
 
 void SetEICSeed (int seed) {
 	fSeed = seed;
