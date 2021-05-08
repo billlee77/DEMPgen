@@ -64,7 +64,7 @@ void PiPlus_Production::process_reaction() {
  
  	Init();
  
-    	for( long long int i = 0; i < rNEvents; i++ ) {
+    for( long long int i = 0; i < rNEvents; i++ ) {
  
  		rNEvent_itt = i;
  		fNGenerated ++;
@@ -743,6 +743,9 @@ TLorentzVector PiPlus_Production::GetElectronVector_lab() {
     fElectron_MomZ_Col   = fElectron_Mom_Col * cos(fElectron_Theta_Col);  
     fElectron_MomX_Col   = fElectron_Mom_Col * sin(fElectron_Theta_Col) * cos(fElectron_Phi_Col);
     fElectron_MomY_Col   = fElectron_Mom_Col * sin(fElectron_Theta_Col) * sin(fElectron_Phi_Col);  
+
+	cout << "Define: " << fElectron_MomZ_Col << "    "<< fElectron_Mom_Col << "  " << cos(fElectron_Theta_Col) << endl;
+
         
     TLorentzVector  lelectron( fElectron_MomX_Col, fElectron_MomY_Col, fElectron_MomZ_Col, fElectron_Energy_Col);
 
@@ -886,11 +889,6 @@ Double_t PiPlus_Production::Get_Total_Cross_Section() {
 	Double_t total_sig;
 
 	Particle_t p = ParticleEnum(rParticle);
-
-
-	cout << p << " aaa  " << rParticle << endl;
-	exit(0);
-
 
 	switch (p) {
 

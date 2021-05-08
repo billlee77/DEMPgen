@@ -89,14 +89,16 @@ extern int fWLessShell;
 extern int fWLess1P9;
 extern int fSDiff;
 
-extern long int fNEvents;
-extern long int fNRecorded;
-extern long int fNGenerated;
-extern long int fWSqNeg;
-extern long int fNMomConserve;
-extern long int fNSigmaNeg;
-extern long int fLundRecorded;
-extern long int fNFile;
+//extern long int fNEvents;
+
+extern signed long long int fNEvents;
+extern signed long long int fNRecorded;
+extern signed long long int fNGenerated;
+extern signed long long int fWSqNeg;
+extern signed long long int fNMomConserve;
+extern signed long long int fNSigmaNeg;
+extern signed long long int fLundRecorded;
+extern signed long long int fNFile;
 
 extern double fK;
 extern double fm;

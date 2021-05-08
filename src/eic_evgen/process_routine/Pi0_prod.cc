@@ -239,11 +239,12 @@ void Pi0_Production::Processing_Event() {
 
     fQsq_GeV = -1.* r_lphotong.Mag2();
 
-
-
-
-
-
+// 	cout << "e: " << r_lelectron.Px() << "  " << r_lelectron.Py() << "  " <<  r_lelectron.Pz() << "  " << r_lelectron.E() << endl;
+// 	cout << "Scattered e: " << r_lscatelec.Px() << "  " << r_lscatelec.Py() << "  " <<  r_lscatelec.Pz() << "  " << r_lscatelec.E() << endl;
+// 
+// 	cout << "Q2 check: " << fQsq_GeV << endl;
+// 
+// 	exit(0);
 
 
 
