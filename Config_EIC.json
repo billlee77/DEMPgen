@@ -24,6 +24,7 @@
 	"particle": "Pion+", 		   // Choices: omega, pi+, pi0
 	//"particle": "Pi0", 		   // Choices: omega, pi+, pi0
 	//"particle": "Pi0", 		   // Choices: omega, pi+, pi0
+	"det_location": "ip8",		   // choices: ip6 for STAR, ip8 for PHENIX
 
 	//**************************************
 	/// This section is Solid only
