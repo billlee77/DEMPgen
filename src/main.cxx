@@ -50,6 +50,7 @@
 
 #include "eic_evgen/eic.h"
 
+
 using namespace std;
 using namespace constants;
 
@@ -99,8 +100,11 @@ int main(int argc, char** argv){
  
   	 	int target_direction = obj["Targ_dir"].asInt();
   		int kinematics_type = obj["Kinematics_type"].asInt();
- 		eic(nEvents, target_direction, kinematics_type, file_name, gen_seed, particle);
 
+//		bool = obj["pi0_particle"].asBool()
+//		eic(nEvents, target_direction, kinematics_type, file_name, gen_seed, particle);
+
+ 		eic(obj);
  
    } else if (obj["experiment"].asString() == "solid") {
  
@@ -169,7 +173,7 @@ int main(int argc, char** argv){
      TargetGen * NeutGen = new TargetGen(neutron_mass_mev, obj["fermi_momentum"].asBool());
    
      ScatteredParticleGen * ElecGen =
-       new ScatteredParticleGen(electron_mass_mev,
+     new ScatteredParticleGen(electron_mass_mev,
                                 elecERange,
                                 elecThetaRange,
                                 elecPhiRange);

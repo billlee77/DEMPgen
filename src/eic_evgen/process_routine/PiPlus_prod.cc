@@ -64,7 +64,7 @@ void PiPlus_Production::process_reaction() {
  
  	Init();
  
-    	for( long long int i = 0; i < rNEvents; i++ ) {
+    for( long long int i = 0; i < rNEvents; i++ ) {
  
  		rNEvent_itt = i;
  		fNGenerated ++;
@@ -85,6 +85,8 @@ void PiPlus_Production::Init() {
 
 	pd = dynamic_cast<pim*>(myPim);
 	
+
+
 	rParticle_charge = ExtractCharge(rParticle);
 
 //	rRand = new TRandom2();	
@@ -111,13 +113,10 @@ void PiPlus_Production::Init() {
 	r_lproton = GetProtonVector_lab();
 	r_lprotong = GetProtonVector_lab() * fm;
 
-
 	//cout << "Init check ::   " << r_lprotong.E() << endl;
-
-
-
 	// ----------------------------------------------------
-     // Electron in collider (lab) frame
+    // Electron in collider (lab) frame
+
 	cout << "Fermi momentum: " << rFermiMomentum << endl;
 
 	r_lelectron	 = GetElectronVector_lab();
@@ -132,11 +131,15 @@ void PiPlus_Production::Init() {
     fX_Mass_GeV = fX_Mass/1000; //GeV
 
 	cout << "asdasd "<< rParticle << "  " << produced_X << "  " << fX_Mass_GeV <<  endl;
-
+	cout << rParticle_charge << endl;
 
 //	exit(0);	
 
-	if (rParticle_charge = "+" ) {
+
+	///*--------------------------------------------------*/
+	/// This rParticle_charge is referring to the charge of the preduced meson
+
+	if (rParticle_charge == "+" ) {
 
 		rParticle_scat_nucleon  = "Neutron"; 
 		recoil_nucleon  = Neutron; 
@@ -144,7 +147,7 @@ void PiPlus_Production::Init() {
 		f_Scat_Nucleon_Mass     = fNeutron_Mass;
 		f_Scat_Nucleon_Mass_GeV = f_Scat_Nucleon_Mass/1000;
 
-	} else if (rParticle_charge = "0" ) {
+	} else if (rParticle_charge == "0" ) {
 		
 		rParticle_scat_nucleon  = "Proton"; 
 		recoil_nucleon  = Proton; 
@@ -159,6 +162,10 @@ void PiPlus_Production::Init() {
 		cerr << "Exiting the program!" << endl;
 		exit(0);
 	}
+
+	
+// 	cout << rParticle_scat_nucleon << endl;
+// 	exit(0);
 
 
 	rDEG2RAD   = fPI/180.0;
@@ -662,9 +669,18 @@ void PiPlus_Production::Progress_Report() {
 TLorentzVector PiPlus_Production::GetProtonVector_lab() {
 
 //	 fProton_Theta_Col = 50.0e-3;
-	 fProton_Theta_Col = 25.0e-3;
+//	 fProton_Theta_Col = 25.0e-3;
 
-     fProton_Phi_Col   = fPi; 
+//	 fProton_Theta_Col = 0.050;
+	 fProton_Theta_Col = 0.025;
+
+
+	///*--------------------------------------------------*/
+	/// The 
+//     fProton_Phi_Col   = fPi; 
+     fProton_Phi_Col   = fProton_incidence_phi; 
+
+
      fProton_Mom_Col   = fPBeam * 1e3; 
      fVertex_X         = 0.; 
      fVertex_Y         = 0.; 
@@ -675,6 +691,11 @@ TLorentzVector PiPlus_Production::GetProtonVector_lab() {
  			    fProton_Mom_Col * sin(fProton_Theta_Col) * sin(fProton_Phi_Col),
  			    fProton_Mom_Col * cos(fProton_Theta_Col),
  			    sqrt( pow( fProton_Mom_Col , 2 ) + pow( fProton_Mass , 2 ) ) ); 
+
+
+//	cout << lproton.X() << "     " << lproton.Y() << "    " << lproton.Z() << endl;
+
+//	exit(0);
 
 	return lproton;
 
@@ -722,6 +743,9 @@ TLorentzVector PiPlus_Production::GetElectronVector_lab() {
     fElectron_MomZ_Col   = fElectron_Mom_Col * cos(fElectron_Theta_Col);  
     fElectron_MomX_Col   = fElectron_Mom_Col * sin(fElectron_Theta_Col) * cos(fElectron_Phi_Col);
     fElectron_MomY_Col   = fElectron_Mom_Col * sin(fElectron_Theta_Col) * sin(fElectron_Phi_Col);  
+
+	cout << "Define: " << fElectron_MomZ_Col << "    "<< fElectron_Mom_Col << "  " << cos(fElectron_Theta_Col) << endl;
+
         
     TLorentzVector  lelectron( fElectron_MomX_Col, fElectron_MomY_Col, fElectron_MomZ_Col, fElectron_Energy_Col);
 

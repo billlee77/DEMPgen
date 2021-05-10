@@ -15,12 +15,16 @@
 
 using namespace std;
 
-TRandom2 *fRandom;                    
+//TRandom2 *fRandom;                    
+TRandom3 *fRandom;                    
 
 TFile *f;                    
 TTree *t1;                    
 
 int gKinematics_type;
+bool gPi0_decay;
+string gDet_location;
+float fProton_incidence_phi;
 
 TString gfile_name;
 
@@ -28,7 +32,11 @@ int fSeed;
 
 bool allset, print, kCalcFermi, kCalcBremss, kCalcIon, kCalcBremssEle, kCalcIonEle, kSConserve, kFSI, kMSele, kMS;
 int fWLessShell, fWLess1P9, fSDiff;
-long int fNEvents, fNRecorded, fNGenerated, fWSqNeg, fNMomConserve, fNSigmaNeg, fLundRecorded, fNFile; 
+
+//long int fNEvents, fNRecorded, fNGenerated, fWSqNeg, fNMomConserve, fNSigmaNeg, fLundRecorded, fNFile; 
+
+signed long long int fNEvents, fNRecorded, fNGenerated, fWSqNeg, fNMomConserve, fNSigmaNeg, fLundRecorded, fNFile;
+
 
 double fK, fm, fElectron_Kin_Col_GeV, fElectron_Kin_Col, fRand, fLumi, fuBcm2, fPI, fDEG2RAD, fRAD2DEG, fEBeam, fPBeam, fScatElec_Theta_I, fScatElec_Theta_F, fPion_Theta_I, fPion_Theta_F, fScatElec_E_Hi, fScatElec_E_Lo, fPSF; 
 
@@ -198,11 +206,19 @@ pim::pim(int aaa) {
 
 void pim::Initilize() {
 
-    fRandom = new TRandom2(0);
+//    fRandom = new TRandom2(0);
 //    fRandom->GetSeed();
 //    fRandom->SetSeed(gen_seed);
 
-	cout << "Seed Used: " << gen_seed << endl;
+	
+    fRandom = new TRandom3();
+
+	fRandom->SetSeed(gen_seed);
+	
+//	cout << fRandom->GetSeed() << endl;
+//	cout << "Seed Used: " << gen_seed << endl;
+	
+
 //	exit(0);
 
 
@@ -223,6 +239,8 @@ void pim::Initilize() {
     fRAD2DEG                                   = 180.0/fPI;
     fEBeam                                      = 5.0;  // GeV
     fPBeam                                      = 100; // 49.9912; // GeV
+//    fPBeam                                      = 140; // 49.9912; // GeV
+
     fScatElec_Theta_I                           = 60.0 * fDEG2RAD;
     fScatElec_Theta_F                           = 175.0 * fDEG2RAD;
     fScatElec_E_Lo                              = 0.5;  // % of beam energy

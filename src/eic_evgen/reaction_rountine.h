@@ -232,6 +232,8 @@ class Pi0_Production:PiPlus_Production{
 
 		void Pi0_decay(TLorentzVector);
 
+		bool if_pi0_decay;
+
 	private:
 
 		Double_t theta_X_rf;
@@ -248,6 +250,7 @@ class Pi0_Production:PiPlus_Production{
 		TLorentzVector l_photon_2;
 
  		void Pi0_Lund_Output();
+ 		void Pi0_Decay_Lund_Output();
 
 //  		template <class T> 
 //  		inline int 
