@@ -2,10 +2,12 @@
 
 set FileNum=$1
 set NumEvents=$2
+set RandomSeed=$3
 echo "Running target polarisation up, FF setting for file $FileNum with $NumEvents events per file"
 cp Config_EIC.json Config_EIC_$FileNum.json
 sed -i 's/"file_name" \:.*/"file_name" \: "DEMPGen_'$NumEvents'_'$FileNum'",/' Config_EIC_$FileNum.json
 sed -i 's/"n_events" \:.*/"n_events" \: '$NumEvents',/' Config_EIC_$FileNum.json
+sed -i 's/"generator_seed"\:.*/"generator_seed" \: '$RandomSeed',/' Config_EIC_$FileNum.json
 cd data/
 ./../build/DEMPgen ../Config_EIC_$FileNum.json
 sleep 5

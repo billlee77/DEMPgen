@@ -668,12 +668,11 @@ void PiPlus_Production::Progress_Report() {
 
 TLorentzVector PiPlus_Production::GetProtonVector_lab() {
 
-//	 fProton_Theta_Col = 50.0e-3;
-//	 fProton_Theta_Col = 25.0e-3;
-
-//	 fProton_Theta_Col = 0.050;
-	 fProton_Theta_Col = 0.025;
-
+  // Crossing angle
+  //	 fProton_Theta_Col = 0.050;
+  //	 fProton_Theta_Col = 0.025;
+  // Set crossing angle to 0 for fun4all
+  fProton_Theta_Col = 0.0;
 
 	///*--------------------------------------------------*/
 	/// The 
