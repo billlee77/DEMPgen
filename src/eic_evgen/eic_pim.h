@@ -91,14 +91,14 @@ extern int fSDiff;
 
 //extern long int fNEvents;
 
-extern signed long long int fNEvents;
-extern signed long long int fNRecorded;
-extern signed long long int fNGenerated;
-extern signed long long int fWSqNeg;
-extern signed long long int fNMomConserve;
-extern signed long long int fNSigmaNeg;
-extern signed long long int fLundRecorded;
-extern signed long long int fNFile;
+extern unsigned long long int fNEvents;
+extern unsigned long long int fNRecorded;
+extern unsigned long long int fNGenerated;
+extern unsigned long long int fWSqNeg;
+extern unsigned long long int fNMomConserve;
+extern unsigned long long int fNSigmaNeg;
+extern unsigned long long int fLundRecorded;
+extern unsigned long long int fNFile;
 
 extern double fK;
 extern double fm;

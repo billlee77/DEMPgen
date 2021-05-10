@@ -117,7 +117,9 @@ void eic(Json::Value obj) {
  	gPi0_decay = obj["pi0_decay"].asBool();
 
  	fNFile = 1;
- 	fNEvents = obj["n_events"].asInt();
+// 	fNEvents = obj["n_events"].asInt();
+ 	fNEvents = obj["n_events"].asUInt64();
+
  	fSeed = obj["generator_seed"].asInt();
  
  	pim* myPim = new pim(fSeed);
