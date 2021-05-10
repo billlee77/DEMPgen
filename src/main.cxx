@@ -72,7 +72,7 @@ int main(int argc, char** argv){
  
 //   int nEvents = obj["n_events"].asInt();
 //   int nEvents = obj["n_events"].asUInt64();
-   signed long long int nEvents = obj["n_events"].asInt64();
+   unsigned long long int nEvents = obj["n_events"].asUInt64();
    cout << "Generating "<< nEvents << " events."<<endl;
 
    TString file_name = obj["file_name"].asString();
