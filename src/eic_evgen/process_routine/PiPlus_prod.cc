@@ -140,30 +140,24 @@ void PiPlus_Production::Init() {
 	/// This rParticle_charge is referring to the charge of the preduced meson
 
 	if (rParticle_charge == "+" ) {
-
 		rParticle_scat_nucleon  = "Neutron"; 
 		recoil_nucleon  = Neutron; 
-
 		f_Scat_Nucleon_Mass     = fNeutron_Mass;
 		f_Scat_Nucleon_Mass_GeV = f_Scat_Nucleon_Mass/1000;
-
-	} else if (rParticle_charge == "0" ) {
-		
+	}
+	else if (rParticle_charge == "0" ) {	
 		rParticle_scat_nucleon  = "Proton"; 
-		recoil_nucleon  = Proton; 
-
+		recoil_nucleon  = Proton;
 		f_Scat_Nucleon_Mass     = fProton_Mass;
 		f_Scat_Nucleon_Mass_GeV = f_Scat_Nucleon_Mass/1000;
-
-	} else {
-
+	} 
+	else {
 		cerr << "Is the overall charge of the reaction conserved? " << endl;
 		cerr << "Please double check the input file and processes!" << endl;
 		cerr << "Exiting the program!" << endl;
 		exit(0);
 	}
 
-	
 // 	cout << rParticle_scat_nucleon << endl;
 // 	exit(0);
 
@@ -175,7 +169,25 @@ void PiPlus_Production::Init() {
 
 	cout << "Produced particle in exclusive production: " << rParticle << ";  with mass: " << fX_Mass << " MeV "<< endl;
 
-	
+	// Depending upon beam energy combination, set the value for the max weight from the non normalised version to then generate unit weights
+	if ((fEBeam == 5.0 ) && (fPBeam == 41.0) ){
+	  fEventWeightCeil = 0.0218354;
+	}
+
+	else if ((fEBeam == 5.0 ) && (fPBeam == 100.0) ){
+	  fEventWeightCeil = 0.30281;
+	}
+
+	else if ((fEBeam == 10.0 ) && (fPBeam == 100.0) ){
+	  fEventWeightCeil = 1.5219;
+	}
+	else {
+	  fEventWeightCeil = 1.0;
+	  cout << endl << "!!!!! WARNING !!!!!" << endl;
+	  cout << "Beam energy combination not recognised, weight ceiling set to 1." << endl;
+	  cout << "!!!!! WARNING !!!!!" << endl << endl;
+	}
+ 
 //	cout << fPI << "    " << fX_Theta_I << "    " << fX_Theta_F << endl;
 
 //	exit(0);
@@ -625,9 +637,9 @@ void PiPlus_Production::Processing_Event() {
      // -----------------------------------------------------------------------------------------------------------
      //             Lab cross section     Phase Space   Conversion     Luminosity                Total events tried
      // Hz        = ub / ( sr^2 * GeV ) * GeV * sr^2 * ( cm^2 / ub ) * ( # / ( cm^2 * sec ) ) / ( # )
- 	
-     fEventWeight = fSigma_Col * fPSF * fuBcm2 * fLumi / fNEvents;   // in Hz
 
+     // SJDK 11/05/21 -  This is the previous non unit weight
+     fEventWeight = fSigma_Col * fPSF * fuBcm2 * fLumi / fNEvents;   // in Hz
 	 // cout << fEventWeight << "  " << fSigma_Col << "  " << fPSF << "  " << fuBcm2 << "  " << fLumi << "  " << fNEvents << endl; 
 
 	 // exit(0);

@@ -697,6 +697,7 @@ extern double fSig_3Phi_Minus_PhiS;
 extern double fSig_2Phi_Plus_PhiS;
 extern double fEventWeight;
 extern double fEventWeightMax;
+extern double fEventWeightCeil;  // SJDK 11/05/21 - This is the maximum value found with the old method that is used to get the new unit weight
 extern double fZAWFactor;
 extern double fRR;
 extern double fPhaseSpaceWeight;

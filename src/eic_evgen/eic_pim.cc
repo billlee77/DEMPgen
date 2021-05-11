@@ -127,7 +127,7 @@ double fZASigma_UU, fRorySigma_UT, fSigma_Col, fSigma_UUPara, fSig_VR, fSig_L, f
 
 double fSig_fpi_6GeV;
 
-double fSigmaPhiS, fSigmaPhi_Minus_PhiS, fSigma2Phi_Minus_PhiS, fSigma3Phi_Minus_PhiS, fSigmaPhi_Plus_PhiS, fSigma2Phi_Plus_PhiS, fSig_Phi_Minus_PhiS, fSig_PhiS, fSig_2Phi_Minus_PhiS, fSig_Phi_Plus_PhiS, fSig_3Phi_Minus_PhiS, fSig_2Phi_Plus_PhiS, fEventWeight, fEventWeightMax, fZAWFactor, fRR, fPhaseSpaceWeight, fPhaseShiftWeight, fWilliamsWeight, fDedrickWeight, fCatchenWeight, fPhi, fPhiS, fPhi_Corrected, fPhiS_Corrected;
+double fSigmaPhiS, fSigmaPhi_Minus_PhiS, fSigma2Phi_Minus_PhiS, fSigma3Phi_Minus_PhiS, fSigmaPhi_Plus_PhiS, fSigma2Phi_Plus_PhiS, fSig_Phi_Minus_PhiS, fSig_PhiS, fSig_2Phi_Minus_PhiS, fSig_Phi_Plus_PhiS, fSig_3Phi_Minus_PhiS, fSig_2Phi_Plus_PhiS, fEventWeight, fEventWeightMax, fEventWeightCeil, fZAWFactor, fRR, fPhaseSpaceWeight, fPhaseShiftWeight, fWilliamsWeight, fDedrickWeight, fCatchenWeight, fPhi, fPhiS, fPhi_Corrected, fPhiS_Corrected;
 
 double fElectron_Mom_Sq_RF, fElectron_Mom_Sq_Col, fProton_Mom_Sq_Col, fProton_Mom_Sq_CM, fProton_Mom_Sq_RF, fPhoton_Mom_Sq_Col, fPhoton_Mom_Sq_CM, fPhoton_Mom_Sq_RF, fPion_Mom_Sq_Col, fPion_Mom_Sq_CM, fPion_Mom_Sq_RF, fNeutron_Mom_Sq_Col, fNeutron_Mom_Sq_CM, fNeutron_Mom_Sq_RF, fScatElec_Mom_Sq_Col, fScatElec_Mom_Sq_RF;
 
@@ -781,6 +781,7 @@ void pim::Initilize() {
     fSig_2Phi_Plus_PhiS                         = 0;
     fEventWeight                                = 0;
     fEventWeightMax                             = 0;
+    fEventWeightCeil                            = 0; // SJDK 11/05/21 - This is the maximum value found with the old method that is used to get the new unit weight
     fWilliamsWeight                             = 0;
     fDedrickWeight                              = 0;
     fCatchenWeight                              = 0;
