@@ -97,6 +97,10 @@ extern unsigned long long int fNGenerated;
 extern unsigned long long int fWSqNeg;
 extern unsigned long long int fNMomConserve;
 extern unsigned long long int fNSigmaNeg;
+
+extern unsigned long long int fNWeightUnphys;
+extern unsigned long long int fNWeightReject;
+
 extern unsigned long long int fLundRecorded;
 extern unsigned long long int fNFile;
 
@@ -697,6 +701,8 @@ extern double fSig_3Phi_Minus_PhiS;
 extern double fSig_2Phi_Plus_PhiS;
 extern double fEventWeight;
 extern double fEventWeightMax;
+extern double fEventWeightCeil;  // SJDK 11/05/21 - This is the maximum value found with the old method that is used to get the new unit weight
+extern double fEventWeightRn;  // SJDK 11/05/21 - Random number to compare determined weight to
 extern double fZAWFactor;
 extern double fRR;
 extern double fPhaseSpaceWeight;
