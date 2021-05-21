@@ -159,6 +159,7 @@ void PiPlus_Production::Init() {
   fX_Theta_I = 0.0 * rDEG2RAD ;
   fX_Theta_F = 50.0 * rDEG2RAD;
 
+
   cout << "Produced particle in exclusive production: " << rParticle << ";  with mass: " << fX_Mass << " MeV "<< endl;
   cout << fEBeam << " GeV electrons on " << fPBeam << " GeV ions" << endl;
   // Depending upon beam energy combination, set the value for the max weight from the non normalised version to then generate unit weights
@@ -218,6 +219,7 @@ void PiPlus_Production::Processing_Event() {
   // ----------------------------------------------------
   // Produced Particle X in Collider frame
   // ----------------------------------------------------  
+
 
   /// The generic produced particle in the exclusive reaction is labelled as X 
   fX_Theta_Col      = acos( fRandom->Uniform( cos(fX_Theta_I), cos(fX_Theta_F ) ) ); 
