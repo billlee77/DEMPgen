@@ -25,7 +25,7 @@ while [[ $i -le $NumFiles ]]; do
     echo "#PBS -e  /home/${USER}/trq_output/DEMPGen_5on100_${NumEvents}_${i}.err" >> ${batch} # Error output directory and file name
     echo "date" >> ${batch} 
     echo "cd /home/apps/DEMPgen/" >> ${batch} # Tell your job to go to the directory with the script you want to run
-    echo "./run_EIC_batch.csh ${i} ${NumEvents} ${RandomSeed}" >> ${batch} # Run your script, change this to what you like
+    echo "./run_EIC_batch_5on100.csh ${i} ${NumEvents} ${RandomSeed}" >> ${batch} # Run your script, change this to what you like
     echo "date">>${batch}
     echo "exit">>${batch} # End of your job script
     echo "Submitting batch"
