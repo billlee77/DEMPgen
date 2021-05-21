@@ -612,11 +612,9 @@ void PiPlus_Production::Processing_Event() {
   // Hz        = ub / ( sr^2 * GeV ) * GeV * sr^2 * ( cm^2 / ub ) * ( # / ( cm^2 * sec ) ) / ( # )
 
   // SJDK 11/05/21 -  This is the previous non unit weight
-  //fEventWeight = fSigma_Col * fPSF * fuBcm2 * fLumi / fNEvents;   // in Hz
+  // fEventWeight = fSigma_Col * fPSF * fuBcm2 * fLumi / fNEvents;   // in Hz
   // SJDK 11/05/21 - New weight calculation, division by ceiling weight value to attempt to get a "unit" value
   fEventWeight = abs(fSigma_Col * fPSF * fuBcm2 * fLumi )/fEventWeightCeil;
-  cout << fEventWeight << endl;
-  // exit(0);
   if ( (fEventWeight > 1) || (fEventWeight <= 0) ){
     fNWeightUnphys ++;
     return;
@@ -810,6 +808,7 @@ void PiPlus_Production::Detail_Output() {
 
   ppiDetails << "Total events tried                                           " << setw(20) << fNGenerated   << endl;
   ppiDetails << "Total events recorded                                        " << setw(20) << fNRecorded    << endl;
+  ppiDetails << "Max weight value                                             " << setw(20) << fEventWeightCeil << endl;
  
   ppiDetails << "Number of events with w more than 10.6                       " << setw(20) << w_ev          << endl;
   ppiDetails << "Number of events with wsq negative                           " << setw(20) << w_neg_ev      << endl;
