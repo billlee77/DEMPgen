@@ -37,7 +37,6 @@ int fWLessShell, fWLess1P9, fSDiff;
 
 unsigned long long int fNEvents, fNRecorded, fNGenerated, fWSqNeg, fNMomConserve, fNSigmaNeg, fNWeightUnphys, fNWeightReject, fLundRecorded, fNFile;
 
-
 double fK, fm, fElectron_Kin_Col_GeV, fElectron_Kin_Col, fRand, fLumi, fuBcm2, fPI, fDEG2RAD, fRAD2DEG, fEBeam, fPBeam, fScatElec_Theta_I, fScatElec_Theta_F, fPion_Theta_I, fPion_Theta_F, fScatElec_E_Hi, fScatElec_E_Lo, fPSF; 
 
 

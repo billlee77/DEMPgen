@@ -97,8 +97,10 @@ extern unsigned long long int fNGenerated;
 extern unsigned long long int fWSqNeg;
 extern unsigned long long int fNMomConserve;
 extern unsigned long long int fNSigmaNeg;
+
 extern unsigned long long int fNWeightUnphys;
 extern unsigned long long int fNWeightReject;
+
 extern unsigned long long int fLundRecorded;
 extern unsigned long long int fNFile;
 
