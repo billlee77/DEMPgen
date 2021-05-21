@@ -189,6 +189,11 @@ class PiPlus_Production {
 		Double_t r_fSig_T;
 		Double_t r_fSig_L;
 
+		void PiPlus_Pythia6_Out_Init();
+		void PiPlus_Pythia6_Output();
+
+		unsigned long long int print_itt;
+
 }; 
 
 

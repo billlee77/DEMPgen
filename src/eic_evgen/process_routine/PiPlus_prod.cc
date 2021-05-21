@@ -60,6 +60,9 @@ PiPlus_Production::~PiPlus_Production() {
 void PiPlus_Production::process_reaction() {
  
   Init();
+
+  PiPlus_Pythia6_Out_Init();
+
  
   for( long long int i = 0; i < rNEvents; i++ ) {
  
@@ -630,7 +633,10 @@ void PiPlus_Production::Processing_Event() {
   fLundRecorded++;
   fRatio = fNRecorded / fNGenerated;
 
-  Lund_Output();
+  // Lund_Output();
+
+  PiPlus_Pythia6_Output();
+
 	       
 }
 
@@ -981,4 +987,166 @@ Double_t  PiPlus_Production::GetPiPlus_CrossSection(){
   sig_total = fSig_VR;
 
   return sig_total;
+}
+
+
+
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+
+void PiPlus_Production::PiPlus_Pythia6_Out_Init() {
+
+
+	print_itt = 0;
+
+//	ppiOut << "PYTHIA EVENT FILE" << endl;
+	ppiOut << "SIMPLE Event FILE" << endl;
+	ppiOut << "============================================" << endl;
+	ppiOut << "I, ievent, nParticles" << endl;
+	ppiOut << "============================================" << endl;
+	ppiOut << "I  K(I,1)  K(I,2)  K(I,3)  K(I,4)  K(I,5)  P(I,1)  P(I,2)  P(I,3)  P(I,4)  P(I,5)  V(I,1)  V(I,2)  V(I,3)" << endl;
+	ppiOut << "============================================" << endl;
+
+}
+
+/*--------------------------------------------------*/
+
+void PiPlus_Production::PiPlus_Pythia6_Output() {
+
+
+
+//     ppiOut << "4"
+// 	   << " \t " << fPhi           // var 1
+// 	   << " \t " << fPhiS          // var 2
+// 	   << " \t " << fx             // var 3
+// 	   << " \t " << "1"	       
+// 	   << " \t " << fQsq_GeV       // var 4
+// 	   << " \t " << fT_GeV         // var 5
+// 	   << " \t " << fW_GeV 	       // var 6
+// 	   << " \t " << fEpsilon       // var 7
+// 	   << " \t " << fEventWeight   // var 8	   
+// 	   << endl;
+
+
+    ppiOut << "0" << " \t\t\t\ "  << print_itt << " \t\t\t " << "1" << endl;           // var 1
+
+	print_itt++;
+
+	ppiOut << "============================================" << endl;
+
+ 	///*--------------------------------------------------*/
+  	// Initial State
+ 
+      ppiOut  << "1" 
+  	   << setw(6) << "21" 
+  	   << setw(6) << "11"
+  	   << setw(6) << "0" 
+  	   << setw(6) << "3" 
+  	   << setw(6) << "4" 
+
+  	   << setw(14) << r_lelectrong.X()
+  	   << setw(14) << r_lelectrong.Y()   
+  	   << setw(14) << r_lelectrong.Z()  
+  	   << setw(14) << r_lelectrong.E()
+  	   << setw(14) << fElectron_Mass_GeV
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+
+      ppiOut << "2" 
+  	   << setw(6) << "21" 
+  	   << setw(6) << "2212"
+  	   << setw(6) << "0" 
+  	   << setw(6) << "5" 
+  	   << setw(6) << "6" 
+
+  	   << setw(14) << r_lprotong.X()
+  	   << setw(14) << r_lprotong.Y()   
+  	   << setw(14) << r_lprotong.Z()  
+  	   << setw(14) << r_lprotong.E()
+  	   << setw(14) << fProton_Mass_GeV
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+
+      ppiOut << "3" 
+  	   << setw(6) << "21" 
+  	   << setw(6) << "22"
+  	   << setw(6) << "1" 
+  	   << setw(6) << "0" 
+  	   << setw(6) << "0" 
+
+  	   << setw(14) << r_lphotong.X()
+  	   << setw(14) << r_lphotong.Y()   
+  	   << setw(14) << r_lphotong.Z()  
+  	   << setw(14) << r_lphotong.E()
+  	   << setw(14) << r_lphotong.M()
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+
+
+ 	///*--------------------------------------------------*/
+  	// Final State
+      
+      // Scattered electron
+      ppiOut << "4" 
+  	   << setw(6) << "1" 
+  	   << setw(6) << "11" 
+  	   << setw(6) << "1" 
+  	   << setw(6) << "0"
+  	   << setw(6) << "0"
+ 
+  	   << setw(14) << r_lscatelecg.X() 
+  	   << setw(14) << r_lscatelecg.Y() 
+  	   << setw(14) << r_lscatelecg.Z() 
+  	   << setw(14) << r_lscatelecg.E()
+  	   << setw(14) << fElectron_Mass_GeV
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+  	  
+      // Recoiled nucleon
+      ppiOut << "5" 
+  	   << setw(6) << "1" 
+  	   << setw(6) << PDGtype(recoil_nucleon)
+  	   << setw(6) << "2" 
+  	   << setw(6) << "0"
+  	   << setw(6) << "0"
+ 
+  	   << setw(14) << r_l_scat_nucleon_g.X() 
+  	   << setw(14) << r_l_scat_nucleon_g.Y()
+  	   << setw(14) << r_l_scat_nucleon_g.Z()
+  	   << setw(14) << r_l_scat_nucleon_g.E()
+  	   << setw(14) << f_Scat_Nucleon_Mass_GeV
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+ 
+      // Produced Particle X
+      ppiOut << "6" 
+  	   << setw(6) << "1" 
+  	   << setw(6) << PDGtype(produced_X)
+  	   << setw(6) << "2" 
+  	   << setw(6) << "0" 
+  	   << setw(6) << "0"
+
+  	   << setw(14) << r_lX_g.X()
+  	   << setw(14) << r_lX_g.Y()   
+  	   << setw(14) << r_lX_g.Z()  
+  	   << setw(14) << r_lX_g.E()
+  	   << setw(14) << fX_Mass_GeV
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+
+	ppiOut << "=============== Event finished ===============" << endl;
+
 }
