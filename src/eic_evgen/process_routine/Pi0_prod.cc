@@ -8,6 +8,7 @@ Pi0_Production::Pi0_Production() {
 
 	cout << "Program Start" << endl;
 
+
 }
 
 /*--------------------------------------------------*/
@@ -21,6 +22,7 @@ Pi0_Production::Pi0_Production(TString particle_str) {
 //	exit(0);
 
  	Init();
+	Pi0_Decay_Pythia6_Out_Init();
 
 }
 
@@ -97,9 +99,13 @@ void Pi0_Production::Processing_Event() {
 //    fScatElec_Theta_Col  = rRand->Uniform(fPi/2, fPi);
 //    fScatElec_Energy_Col = rRand->Uniform(5000, 6500);
 
-      fScatElec_Theta_Col  = fRandom->Uniform(fPi/2, fPi);
-      fScatElec_Energy_Col = fRandom->Uniform(5000, 6200);
-	  fScatElec_Phi_Col    =  fRandom->Uniform(fProton_Phi_Col - fPi/6.0, fProton_Phi_Col + fPi/6.0);
+
+	/*--------------------------------------------------*/
+	/*--------------------------------------------------*/
+	/// Random gen
+//      fScatElec_Theta_Col  = fRandom->Uniform(fPi/2, fPi);
+//      fScatElec_Energy_Col = fRandom->Uniform(5000, 6200);
+//	    fScatElec_Phi_Col    = fRandom->Uniform(fProton_Phi_Col - fPi/6.0, fProton_Phi_Col + fPi/6.0);
 
 //	  cout << "Seed check: " << fRandom->GetSeed() << endl;
 
@@ -130,8 +136,13 @@ void Pi0_Production::Processing_Event() {
 
 /*--------------------------------------------------*/
 /// 8 GeV
-//	fScatElec_Theta_Col = 148 * fPi /180;
-//	fScatElec_Energy_Col = 5403;
+// 	fScatElec_Theta_Col = 148 * fPi /180;
+// 	fScatElec_Energy_Col = 5403;
+
+ 	fScatElec_Theta_Col = 148 * fPi /180;
+ 	fScatElec_Energy_Col = 5360;
+
+
 
 
 /*--------------------------------------------------*/
@@ -154,7 +165,7 @@ void Pi0_Production::Processing_Event() {
 // For special testing only 
 //   fScatElec_Phi_Col    = fPi;
 //   fScatElec_Phi_Col    = 0.0;
-//   fScatElec_Phi_Col    = fProton_Phi_Col;
+   fScatElec_Phi_Col    = fProton_Phi_Col;
 
 // 	cout << "Initial and final angle: " << fScatElec_Theta_I*180/fPi << "   " << fScatElec_Theta_F*180/fPi << "   " << fScatElec_Theta_Col*180/fPi << "   " << fScatElec_Energy_Col  << "    " << fElectron_Energy_Col << "   " << fScatElec_E_Lo * fElectron_Energy_Col <<  "     " << fScatElec_E_Hi * fElectron_Energy_Col <<  endl;
 // 
@@ -175,18 +186,16 @@ void Pi0_Production::Processing_Event() {
 
     //fX_Phi_Col        = fRandom->Uniform( 0 , 2.0 * fPi);
     //fX_Phi_Col        = fRandom->Uniform( 0 , 2.0 * fPi);
-    fX_Phi_Col        = fRandom->Uniform( fProton_Phi_Col - fPi/6, fProton_Phi_Col + fPi/6);
 
-	fX_Theta_Col      = fRandom->Uniform( 0.01, 0.04); 
+    /// ----------------------------------------------------  
+    /// ----------------------------------------------------  
+	/// Random number generation
+
+    // fX_Phi_Col        = fRandom->Uniform( fProton_Phi_Col - fPi/6, fProton_Phi_Col + fPi/6);
+	// fX_Theta_Col      = fRandom->Uniform( 0.01, 0.04); 
+
 //    fX_Phi_Col        = fPi;
 //    fX_Phi_Col        = 0;
-
-
-
-
-
-
-
 	
 	///*--------------------------------------------------*/
 	// For special testing only 
@@ -196,12 +205,13 @@ void Pi0_Production::Processing_Event() {
 	//fX_Theta_Col      = 0.0; // 0.5729 degree
 	//fX_Theta_Col      = 0.025; // Proton incidence angle
 
+	fX_Theta_Col      = 0.0; // Proton incidence angle
 //	fX_Theta_Col      = 0.025; // Proton incidence angle
 //	fX_Theta_Col      = 0.05; // Proton incidence angle
 
 //  fX_Phi_Col        = 0.0;
 //  fX_Phi_Col        = fPi;
-//  fX_Phi_Col        = fProton_Phi_Col;
+    fX_Phi_Col        = fProton_Phi_Col;
 
 	/*--------------------------------------------------*/
 
@@ -263,16 +273,10 @@ void Pi0_Production::Processing_Event() {
     fW_GeV    = lwg.Mag();
     fWSq_GeV  = lwg.Mag2();
 
-
-
 //  	cout << endl << endl;
-//  
 //  	cout << "W: "  << fW_GeV << "   s: " << fW_GeV*fW_GeV << "  "  << "Q2: " << fQsq_GeV << endl;
-//  
 //  	cout << endl << endl;
-
-
-//	exit(0);
+//		exit(0);
 
 
 
@@ -439,6 +443,7 @@ void Pi0_Production::Processing_Event() {
         
      if ( pd->CheckLaws( r_lelectron, r_lproton, r_lscatelec, r_lX, r_l_scat_nucleon) != 1 )
        return;
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////
      //                                          Start                                         //
@@ -771,11 +776,15 @@ void Pi0_Production::Processing_Event() {
 	
 //	 cout << if_pi0_decay << endl;
 
-	 if (if_pi0_decay) {
-	 	Pi0_Decay_Lund_Output();
-	 } else {
-	 	Pi0_Lund_Output();
-	 }
+// 	 if (if_pi0_decay) {
+// 	 	Pi0_Decay_Lund_Output();
+// 	 } else {
+// 	 	Pi0_Lund_Output();
+// 	 }
+//	 cout << "AAAAAAAAAAAAAA" << endl;
+
+	 Pi0_Decay_Pythia6_Output();
+
 
 //	exit(0);
 	
@@ -1094,19 +1103,171 @@ void Pi0_Production::Pi0_Decay_Lund_Output() {
  	   << setw(16) << fVertex_Z
  	   << endl;
 
+}
 
 
 
 
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+
+void Pi0_Production::Pi0_Decay_Pythia6_Out_Init() {
 
 
+	print_itt = 0;
 
-
-
-
-
+//	ppiOut << "PYTHIA EVENT FILE" << endl;
+	ppiOut << "SIMPLE Event FILE" << endl;
+	ppiOut << "============================================" << endl;
+	ppiOut << "I, ievent, nParticles" << endl;
+	ppiOut << "============================================" << endl;
+	ppiOut << "I  K(I,1)  K(I,2)  K(I,3)  K(I,4)  K(I,5)  P(I,1)  P(I,2)  P(I,3)  P(I,4)  P(I,5)  V(I,1)  V(I,2)  V(I,3)" << endl;
+	ppiOut << "============================================" << endl;
 
 }
+
+/*--------------------------------------------------*/
+
+void Pi0_Production::Pi0_Decay_Pythia6_Output() {
+
+
+
+//     ppiOut << "4"
+// 	   << " \t " << fPhi           // var 1
+// 	   << " \t " << fPhiS          // var 2
+// 	   << " \t " << fx             // var 3
+// 	   << " \t " << "1"	       
+// 	   << " \t " << fQsq_GeV       // var 4
+// 	   << " \t " << fT_GeV         // var 5
+// 	   << " \t " << fW_GeV 	       // var 6
+// 	   << " \t " << fEpsilon       // var 7
+// 	   << " \t " << fEventWeight   // var 8	   
+// 	   << endl;
+
+
+    ppiOut << "0" << " \t\t\t\ "  << print_itt << " \t\t\t " << "1" << endl;           // var 1
+
+	print_itt++;
+
+	ppiOut << "============================================" << endl;
+
+ 	///*--------------------------------------------------*/
+  	// Initial State
+ 
+      ppiOut  << "1" 
+  	   << setw(6) << "21" 
+  	   << setw(6) << "11"
+  	   << setw(6) << "0" 
+  	   << setw(6) << "3" 
+  	   << setw(6) << "4" 
+
+  	   << setw(14) << r_lelectrong.X()
+  	   << setw(14) << r_lelectrong.Y()   
+  	   << setw(14) << r_lelectrong.Z()  
+  	   << setw(14) << r_lelectrong.E()
+  	   << setw(14) << fElectron_Mass_GeV
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+
+      ppiOut << "2" 
+  	   << setw(6) << "21" 
+  	   << setw(6) << "2212"
+  	   << setw(6) << "0" 
+  	   << setw(6) << "5" 
+  	   << setw(6) << "6" 
+
+  	   << setw(14) << r_lprotong.X()
+  	   << setw(14) << r_lprotong.Y()   
+  	   << setw(14) << r_lprotong.Z()  
+  	   << setw(14) << r_lprotong.E()
+  	   << setw(14) << fProton_Mass_GeV
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+
+      ppiOut << "3" 
+  	   << setw(6) << "21" 
+  	   << setw(6) << "22"
+  	   << setw(6) << "1" 
+  	   << setw(6) << "0" 
+  	   << setw(6) << "0" 
+
+  	   << setw(14) << r_lphotong.X()
+  	   << setw(14) << r_lphotong.Y()   
+  	   << setw(14) << r_lphotong.Z()  
+  	   << setw(14) << r_lphotong.E()
+  	   << setw(14) << r_lphotong.M()
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+
+
+ 	///*--------------------------------------------------*/
+  	// Final State
+      
+      // Scattered electron
+      ppiOut << "4" 
+  	   << setw(6) << "1" 
+  	   << setw(6) << "11" 
+  	   << setw(6) << "1" 
+  	   << setw(6) << "0"
+  	   << setw(6) << "0"
+ 
+  	   << setw(14) << r_lscatelecg.X() 
+  	   << setw(14) << r_lscatelecg.Y() 
+  	   << setw(14) << r_lscatelecg.Z() 
+  	   << setw(14) << r_lscatelecg.E()
+  	   << setw(14) << fElectron_Mass_GeV
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+  	  
+      // Recoiled nucleon
+      ppiOut << "5" 
+  	   << setw(6) << "1" 
+  	   << setw(6) << PDGtype(recoil_nucleon)
+  	   << setw(6) << "2" 
+  	   << setw(6) << "0"
+  	   << setw(6) << "0"
+ 
+  	   << setw(14) << r_l_scat_nucleon_g.X() 
+  	   << setw(14) << r_l_scat_nucleon_g.Y()
+  	   << setw(14) << r_l_scat_nucleon_g.Z()
+  	   << setw(14) << r_l_scat_nucleon_g.E()
+  	   << setw(14) << f_Scat_Nucleon_Mass_GeV
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+ 
+      // Produced Particle X
+      ppiOut << "6" 
+  	   << setw(6) << "1" 
+  	   << setw(6) << PDGtype(produced_X)
+  	   << setw(6) << "2" 
+  	   << setw(6) << "0" 
+  	   << setw(6) << "0"
+
+  	   << setw(14) << r_lX_g.X()
+  	   << setw(14) << r_lX_g.Y()   
+  	   << setw(14) << r_lX_g.Z()  
+  	   << setw(14) << r_lX_g.E()
+  	   << setw(14) << fX_Mass_GeV
+  	   << setw(6) << fVertex_X
+  	   << setw(6) << fVertex_Y
+  	   << setw(6) << fVertex_Z
+  	   << endl;
+
+	ppiOut << "=============== Event finished ===============" << endl;
+
+}
+
 
 
 /*--------------------------------------------------*/

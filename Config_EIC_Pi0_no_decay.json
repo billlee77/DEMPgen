@@ -12,7 +12,8 @@
     "file_name" : "DEMPGen_Pion0_no_decay",
 //    "file_name" : "DEMPGen_PionPlus_test",
 //    "n_events" : 50000,          // Per file size under 500k, due to g4e capability
-    "n_events" : 10000000000,          // Per file size under 500k, due to g4e capability
+//    "n_events" : 85000,          // Per file size under 500k, due to g4e capability
+    "n_events" : 10,          // Per file size under 500k, due to g4e capability
 //    "n_events" : 10000,
     "output_file" : "RootFiles/Test.root",
     "generator_seed": 6423,

@@ -234,6 +234,11 @@ class Pi0_Production:PiPlus_Production{
 
 		bool if_pi0_decay;
 
+		void Pi0_Decay_Pythia6_Out_Init();
+		void Pi0_Decay_Pythia6_Output();
+
+		unsigned long long int print_itt;
+
 	private:
 
 		Double_t theta_X_rf;
