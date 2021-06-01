@@ -22,6 +22,9 @@
 	// "particle": "omega", 		   // Choices: omega, pi+, pi0
 	//"particle": "omega", 		   // Choices: omega, pi+, pi0
 	"particle": "Pion+", 		   // Choices: omega, pi+, pi0
+        "ebeam": 5,                         // Electron beam energy in GeV
+        "hbeam": 41,                        // Hadron beam energy in GeV
+        //"hbeam_part":"proton",           // Hadron beam particle, proton, deut or helium3, work in progress
 	//"particle": "Pi0", 		   // Choices: omega, pi+, pi0
 	//"particle": "Pi0", 		   // Choices: omega, pi+, pi0
 	"det_location": "ip8",		   // choices: ip6 for STAR, ip8 for PHENIX

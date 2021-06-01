@@ -39,9 +39,7 @@ unsigned long long int fNEvents, fNRecorded, fNGenerated, fWSqNeg, fNMomConserve
 
 double fK, fm, fElectron_Kin_Col_GeV, fElectron_Kin_Col, fRand, fLumi, fuBcm2, fPI, fDEG2RAD, fRAD2DEG, fEBeam, fPBeam, fScatElec_Theta_I, fScatElec_Theta_F, fPion_Theta_I, fPion_Theta_F, fScatElec_E_Hi, fScatElec_E_Lo, fPSF; 
 
-
 double fOmega_Theta_I, fOmega_Theta_F, fOmega_Theta_Col, fOmega_Phi_Col;
-
 
 double fMandSConserve, fTop_Pion_Mom, fBot_Pion_Mom, fPion_Mom_Same, fEnergyConserve, fXMomConserve, fYMomConserve, fZMomConserve, fXMomConserve_RF, fYMomConserve_RF, fZMomConserve_RF, fEnergyConserve_RF; 
 
@@ -236,8 +234,9 @@ void pim::Initilize() {
     fPI                                         = 3.1415926;
     fDEG2RAD                                    = fPI/180.0;
     fRAD2DEG                                   = 180.0/fPI;
-    fEBeam                                      = 5;  // GeV
-    fPBeam                                      = 41; // 49.9912; // GeV
+    // SJDK 01/06/21 - The beam energies are now read in from the .json file
+    //fEBeam                                      = 5;  // GeV
+    //fPBeam                                      = 41; // 49.9912; // GeV
 //    fPBeam                                      = 140; // 49.9912; // GeV
 
     fScatElec_Theta_I                           = 60.0 * fDEG2RAD;
@@ -1120,5 +1119,3 @@ void pim::setrootfile( string rootFile ){
   /* t1->Branch("testsig",                                   &ftestsig,                                   "ftestsig/D"); */
 
 }
-
-

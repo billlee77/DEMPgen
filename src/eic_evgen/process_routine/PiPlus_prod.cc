@@ -63,7 +63,6 @@ void PiPlus_Production::process_reaction() {
 
   PiPlus_Pythia6_Out_Init();
 
- 
   for( long long int i = 0; i < rNEvents; i++ ) {
  
     rNEvent_itt = i;

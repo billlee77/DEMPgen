@@ -90,6 +90,8 @@ int main(int argc, char** argv){
 
    TString particle = obj["particle"].asString();
 
+   //TString HBeamPart = obj["hbeam_part"].asString(); // Work in progress
+
 //	cout << obj["experiment"].asString() << endl;
 //	cout << particle << endl;
 //	cout << "File name: " << file_name << "  " << get_date() << endl;
@@ -102,10 +104,10 @@ int main(int argc, char** argv){
  
   	 	int target_direction = obj["Targ_dir"].asInt();
   		int kinematics_type = obj["Kinematics_type"].asInt();
-
+		double EBeam = obj["ebeam"].asDouble();
+		double HBeam = obj["hbeam"].asDouble();
 //		bool = obj["pi0_particle"].asBool()
 //		eic(nEvents, target_direction, kinematics_type, file_name, gen_seed, particle);
-
  		eic(obj);
  
    } else if (obj["experiment"].asString() == "solid") {
@@ -125,9 +127,7 @@ int main(int argc, char** argv){
    
    
      MatterEffects* ME = new MatterEffects();
-   
-
-   
+      
      WorkFile = new TFile("../data/output/test.root");
    
      // Initilization of DEMPEvent objects for different reference frames
