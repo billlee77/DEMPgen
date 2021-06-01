@@ -6,11 +6,11 @@
 /// Email: wenliang.billlee@gmail.com
 ///
 /// Comment: Mar 12, 2020: Subroutine Exclusive_Omega_Prodoction is created 
-///	         modeled off the Exclusive_Omega_Prodoction rountine written by 
+///	         modeled off the Exclusive_Omega_Prodoction routine written by 
 ///          A. Zafar
 ///
 
-#include "reaction_rountine.h"
+#include "reaction_routine.h"
 #include "eic.h"
 #include "particleType.h"
 

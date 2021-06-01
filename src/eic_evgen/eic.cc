@@ -117,7 +117,6 @@ void eic(Json::Value obj) {
  	gPi0_decay = obj["pi0_decay"].asBool();
 
  	fNFile = 1;
-// 	fNEvents = obj["n_events"].asInt();
  	fNEvents = obj["n_events"].asUInt64();
 
  	fSeed = obj["generator_seed"].asInt();
@@ -148,18 +147,10 @@ void eic(Json::Value obj) {
 		fProton_incidence_phi = fPi;
 
 	} else {
-	
 		fProton_incidence_phi = 0.0;
 		cout << "The interaction point not recognized!" << endl;
 		cout << "Therefore default opition ip6 is used." << endl;
-
 	}
-	
-
-
-
-
-
 
 //	if (particle == "pi") {
 //		Exclusive_Pion_Prodoction(*myPim);

@@ -30,7 +30,7 @@
 
 #include "tssa_sig_Para.h"
 
-#include "reaction_rountine.h"
+#include "reaction_routine.h"
 #include "legacy.h"
 
 #include "json/json.h"

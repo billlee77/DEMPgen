@@ -237,7 +237,7 @@ void pim::Initilize() {
     fDEG2RAD                                    = fPI/180.0;
     fRAD2DEG                                   = 180.0/fPI;
     fEBeam                                      = 5;  // GeV
-    fPBeam                                      = 100; // 49.9912; // GeV
+    fPBeam                                      = 41; // 49.9912; // GeV
 //    fPBeam                                      = 140; // 49.9912; // GeV
 
     fScatElec_Theta_I                           = 60.0 * fDEG2RAD;
