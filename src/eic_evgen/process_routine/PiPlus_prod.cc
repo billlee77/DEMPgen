@@ -99,6 +99,12 @@ void PiPlus_Production::Init() {
   rNEvents = fNEvents;
   rNEvent_itt = 0;
 
+  // 02/06/21 SJDK 
+  // Set these values once the beam energies are read in
+  fPSF = ( fEBeam * ( fScatElec_E_Hi - fScatElec_E_Lo ) *( sin( fScatElec_Theta_F ) - sin( fScatElec_Theta_I ) ) * 2 * fPI *( sin( fPion_Theta_F     ) - sin( fPion_Theta_I     ) ) * 2 * fPI );
+  fElectron_Kin_Col_GeV = fEBeam;
+  fElectron_Kin_Col = fElectron_Kin_Col_GeV * 1000.0;
+
   // cout << rNEvents << "    " << fNEvents << endl;
 	
   rFermiMomentum = pd->fermiMomentum();
@@ -183,9 +189,7 @@ void PiPlus_Production::Init() {
     cout << "Beam energy combination not recognised, weight ceiling set to 1." << endl;
     cout << "!!!!! WARNING !!!!!" << endl << endl;
   }
- 
-  //	cout << fPI << "    " << fX_Theta_I << "    " << fX_Theta_F << endl;
-
+  
   //	exit(0);
 
 }

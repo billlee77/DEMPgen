@@ -8,8 +8,8 @@ cp Config_EIC.json Config_EIC_5on41_$FileNum.json
 sed -i 's/"file_name" \:.*/"file_name" \: "DEMPGen_5on41_'$NumEvents'_'$FileNum'",/' Config_EIC_5on41_$FileNum.json
 sed -i 's/"n_events" \:.*/"n_events" \: '$NumEvents',/' Config_EIC_5on41_$FileNum.json
 sed -i 's/"generator_seed"\:.*/"generator_seed" \: '$RandomSeed',/' Config_EIC_5on41_$FileNum.json
-sed -i 's/"ebeam"\:.*/"ebeam" \: '5',/' Config_EIC_5on41_$FileNum.json
-sed -i 's/"hbeam"\:.*/"hbeam" \: '41',/' Config_EIC_5on41_$FileNum.json
+sed -i 's/"ebeam"\:.*/"ebeam" \: '5.0',/' Config_EIC_5on41_$FileNum.json
+sed -i 's/"hbeam"\:.*/"hbeam" \: '41.0',/' Config_EIC_5on41_$FileNum.json
 cd data/
 ./../build/DEMPgen ../Config_EIC_5on41_$FileNum.json
 sleep 5

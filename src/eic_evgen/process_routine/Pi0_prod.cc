@@ -257,8 +257,6 @@ void Pi0_Production::Processing_Event() {
 // 	exit(0);
 
 
-
-
 //     if ( fQsq_GeV < 5.0 ) {
 //        qsq_ev++;
 //        return;
@@ -1667,7 +1665,5 @@ void Pi0_Production::Pi0_decay(TLorentzVector pi0_vec) {
 //	cout << "/*--------------------------------------------------*/" << endl;
 //	exit(0);
 	
-
-
 }
 
