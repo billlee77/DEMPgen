@@ -170,18 +170,23 @@ void PiPlus_Production::Init() {
   cout << "Produced particle in exclusive production: " << rParticle << ";  with mass: " << fX_Mass << " MeV "<< endl;
   cout << fEBeam << " GeV electrons on " << fPBeam << " GeV ions" << endl;
   // Depending upon beam energy combination, set the value for the max weight from the non normalised version to then generate unit weights
-  // The values were determined from a set of 100 x 1B events thrown runs, the weight has to be scaled by the number thrown in the current calculation
+  // The values were determined from a set of 100 x 1B events thrown runs, the mean weight value + 6.5 sigma was taken as the "max" weight for a given beam energy combination
+  // Probability of being more than 6.5 sigma away is over 1 in 12.5B
+  // The weight has to be scaled by the number thrown in the current calculation 
   // fEventWeight is now independent of the number of events thrown
   if ((fEBeam == 5.0 ) && (fPBeam == 41.0) ){
-    fEventWeightCeil = 0.0221836 * (1000000000);
+    //fEventWeightCeil = 0.0221836 * (1000000000); // Old value
+    fEventWeightCeil = 0.002296 * (1000000000);
   }
 
   else if ((fEBeam == 5.0 ) && (fPBeam == 100.0) ){
-    fEventWeightCeil = 0.30281 * (1000000000);
+    //fEventWeightCeil = 0.30281 * (1000000000); // Old value
+    fEventWeightCeil = 0.023960 * (1000000000);
   }
 
   else if ((fEBeam == 10.0 ) && (fPBeam == 100.0) ){
-    fEventWeightCeil = 1.77775 * (1000000000);
+    //fEventWeightCeil = 1.77775 * (1000000000); // Old value
+    fEventWeightCeil = 0.201569 * (1000000000);
   }
   else {
     fEventWeightCeil = 1.0 * (100000000);
