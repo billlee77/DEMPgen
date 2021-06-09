@@ -39,9 +39,7 @@ unsigned long long int fNEvents, fNRecorded, fNGenerated, fWSqNeg, fNMomConserve
 
 double fK, fm, fElectron_Kin_Col_GeV, fElectron_Kin_Col, fRand, fLumi, fuBcm2, fPI, fDEG2RAD, fRAD2DEG, fEBeam, fPBeam, fScatElec_Theta_I, fScatElec_Theta_F, fPion_Theta_I, fPion_Theta_F, fScatElec_E_Hi, fScatElec_E_Lo, fPSF; 
 
-
 double fOmega_Theta_I, fOmega_Theta_F, fOmega_Theta_Col, fOmega_Phi_Col;
-
 
 double fMandSConserve, fTop_Pion_Mom, fBot_Pion_Mom, fPion_Mom_Same, fEnergyConserve, fXMomConserve, fYMomConserve, fZMomConserve, fXMomConserve_RF, fYMomConserve_RF, fZMomConserve_RF, fEnergyConserve_RF; 
 
@@ -148,9 +146,6 @@ double fepi1, fepi2, fradical;
 
 double fOmega_Energy_CM, fOmega_Mom_CM, fOmega_Energy_CM_GeV, fOmega_Mom_CM_GeV;   
 
-
-
-
 double fMomentum[300];
 
 double fProb[300] = {    
@@ -236,9 +231,10 @@ void pim::Initilize() {
     fPI                                         = 3.1415926;
     fDEG2RAD                                    = fPI/180.0;
     fRAD2DEG                                   = 180.0/fPI;
-    fEBeam                                      = 5;  // GeV
-    fPBeam                                      = 100; // 49.9912; // GeV
-//    fPBeam                                      = 140; // 49.9912; // GeV
+    // SJDK 01/06/21 - The beam energies are now read in from the .json file
+    //fEBeam                                      = 5;  // GeV
+    //fPBeam                                      = 41; // 49.9912; // GeV
+    //fPBeam                                      = 140; // 49.9912; // GeV
 
     fScatElec_Theta_I                           = 60.0 * fDEG2RAD;
     fScatElec_Theta_F                           = 175.0 * fDEG2RAD;
@@ -246,15 +242,16 @@ void pim::Initilize() {
     fScatElec_E_Hi                              = 2.5;  // % of beam energy
     fPion_Theta_I                               = 0.0 * fDEG2RAD;
     fPion_Theta_F                               = 50.0 * fDEG2RAD;
-
-	fOmega_Theta_I                              = 0.0 * fDEG2RAD; 
-	fOmega_Theta_F                              = 360.0 * fDEG2RAD; 
-
-
-
-    fPSF                                        = ( fEBeam * ( fScatElec_E_Hi - fScatElec_E_Lo ) * 
+    fOmega_Theta_I                              = 0.0 * fDEG2RAD; 
+    fOmega_Theta_F                              = 360.0 * fDEG2RAD; 
+    // 02/06/21 - SJDK
+    // Set to 0, now set in PiPlusProd.cc
+    fPSF                                     = 0;
+	/*
+	fPSF                                        = ( fEBeam * ( fScatElec_E_Hi - fScatElec_E_Lo ) * 
   						  ( sin( fScatElec_Theta_F ) - sin( fScatElec_Theta_I ) ) * 2 * fPI * 
   						  ( sin( fPion_Theta_F     ) - sin( fPion_Theta_I     ) ) * 2 * fPI );
+	*/
     fK                                          = 1000.0;
     fm                                          = 1.0/1000.0;
     fElectron_Mass                              = 0.511;
@@ -272,8 +269,12 @@ void pim::Initilize() {
     fOmega_Mass_GeV                             = fOmega_Mass/1000.0;
 
     fDiff                                       = 0.5;
-    fElectron_Kin_Col_GeV                       = fEBeam;
-    fElectron_Kin_Col                           = fElectron_Kin_Col_GeV * 1000.0;
+    // 02/06/21 - SJDK
+    // Set to 0, now set in PiPlusProd.cc
+    fElectron_Kin_Col_GeV                       = 0;
+    fElectron_Kin_Col                           = 0;
+    //fElectron_Kin_Col_GeV                       = fEBeam;
+    //fElectron_Kin_Col                           = fElectron_Kin_Col_GeV * 1000.0;
     fAlpha                                      = 1./137.036;
     fMom_Ratio                                  = 0.460029;
     fMom_Dif                                    = 0.01;
@@ -859,15 +860,12 @@ void pim::Initilize() {
     fPhi_Omega_LeptonPlane_RF                   = 0;
     fCos_Phi_Omega_LeptonPlane_RF               = 0;
     fSin_Phi_Omega_LeptonPlane_RF               = 0;
-	fTheta_Omega_Photon_RF                      = 0;
+    fTheta_Omega_Photon_RF                      = 0;
 
-	fOmega_Energy_CM                            = 0;
-	fOmega_Mom_CM                               = 0;
-	fOmega_Energy_CM_GeV                        = 0;
-	fOmega_Mom_CM_GeV                           = 0;
-
-
-
+    fOmega_Energy_CM                            = 0;
+    fOmega_Mom_CM                               = 0;
+    fOmega_Energy_CM_GeV                        = 0;
+    fOmega_Mom_CM_GeV                           = 0;
 
     fPhi_TargPol_LeptonPlane_RF                 = 0;
     fCos_Phi_TargPol_LeptonPlane_RF             = 0;
@@ -890,9 +888,6 @@ void pim::Initilize() {
     fSig_2Phi_Plus_PhiS_Col                     = 0;
 
 }
-
-
-
 
 //---------------------------------------------------------
 double pim::fermiMomentum() {
@@ -1120,5 +1115,3 @@ void pim::setrootfile( string rootFile ){
   /* t1->Branch("testsig",                                   &ftestsig,                                   "ftestsig/D"); */
 
 }
-
-

@@ -1,4 +1,4 @@
-#include "reaction_rountine.h"
+#include "reaction_routine.h"
 #include "eic.h"
 
 using namespace std;
@@ -63,7 +63,6 @@ void PiPlus_Production::process_reaction() {
 
   PiPlus_Pythia6_Out_Init();
 
- 
   for( long long int i = 0; i < rNEvents; i++ ) {
  
     rNEvent_itt = i;
@@ -99,6 +98,12 @@ void PiPlus_Production::Init() {
   qsq_ev = 0, t_ev = 0, w_neg_ev = 0, w_ev = 0;
   rNEvents = fNEvents;
   rNEvent_itt = 0;
+
+  // 02/06/21 SJDK 
+  // Set these values once the beam energies are read in
+  fPSF = ( fEBeam * ( fScatElec_E_Hi - fScatElec_E_Lo ) *( sin( fScatElec_Theta_F ) - sin( fScatElec_Theta_I ) ) * 2 * fPI *( sin( fPion_Theta_F     ) - sin( fPion_Theta_I     ) ) * 2 * fPI );
+  fElectron_Kin_Col_GeV = fEBeam;
+  fElectron_Kin_Col = fElectron_Kin_Col_GeV * 1000.0;
 
   // cout << rNEvents << "    " << fNEvents << endl;
 	
@@ -162,22 +167,26 @@ void PiPlus_Production::Init() {
   fX_Theta_I = 0.0 * rDEG2RAD ;
   fX_Theta_F = 50.0 * rDEG2RAD;
 
-
   cout << "Produced particle in exclusive production: " << rParticle << ";  with mass: " << fX_Mass << " MeV "<< endl;
   cout << fEBeam << " GeV electrons on " << fPBeam << " GeV ions" << endl;
   // Depending upon beam energy combination, set the value for the max weight from the non normalised version to then generate unit weights
-  // The values were determined from a set of 100 x 1B events thrown runs, the weight has to be scaled by the number thrown in the current calculation
+  // The values were determined from a set of 100 x 1B events thrown runs, the mean weight value + 6.5 sigma was taken as the "max" weight for a given beam energy combination
+  // Probability of being more than 6.5 sigma away is over 1 in 12.5B
+  // The weight has to be scaled by the number thrown in the current calculation 
   // fEventWeight is now independent of the number of events thrown
   if ((fEBeam == 5.0 ) && (fPBeam == 41.0) ){
-    fEventWeightCeil = 0.0221836 * (1000000000);
+    //fEventWeightCeil = 0.0221836 * (1000000000); // Old value
+    fEventWeightCeil = 0.002296 * (1000000000);
   }
 
   else if ((fEBeam == 5.0 ) && (fPBeam == 100.0) ){
-    fEventWeightCeil = 0.30281 * (1000000000);
+    //fEventWeightCeil = 0.30281 * (1000000000); // Old value
+    fEventWeightCeil = 0.023960 * (1000000000);
   }
 
   else if ((fEBeam == 10.0 ) && (fPBeam == 100.0) ){
-    fEventWeightCeil = 1.77775 * (1000000000);
+    //fEventWeightCeil = 1.77775 * (1000000000); // Old value
+    fEventWeightCeil = 0.201569 * (1000000000);
   }
   else {
     fEventWeightCeil = 1.0 * (100000000);
@@ -185,9 +194,7 @@ void PiPlus_Production::Init() {
     cout << "Beam energy combination not recognised, weight ceiling set to 1." << endl;
     cout << "!!!!! WARNING !!!!!" << endl << endl;
   }
- 
-  //	cout << fPI << "    " << fX_Theta_I << "    " << fX_Theta_F << endl;
-
+  
   //	exit(0);
 
 }
@@ -222,7 +229,6 @@ void PiPlus_Production::Processing_Event() {
   // ----------------------------------------------------
   // Produced Particle X in Collider frame
   // ----------------------------------------------------  
-
 
   /// The generic produced particle in the exclusive reaction is labelled as X 
   fX_Theta_Col      = acos( fRandom->Uniform( cos(fX_Theta_I), cos(fX_Theta_F ) ) ); 

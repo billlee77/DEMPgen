@@ -30,7 +30,7 @@
 
 #include "tssa_sig_Para.h"
 
-#include "reaction_rountine.h"
+#include "reaction_routine.h"
 #include "legacy.h"
 
 #include "json/json.h"
@@ -39,7 +39,7 @@
 void eic();
 //void eic(int, int, int, TString, int, TString);
 
-void eic(int, int, int, TString, int, TString, TString);
+void eic(int, int, int, TString, int, TString, TString, double, double);
 void eic(Json::Value);
 
 extern int fSeed;

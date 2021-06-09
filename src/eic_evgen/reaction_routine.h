@@ -78,7 +78,7 @@ class PiPlus_Production {
 		std::ofstream ppiOut;     
         std::ofstream ppiDetails;
 		
-		int qsq_ev, t_ev, w_neg_ev, w_ev;
+	        long long int qsq_ev, t_ev, w_neg_ev, w_ev;
 		
 		long long int rNEvents;
 		long long int rNEvent_itt;

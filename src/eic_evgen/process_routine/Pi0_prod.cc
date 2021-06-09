@@ -1,4 +1,4 @@
-#include "reaction_rountine.h"
+#include "reaction_routine.h"
 #include "eic.h"
 #include "particleType.h"
 
@@ -255,8 +255,6 @@ void Pi0_Production::Processing_Event() {
 // 	cout << "Q2 check: " << fQsq_GeV << endl;
 // 
 // 	exit(0);
-
-
 
 
 //     if ( fQsq_GeV < 5.0 ) {
@@ -784,7 +782,6 @@ void Pi0_Production::Processing_Event() {
 //	 cout << "AAAAAAAAAAAAAA" << endl;
 
 	 Pi0_Decay_Pythia6_Output();
-
 
 //	exit(0);
 	
@@ -1667,7 +1664,5 @@ void Pi0_Production::Pi0_decay(TLorentzVector pi0_vec) {
 //	cout << "/*--------------------------------------------------*/" << endl;
 //	exit(0);
 	
-
-
 }
 

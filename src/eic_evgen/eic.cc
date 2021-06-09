@@ -34,11 +34,14 @@ using namespace std;
 void eic() {
 
     Int_t target_direction, kinematics_type;
+    Double_t EBeam, HBeam;
  
    	cout << "Target Direction (1->Up, 2->Down): "; cin >> target_direction; cout << endl;
    	cout << "Kinematics type (1->FF, 2->TSSA): ";  cin >> kinematics_type;  cout << endl;
    	cout << "Enter the number of events: ";        cin >> fNEvents;         cout << endl;
    	cout << "Enter the file number: ";             cin >> fNFile;           cout << endl;
+	cout << "Enter the electron beam energy: ";    cin >> EBeam;            cout << endl;
+	cout << "Enter the hadron beam energy: ";      cin >> HBeam;            cout << endl;
  
 //	eic(target_direction, kinematics_type, fNEvents);
 
@@ -46,14 +49,14 @@ void eic() {
 
 /*--------------------------------------------------*/
 
-void eic(int event_number, int target_direction, int kinematics_type, TString file_name, int fEIC_seed, TString particle, TString det_location) {
+void eic(int event_number, int target_direction, int kinematics_type, TString file_name, int fEIC_seed, TString particle, TString det_location, double EBeam, double HBeam) {
 
-   	TString targetname;  
+   	TString targetname;
 	TString charge;
 
    	if( target_direction == 1 ) targetname = "up";
   	if( target_direction == 2 ) targetname = "down";
-
+	
 	gKinematics_type = kinematics_type;
 	gfile_name = file_name;
 
@@ -62,6 +65,9 @@ void eic(int event_number, int target_direction, int kinematics_type, TString fi
 	fNEvents = event_number;
 
 	fSeed = fEIC_seed;
+	cout << EBeam << " elec " << HBeam << " hadrons" << endl; 
+	fEBeam = EBeam;
+	fPBeam = HBeam;
 
 	pim* myPim = new pim(fSeed);
   	myPim->Initilize();
@@ -117,11 +123,10 @@ void eic(Json::Value obj) {
  	gPi0_decay = obj["pi0_decay"].asBool();
 
  	fNFile = 1;
-// 	fNEvents = obj["n_events"].asInt();
  	fNEvents = obj["n_events"].asUInt64();
 
  	fSeed = obj["generator_seed"].asInt();
- 
+
  	pim* myPim = new pim(fSeed);
    	myPim->Initilize();
  
@@ -132,6 +137,11 @@ void eic(Json::Value obj) {
 
 	particle = ExtractParticle(particle);
 	charge = ExtractCharge(particle);
+	
+	// SJDK - 01/06/21
+	// Set beam energies from .json read in
+	fEBeam = obj["ebeam"].asDouble();
+	fPBeam = obj["hbeam"].asDouble();
 
 	///*--------------------------------------------------*/
 	/// The detector selection is determined here
@@ -148,18 +158,10 @@ void eic(Json::Value obj) {
 		fProton_incidence_phi = fPi;
 
 	} else {
-	
 		fProton_incidence_phi = 0.0;
 		cout << "The interaction point not recognized!" << endl;
 		cout << "Therefore default opition ip6 is used." << endl;
-
 	}
-	
-
-
-
-
-
 
 //	if (particle == "pi") {
 //		Exclusive_Pion_Prodoction(*myPim);
