@@ -98,6 +98,9 @@ extern unsigned long long int fWSqNeg;
 extern unsigned long long int fNMomConserve;
 extern unsigned long long int fNSigmaNeg;
 
+extern unsigned long long int fNaN;
+extern unsigned long long int fConserve;
+
 extern unsigned long long int fNWeightUnphys;
 extern unsigned long long int fNWeightReject;
 

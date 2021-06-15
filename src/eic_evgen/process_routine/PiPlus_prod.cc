@@ -416,7 +416,7 @@ void PiPlus_Production::Processing_Event() {
      
   fsinig = fsini * fm;
   fsfing = fsfin * fm; 
- 
+  // SJDK 15/06/21 - Mandlestam S conservation check - doesn't actually seem to be utilised?
   fMandSConserve = std::abs( fsinig.Mag() - fsfing.Mag() );
 
   //	 cout << fW_GeV << "    " << fsinig.Mag() << "   " << fsfing.Mag() << "   " << fMandSConserve << endl;
@@ -424,14 +424,21 @@ void PiPlus_Production::Processing_Event() {
   //	 cout << "E:  " << r_lscatelec.Px() << " " << r_lscatelec.Py() << " " << r_lscatelec.Pz() << " " << r_lscatelec.E() << endl;
   //	 cout << "X:  " << r_lX.Px() << " " << r_lX.Py() << " " << r_lX.Pz() << " " << r_lX.E() << endl;
   //	 cout << "N:  " << r_l_scat_nucleon.Px() << " " << r_l_scat_nucleon.Py() << " " << r_l_scat_nucleon.Pz() << " " << r_l_scat_nucleon.E() << endl;
-    
+
+  // SJDK 15/06/21 - Added integer counters for conservation law check and for NaN check
+  if (r_lX.E() != r_lX.E()){ // SJDK 15/06/21 - If the energy of the produced meson is not a number, return and add to counter
+    fNaN++;
+    return;
+  }
   kSConserve = false;
   if( std::abs( fsinig.Mag() - fsfing.Mag() ) < fDiff ) {
     kSConserve = true;
   }
         
-  if ( pd->CheckLaws( r_lelectron, r_lproton, r_lscatelec, r_lX, r_l_scat_nucleon) != 1 )
+  if ( pd->CheckLaws( r_lelectron, r_lproton, r_lscatelec, r_lX, r_l_scat_nucleon) != 1 ){
+    fConserve++;
     return;
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////////////
   //                                          Start                                         //
@@ -827,6 +834,8 @@ void PiPlus_Production::Detail_Output() {
   ppiDetails << "Number of events with w more than 10.6                       " << setw(20) << w_ev          << endl;
   ppiDetails << "Number of events with wsq negative                           " << setw(20) << w_neg_ev      << endl;
   ppiDetails << "Number of events with qsq less than 5                        " << setw(20) << qsq_ev        << endl;
+  ppiDetails << "Number of events with Meson (X) energy NaN                   " << setw(20) << fNaN          << endl;
+  ppiDetails << "Number of events failing conservation law check              " << setw(20) << fConserve     << endl;
   ppiDetails << "Number of events with -t more than threshold                 " << setw(20) << t_ev          << endl;
   ppiDetails << "Number of events with unit weight outside of 0 to 1          " << setw(20) << fNWeightUnphys << endl;
   ppiDetails << "Number of events with unit weight greater than random number " << setw(20) << fNWeightReject << endl;
