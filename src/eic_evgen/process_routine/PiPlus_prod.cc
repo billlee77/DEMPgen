@@ -12,26 +12,9 @@ PiPlus_Production::PiPlus_Production() {
 /*--------------------------------------------------*/
 /// PiPlus_Production 
 
-
 PiPlus_Production::PiPlus_Production(TString particle_str) { 
 
   rParticle = particle_str;	
-
-  // 	Particle_t g = omega;
-  // 	cout << g << "    " << ParticleMass(omega) << "   " << ParticleEnum("Omega") << "     "   << ParticleMass(ParticleEnum("Omega")) << endl;
-  // 	exit(0);
-  //
-  //	cout << "Produced particle is: " << GetParticle() << endl; 
-  //	cout << "Generated process: e + p -> e' + p' + " << GetParticle() << endl; 
-  //
-  //   	tTime.Start(); 
-  //
-  //	cout << "/*--------------------------------------------------*/" << endl;
-  //	cout << "Starting setting up process" << endl;
-  //	cout << endl;
-  //
-  //   	TDatime dsTime;
-  //  	cout << "Start Time:   " << dsTime.GetHour() << ":" << dsTime.GetMinute() << endl;
 
 }
 
@@ -39,18 +22,6 @@ PiPlus_Production::~PiPlus_Production() {
 
   ppiOut.close();
   ppiDetails.close();
-
-  //	delete rRand;
-
-  //	cout << endl;
-  //	cout << "Ending the process" << endl;
-  //	cout << "/*--------------------------------------------------*/" << endl;
-  //
-  //   	tTime.Stop();
-  //   	tTime.Print();
-  //
-  //   	TDatime deTime;
-  //   	cout << "End Time:   " << deTime.GetHour() << ":" << deTime.GetMinute() << endl;
 
 }
 
@@ -86,9 +57,6 @@ void PiPlus_Production::Init() {
 	
   rParticle_charge = ExtractCharge(rParticle);
 
-  //	rRand = new TRandom2();	
-  //	rRand->SetSeed(fSeed);
-
   sTFile = Form("./LundFiles/eic_%s.txt", gfile_name.Data());
   sLFile= Form("./LundFiles/eic_input_%s.dat", gfile_name.Data());
    
@@ -115,7 +83,6 @@ void PiPlus_Production::Init() {
   r_lproton = GetProtonVector_lab();
   r_lprotong = GetProtonVector_lab() * fm;
 
-  //cout << "Init check ::   " << r_lprotong.E() << endl;
   // ----------------------------------------------------
   // Electron in collider (lab) frame
 
@@ -135,7 +102,6 @@ void PiPlus_Production::Init() {
   cout << rParticle << "  " << produced_X << "  " << fX_Mass_GeV <<  endl;
   cout << rParticle_charge << endl;
 
-  //	exit(0);	
 
   ///*--------------------------------------------------*/
   /// This rParticle_charge is referring to the charge of the preduced meson
@@ -158,9 +124,6 @@ void PiPlus_Production::Init() {
     cerr << "Exiting the program!" << endl;
     exit(0);
   }
-
-  // 	cout << rParticle_scat_nucleon << endl;
-  // 	exit(0);
 
   rDEG2RAD   = fPI/180.0;
 
@@ -194,8 +157,6 @@ void PiPlus_Production::Init() {
     cout << "Beam energy combination not recognised, weight ceiling set to 1." << endl;
     cout << "!!!!! WARNING !!!!!" << endl << endl;
   }
-  
-  //	exit(0);
 
 }
 
@@ -233,18 +194,7 @@ void PiPlus_Production::Processing_Event() {
   /// The generic produced particle in the exclusive reaction is labelled as X 
   fX_Theta_Col      = acos( fRandom->Uniform( cos(fX_Theta_I), cos(fX_Theta_F ) ) ); 
   fX_Phi_Col        = fRandom->Uniform( 0 , 2.0 * fPi );
-    
-  //	fScatElec_Theta_Col  = 2.42585;
-  //   fScatElec_Phi_Col    = 1.73913;
-  //   fScatElec_Energy_Col = 5473.08;
-  //
-  //	fX_Theta_Col      = 0.232649;
-  //	fX_Phi_Col        = 4.68068;
-
-  //	cout << fScatElec_Theta_Col << "  " << fScatElec_Phi_Col << "   " << fScatElec_Energy_Col << "  " << fX_Theta_Col  << "  " << fX_Phi_Col << endl;
-
-  //	exit(0);
-	
+    	
   // ---------------------------------------------------------------------
   // Specify the energy and solid angle of scatterd electron in Collider (lab) frame
   // ---------------------------------------------------------------------
@@ -265,14 +215,6 @@ void PiPlus_Production::Processing_Event() {
   r_lphoton  = r_lelectron - r_lscatelec;
   r_lphotong = r_lelectrong - r_lscatelecg;
 
-  // 	cout << "Check check : " << endl;	
-  // 
-  // 	cout << r_lphoton.Px()   << "  " << r_lphoton.Py()   << "  " << r_lphoton.Pz()   << "  " <<  r_lphoton.E()   << endl;
-  // 	cout << r_lelectron.Px() << "  " << r_lelectron.Py() << "  " << r_lelectron.Pz() << "  " <<  r_lelectron.E() << endl;
-  // 	cout << r_lscatelec.Px() << "  " << r_lscatelec.Py() << "  " << r_lscatelec.Pz() << "  " <<  r_lscatelec.E() << endl;
-
-  //	exit(0);
-
   fQsq_GeV = -1.* r_lphotong.Mag2();
 
   if ( fQsq_GeV < 5.0 ) {
@@ -289,12 +231,6 @@ void PiPlus_Production::Processing_Event() {
   fW_GeV    = lwg.Mag();
   fWSq_GeV  = lwg.Mag2();
     
-  // 	cout << r_lprotong.Px() << "   " << r_lprotong.Py()  << "   " << r_lprotong.Pz() << "  " << r_lprotong.E() << endl;
-  // 	cout << r_lphotong.Px() << "   " << r_lphotong.Py()  << "   " << r_lphotong.Pz() << "  " << r_lphotong.E() << endl;
-  // 	cout << fQsq_GeV << "   " << fW_GeV << "   "<<  fWSq_GeV << endl;
-	
-  //	 cout << "Here????? " << endl;
-
   if ( fWSq_GeV < 0 ) { 
     w_neg_ev++;
     return;
@@ -316,10 +252,6 @@ void PiPlus_Production::Processing_Event() {
   double fb = pow ( (r_lphoton.Vect()).Mag() , 2 );
   double fc = r_lphoton.E() + fProton_Mass;
  
-  //	 cout.precision(10);
-  //	 cout << r_lphoton.Vect().X() << "    " << r_lphoton.Vect().Y() << "      " << r_lphoton.Vect().Z() << endl;
-  //	 cout <<  "AAAAAAAAAAABBBBBBBCCCCCCCCC    " << fa << "     " << fb << "     " << fc << endl;
-
   fa = ( fa - std::abs( (r_lproton.Vect()).Mag() ) * ( ( ( r_lproton.X() / (r_lproton.Vect()).Mag() ) * fupx ) + 
  						       ( ( r_lproton.Y() / (r_lproton.Vect()).Mag() ) * fupy ) + 
  						       ( ( r_lproton.Z() / (r_lproton.Vect()).Mag() ) * fupz ) ) );
@@ -332,39 +264,20 @@ void PiPlus_Production::Processing_Event() {
   fb =  fb + factor;  
   fc = r_lphoton.E() + r_lproton.E();
      
-  //     double ft = fc * fc - fb + fPion_Mass * fPion_Mass - fProton_Mass * fProton_Mass;
   double ft = fc * fc - fb + fX_Mass * fX_Mass - fProton_Mass * fProton_Mass;
-
-  //	cout << r_lprotong.Px() << "  " << r_lprotong.Py() << "  " << r_lprotong.Pz() << "  " << r_lprotong.E() << endl;
-  //	cout << lproton_rfg.Px() << "  " << lproton_rfg.Py() << "  " << lproton_rfg.Pz() << "  " << lproton_rfg.E() << endl;
-  //	cout << beta_col_rf.Px() << "  " << beta_col_rf.Py() << "  " << beta_col_rf.Pz() << endl;
 
   //exit(0);
      
   double fQA = 4.0 * ( fa * fa - fc * fc );
   double fQB = 4.0 * fc * ft;
 
-  //     double fQC = -4.0 * fa * fa * fPion_Mass * fPion_Mass - ft * ft;    
   double fQC = -4.0 * fa * fa * fX_Mass * fX_Mass - ft * ft;    
  
   fradical = fQB * fQB - 4.0 * fQA * fQC;
  
   fepi1 = ( -fQB - sqrt( fradical ) ) / ( 2.0 * fQA );
   fepi2 = ( -fQB + sqrt( fradical ) ) / ( 2.0 * fQA );
- 
-  //	 cout << fc*fc  << "    " << 99531.3*99531.3 << endl;
-  //	 cout << fb << "    " << 9.83386e+09 << endl;
-  //	 cout << fc*fc - fb << "     " << 99531.3*99531.3 - 9.83386e+09 << endl;
 
-  //	 exit(0);
-
-  //	 cout << "abc: " << fa << "     " << fb << "      " << fc << "     " << ft << "   " << fX_Mass << "   " << fProton_Mass << endl;
-  //	 cout << "epi: " << fQB << "     " << fradical << "      " << fQA << endl;
-  //	 cout << factor << "    " << fepi1 << "     " << fepi2 << endl;
-  //	 cout << "X diagnose: " << fPion_Mass << "    " <<  fepi1  << "   " << fX_Theta_Col << "   " << fX_Phi_Col << endl;    
-  //     fPion_Mom_Same = 0;
-  //     if (  std::abs(fepi1 - fepi2) < fDiff ){ fPion_Mom_Same = 1; }
- 
   // ---------------------------------------------------------
   // Particle X momentum in collider frame, analytic solution ends
   // ---------------------------------------------------------
@@ -418,12 +331,6 @@ void PiPlus_Production::Processing_Event() {
   fsfing = fsfin * fm; 
   // SJDK 15/06/21 - Mandlestam S conservation check - doesn't actually seem to be utilised?
   fMandSConserve = std::abs( fsinig.Mag() - fsfing.Mag() );
-
-  //	 cout << fW_GeV << "    " << fsinig.Mag() << "   " << fsfing.Mag() << "   " << fMandSConserve << endl;
-  //	 
-  //	 cout << "E:  " << r_lscatelec.Px() << " " << r_lscatelec.Py() << " " << r_lscatelec.Pz() << " " << r_lscatelec.E() << endl;
-  //	 cout << "X:  " << r_lX.Px() << " " << r_lX.Py() << " " << r_lX.Pz() << " " << r_lX.E() << endl;
-  //	 cout << "N:  " << r_l_scat_nucleon.Px() << " " << r_l_scat_nucleon.Py() << " " << r_l_scat_nucleon.Pz() << " " << r_l_scat_nucleon.E() << endl;
 
   // SJDK 15/06/21 - Added integer counters for conservation law check and for NaN check
   if (r_lX.E() != r_lX.E()){ // SJDK 15/06/21 - If the energy of the produced meson is not a number, return and add to counter
@@ -508,10 +415,6 @@ void PiPlus_Production::Processing_Event() {
     return;
   }
  
-  //	 cout << fT_GeV << endl;
-
-  //	 exit(0);
-
   fx = fQsq_GeV / ( 2.0 * r_lprotong.Dot( r_lphotong ) );
   fy = r_lprotong.Dot( r_lphotong ) / r_lprotong.Dot( r_lelectrong );
   fz = r_lX.E()/r_lphoton.E();    
@@ -650,7 +553,6 @@ void PiPlus_Production::Processing_Event() {
 
   PiPlus_Pythia6_Output();
 
-	       
 }
 
 /*--------------------------------------------------*/
@@ -695,9 +597,6 @@ TLorentzVector PiPlus_Production::GetProtonVector_lab() {
 			  fProton_Mom_Col * sin(fProton_Theta_Col) * sin(fProton_Phi_Col),
 			  fProton_Mom_Col * cos(fProton_Theta_Col),
 			  sqrt( pow( fProton_Mom_Col , 2 ) + pow( fProton_Mass , 2 ) ) ); 
-
-  //	cout << lproton.X() << "     " << lproton.Y() << "    " << lproton.Z() << endl;
-  //	exit(0);
 
   return lproton;
 
@@ -773,7 +672,6 @@ void PiPlus_Production::Lund_Output() {
   ppiOut << setw(10) << "1" 
 	 << setw(10) << "1" 
 	 << setw(10) << "1" 
-    // 	   << setw(10) << "11111111111"
 	 << setw(10) << PDGtype(produced_X)
 	 << setw(10) << "0" 
 	 << setw(10) << "0" 
@@ -891,8 +789,6 @@ Double_t PiPlus_Production::Get_Total_Cross_Section() {
 
   case Pi0: 			total_sig = GetPi0_CrossSection();
   case PiPlus: 		total_sig = GetPiPlus_CrossSection();
-    //		case Omega: 		total_sig = ...;
-
   }
 
   return total_sig;
@@ -1004,8 +900,6 @@ Double_t  PiPlus_Production::GetPiPlus_CrossSection(){
   return sig_total;
 }
 
-
-
 /*--------------------------------------------------*/
 /*--------------------------------------------------*/
 /*--------------------------------------------------*/
@@ -1015,7 +909,6 @@ void PiPlus_Production::PiPlus_Pythia6_Out_Init() {
 
 	print_itt = 0;
 
-//	ppiOut << "PYTHIA EVENT FILE" << endl;
 	ppiOut << "SIMPLE Event FILE" << endl;
 	ppiOut << "============================================" << endl;
 	ppiOut << "I, ievent, nParticles" << endl;
@@ -1042,7 +935,6 @@ void PiPlus_Production::PiPlus_Pythia6_Output() {
 // 	   << " \t " << fEpsilon       // var 7
 // 	   << " \t " << fEventWeight   // var 8	   
 // 	   << endl;
-
 
     ppiOut << "0" << " \t\t\t\ "  << print_itt << " \t\t\t " << "1" << endl;           // var 1
 
