@@ -137,26 +137,29 @@ void PiPlus_Production::Init() {
   // Probability of being more than 6.5 sigma away is over 1 in 12.5B
   // The weight has to be scaled by the number thrown in the current calculation 
   // fEventWeight is now independent of the number of events thrown
-  if ((fEBeam == 5.0 ) && (fPBeam == 41.0) ){
-    //fEventWeightCeil = 0.0221836 * (1000000000); // Old value
-    fEventWeightCeil = 0.002296 * (1000000000);
-  }
 
-  else if ((fEBeam == 5.0 ) && (fPBeam == 100.0) ){
-    //fEventWeightCeil = 0.30281 * (1000000000); // Old value
-    fEventWeightCeil = 0.023960 * (1000000000);
-  }
+  // SJDK 21/06/21 - Commented out for now, reverting to old weighting method
 
-  else if ((fEBeam == 10.0 ) && (fPBeam == 100.0) ){
-    //fEventWeightCeil = 1.77775 * (1000000000); // Old value
-    fEventWeightCeil = 0.201569 * (1000000000);
-  }
-  else {
-    fEventWeightCeil = 1.0 * (100000000);
-    cout << endl << "!!!!! WARNING !!!!!" << endl;
-    cout << "Beam energy combination not recognised, weight ceiling set to 1." << endl;
-    cout << "!!!!! WARNING !!!!!" << endl << endl;
-  }
+  // if ((fEBeam == 5.0 ) && (fPBeam == 41.0) ){
+  //   //fEventWeightCeil = 0.0221836 * (1000000000); // Old value
+  //   fEventWeightCeil = 0.002296 * (1000000000);
+  // }
+
+  // else if ((fEBeam == 5.0 ) && (fPBeam == 100.0) ){
+  //   //fEventWeightCeil = 0.30281 * (1000000000); // Old value
+  //   fEventWeightCeil = 0.023960 * (1000000000);
+  // }
+
+  // else if ((fEBeam == 10.0 ) && (fPBeam == 100.0) ){
+  //   //fEventWeightCeil = 1.77775 * (1000000000); // Old value
+  //   fEventWeightCeil = 0.201569 * (1000000000);
+  // }
+  // else {
+  //   fEventWeightCeil = 1.0 * (100000000);
+  //   cout << endl << "!!!!! WARNING !!!!!" << endl;
+  //   cout << "Beam energy combination not recognised, weight ceiling set to 1." << endl;
+  //   cout << "!!!!! WARNING !!!!!" << endl << endl;
+  // }
 
 }
 
@@ -533,19 +536,21 @@ void PiPlus_Production::Processing_Event() {
   // Hz        = ub / ( sr^2 * GeV ) * GeV * sr^2 * ( cm^2 / ub ) * ( # / ( cm^2 * sec ) ) / ( # )
 
   // SJDK 11/05/21 -  This is the previous non unit weight
-  // fEventWeight = fSigma_Col * fPSF * fuBcm2 * fLumi / fNEvents;   // in Hz
+  fEventWeight = fSigma_Col * fPSF * fuBcm2 * fLumi / fNEvents;   // in Hz
+  // SJDK 21/06/21 - Commenting out "unit weight" calculation for now, reverting to old version
   // SJDK 11/05/21 - New weight calculation, division by ceiling weight value to attempt to get a "unit" value
-  fEventWeight = abs(fSigma_Col * fPSF * fuBcm2 * fLumi )/fEventWeightCeil;
-  if ( (fEventWeight > 1) || (fEventWeight <= 0) ){
-    fNWeightUnphys ++;
-    return;
-  }
-  fEventWeightRn = fRandom->Uniform( 0, 1.0);
-  if ( fEventWeight > fEventWeightRn ){
-    fNWeightReject ++;
-    return;
-  }
-  fNRecorded ++;
+  //fEventWeight = abs(fSigma_Col * fPSF * fuBcm2 * fLumi )/fEventWeightCeil;
+  // if ( (fEventWeight > 1) || (fEventWeight <= 0) ){
+  //   fNWeightUnphys ++;
+  //   return;
+  // }
+  // SJDK 21/06/21 - Reversed sign of condition here, actually want to reject those with a value less than the random number
+  // fEventWeightRn = fRandom->Uniform( 0, 1.0);
+  // if ( fEventWeight < fEventWeightRn ){
+  //   fNWeightReject ++;
+  //   return;
+  // }
+  fNRecorded++;
   fLundRecorded++;
   fRatio = fNRecorded / fNGenerated;
 
@@ -591,7 +596,6 @@ TLorentzVector PiPlus_Production::GetProtonVector_lab() {
   fVertex_X         = 0.; 
   fVertex_Y         = 0.; 
   fVertex_Z         = 0.; 
-
  
   TLorentzVector lproton( fProton_Mom_Col * sin(fProton_Theta_Col) * cos(fProton_Phi_Col),
 			  fProton_Mom_Col * sin(fProton_Theta_Col) * sin(fProton_Phi_Col),
@@ -735,8 +739,9 @@ void PiPlus_Production::Detail_Output() {
   ppiDetails << "Number of events with Meson (X) energy NaN                   " << setw(20) << fNaN          << endl;
   ppiDetails << "Number of events failing conservation law check              " << setw(20) << fConserve     << endl;
   ppiDetails << "Number of events with -t more than threshold                 " << setw(20) << t_ev          << endl;
-  ppiDetails << "Number of events with unit weight outside of 0 to 1          " << setw(20) << fNWeightUnphys << endl;
-  ppiDetails << "Number of events with unit weight greater than random number " << setw(20) << fNWeightReject << endl;
+  // SJDK 21/06/21 - Commenting out for now, reverting to old weight determination
+  //ppiDetails << "Number of events with unit weight outside of 0 to 1          " << setw(20) << fNWeightUnphys << endl;
+  //ppiDetails << "Number of events with unit weight less than random number    " << setw(20) << fNWeightReject << endl;
 
   ppiDetails << "Number of events with w less than threshold                  " << setw(20) << fWSqNeg       << endl;
   ppiDetails << "Number of events with mom not conserve                       " << setw(20) << fNMomConserve << endl;
@@ -906,7 +911,6 @@ Double_t  PiPlus_Production::GetPiPlus_CrossSection(){
 
 void PiPlus_Production::PiPlus_Pythia6_Out_Init() {
 
-
 	print_itt = 0;
 
 	ppiOut << "SIMPLE Event FILE" << endl;
@@ -921,8 +925,6 @@ void PiPlus_Production::PiPlus_Pythia6_Out_Init() {
 /*--------------------------------------------------*/
 
 void PiPlus_Production::PiPlus_Pythia6_Output() {
-
-
 
 //     ppiOut << "4"
 // 	   << " \t " << fPhi           // var 1
