@@ -31,8 +31,13 @@ PiPlus_Production::~PiPlus_Production() {
 void PiPlus_Production::process_reaction() {
  
   Init();
-
-  PiPlus_Pythia6_Out_Init();
+  
+  if (gOutputType == "Pythia6"){
+    PiPlus_Pythia6_Out_Init();
+  }
+  else if (gOutputType == "HEPMC3"){
+    PiPlus_HEPMC3_Out_Init();
+  }
 
   for( long long int i = 0; i < rNEvents; i++ ) {
  
@@ -555,9 +560,16 @@ void PiPlus_Production::Processing_Event() {
   fLundRecorded++;
   fRatio = fNRecorded / fNGenerated;
 
-  // Lund_Output();
-
-  PiPlus_Pythia6_Output();
+  if (gOutputType == "Pythia6"){
+      PiPlus_Pythia6_Output();
+  }
+  else if (gOutputType == "LUND"){
+    Lund_Output();
+  }
+  else if (gOutputType == "HEPMC3"){
+    PiPlus_HEPMC3_Output();
+  }
+  
 
 }
 
@@ -1059,4 +1071,40 @@ void PiPlus_Production::PiPlus_Pythia6_Output() {
 
   ppiOut << "=============== Event finished ===============" << endl;
 
+}
+
+/*--------------------------------------------------*/
+
+void PiPlus_Production::PiPlus_HEPMC3_Out_Init() {
+ 
+  print_itt = 0;
+
+}
+
+/*--------------------------------------------------*/
+
+void PiPlus_Production::PiPlus_HEPMC3_Output() {
+  
+  // HEPMC3 output for Athena simulations
+
+  // First line - E - Event# - #Vertices - #Particles
+  ppiOut << "E" << "\t"  << print_itt <<  "\t" << "1" << "\t" << 5 << endl;
+  print_itt++;
+  // Second line, Units - U - ENERGY UNIT - DISTANCE UNIT
+  ppiOut << "U" << "\t" << "GEV" << "\t" << "MM" << endl;
+  // Third line, optional attributes, the weight
+  ppiOut << "A" << "\t" << "0" << "\t" <<  fEventWeight << endl;
+  // Beam particles, particle line - P - Particle ID - Parent Vertex ID - PDG id - px - py - pz - energy - particle mass - status (4, incoming beam particle)
+  ppiOut << "P" << "\t" << "1" << "\t" << "0" << "\t" << "11" << "\t" << r_lelectrong.X() << "\t" << r_lelectrong.Y() << "\t" << r_lelectrong.Z() << "\t" << r_lelectrong.E() << "\t" << fElectron_Mass_GeV << "\t" << "4" << endl;
+  ppiOut << "P" << "\t" << "2" << "\t" << "0" << "\t" << "2212" << "\t" << r_lprotong.X() << "\t" << r_lprotong.Y() << "\t" << r_lprotong.Z() << "\t" << r_lprotong.E() << "\t" << fProton_Mass_GeV << "\t" << "4" << endl;
+  // Vertex line - V - 1 - 0 - [1,2]
+  ppiOut << "V" << "\t" << "-1" << "\t" << "0" << "\t" << "[1,2]" << endl;
+  // Output particles, particle line - P - Particle ID - Parent Vertex ID - PDG id - px - py - pz - energy - particle mass - status (1, undecayed physical particle)
+  // Scattered electron
+  ppiOut << "P" << "\t" << "3" << "\t" << "-1" << "\t" << "11" << "\t" << r_lscatelecg.X() << "\t"  << r_lscatelecg.Y() << "\t"  << r_lscatelecg.Z() << "\t" << r_lscatelecg.E() << "\t" << fElectron_Mass_GeV << "\t" << "1" << endl;
+  // Produced meson
+  ppiOut << "P" << "\t" << "4" << "\t" << "-1" << "\t" << PDGtype(produced_X) << "\t" << r_lX_g.X() << "\t"  << r_lX_g.Y() << "\t"  << r_lX_g.Z() << "\t" << r_lX_g.E() << "\t" << fX_Mass_GeV << "\t" << "1" << endl;
+  // Recoil nucleon
+  ppiOut << "P" << "\t" << "5" << "\t" << "-1" << "\t" << PDGtype(recoil_nucleon) << "\t" << r_l_scat_nucleon_g.X() << "\t"  << r_l_scat_nucleon_g.Y() << "\t"  << r_l_scat_nucleon_g.Z() << "\t" << r_l_scat_nucleon_g.E() << "\t" << f_Scat_Nucleon_Mass_GeV << "\t" << "1" << endl;
+  
 }

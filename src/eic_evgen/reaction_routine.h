@@ -191,13 +191,12 @@ class PiPlus_Production {
 
 		void PiPlus_Pythia6_Out_Init();
 		void PiPlus_Pythia6_Output();
+		void PiPlus_HEPMC3_Out_Init();
+		void PiPlus_HEPMC3_Output();
 
 		unsigned long long int print_itt;
 
 }; 
-
-
-
 
 //	
 //class PiPlus_Production: public virtual Reaction{

@@ -49,7 +49,7 @@ void eic() {
 
 /*--------------------------------------------------*/
 
-void eic(int event_number, int target_direction, int kinematics_type, TString file_name, int fEIC_seed, TString particle, TString det_location, double EBeam, double HBeam) {
+void eic(int event_number, int target_direction, int kinematics_type, TString file_name, int fEIC_seed, TString particle, TString det_location, TString OutputType, double EBeam, double HBeam) {
 
    	TString targetname;
 	TString charge;
@@ -142,6 +142,25 @@ void eic(Json::Value obj) {
 	// Set beam energies from .json read in
 	fEBeam = obj["ebeam"].asDouble();
 	fPBeam = obj["hbeam"].asDouble();
+
+	// SJDK - 12/01/22
+	// Set output type as a .json read in
+	// Should be Pythia6, LUND or HEPMC3
+	gOutputType = obj["OutputType"].asString();
+	if (gOutputType == "Pythia6"){
+	  cout << "Using Pythia6 output format for Fun4All" << endl;
+	}
+	else if (gOutputType == "LUND"){
+	  cout << "Using LUND output format" << endl;
+	}
+	else if (gOutputType == "HEPMC3"){
+	  cout << "Using HEPMC3 output format for Athena" << endl;
+	}
+	else{
+	  cout << "Output type not recognised!" << endl;
+	  cout << "Setting output type to Pythia6 by default!" << endl;
+	  gOutputType = "Pythia6";
+	}
 
 	///*--------------------------------------------------*/
 	/// The detector selection is determined here

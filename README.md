@@ -1,8 +1,6 @@
 # DEMPgen
 Event generator for Deep Exclusive Meson Production
 
-
-
 ## Building
 
 To build the event generator, the compiler needs acces to both a compiled installation of CERN ROOT and its source code. ROOT version 6.08.06 or later is supported, and must be installed with the MathMore package enabled. Be sure not to change the location of either the ROOT source or compiled files after installation, as this will interfere with ROOT's built in CMake configurators.
@@ -19,8 +17,7 @@ make
 The event generator can now be run using the following command in the data/ directory.
 
 cd data/
-../build/main ../Config.json
-
+./../build/DEMPgen ../Config.json
 
 ## Configuration
 

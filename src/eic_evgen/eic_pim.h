@@ -51,6 +51,7 @@ extern TString gfile_name;
 extern TString gParticle;
 extern bool gPi0_decay;
 extern std::string gDet_location;
+extern std::string gOutputType;
 extern float fProton_incidence_phi;
 
 extern int fSeed;

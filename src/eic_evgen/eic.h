@@ -39,7 +39,7 @@
 void eic();
 //void eic(int, int, int, TString, int, TString);
 
-void eic(int, int, int, TString, int, TString, TString, double, double);
+void eic(int, int, int, TString, int, TString, TString, TString, double, double);
 void eic(Json::Value);
 
 extern int fSeed;
