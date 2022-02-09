@@ -352,7 +352,7 @@ void Exclusive_Pion_Prodoction(pim myPim) {
        kSConserve = true;
      }
         
-     if ( myPim.CheckLaws( lelectron, lproton, lscatelec, lpion, lneutron ) != 1 )
+     if ( myPim.CheckLaws( lelectron, lproton, lscatelec, lpion, lneutron) != 1 )
        continue;
    
 

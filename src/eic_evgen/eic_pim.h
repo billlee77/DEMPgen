@@ -20,6 +20,7 @@ class pim {
 
   	void Initilize();
   	int CheckLaws(TLorentzVector P_E0, TLorentzVector P_t, TLorentzVector P_e, TLorentzVector P_pim, TLorentzVector P_pro);
+  	int CheckLaws(TLorentzVector P_E0, TLorentzVector P_t, TLorentzVector P_e, TLorentzVector P_pim, TLorentzVector P_pro, double fdiff_E);
   	void setrootfile(std::string myRootFile );
   	double fermiMomentum();
 
@@ -28,7 +29,6 @@ class pim {
 	
 	std::string pParticle;
 	std::string pcharge;
-
 
   /* double correctedPhi(); */
   /* double correctedPhiS(); */
@@ -49,6 +49,7 @@ extern TTree *t1;
 extern int gKinematics_type;
 extern TString gfile_name;
 extern TString gParticle;
+extern TString gHadron;
 extern bool gPi0_decay;
 extern std::string gDet_location;
 extern std::string gOutputType;
@@ -66,6 +67,15 @@ extern bool kSConserve;
 extern bool kFSI;
 extern bool kMSele;
 extern bool kMS;
+
+extern double fKaon_Mass;
+extern double fKaon_Mass_GeV;
+
+extern double fLambda_Mass;                             
+extern double fLambda_Mass_GeV;
+
+extern double fSigma_Mass;
+extern double fSigma_Mass_GeV;
 
 extern double fOmega_Mass; 
 extern double fOmega_Mass_GeV; 
@@ -411,6 +421,31 @@ extern double fPion_Corrected_MomX_Col_GeV;
 extern double fPion_Corrected_MomY_Col_GeV;
 extern double fPion_Corrected_MomZ_Col_GeV;
 extern double fPion_Delta_Mom_Col_GeV;
+
+extern double fKaon_Theta_Col; 
+extern double fKaon_Phi_Col;
+extern double fKaon_Energy_Col;
+extern double fKaon_Mom_Col;
+extern double fKaon_MomZ_Col;
+extern double fKaon_MomX_Col;    
+extern double fKaon_MomY_Col;
+extern double fKaon_Energy_Col_GeV;
+extern double fKaon_Mom_Col_GeV;
+extern double fKaon_MomX_Col_GeV;
+extern double fKaon_MomY_Col_GeV;   
+extern double fKaon_MomZ_Col_GeV;
+extern double fScathad_Theta_Col;
+extern double fScathad_Phi_Col;
+extern double fScathad_Energy_Col;
+extern double fScathad_Mom_Col;
+extern double fScathad_MomZ_Col;
+extern double fScathad_MomX_Col;
+extern double fScathad_MomY_Col;
+extern double fScathad_Energy_Col_GeV;
+extern double fScathad_Mom_Col_GeV;
+extern double fScathad_MomX_Col_GeV;  
+extern double fScathad_MomY_Col_GeV; 
+extern double fScathad_MomZ_Col_GeV;
 
 extern double fNeutron_MS_Energy_Col;
 extern double fNeutron_MS_MomZ_Col;
@@ -794,6 +829,10 @@ extern double fradical;
 
 extern double fMomentum[300];
 extern double fProb[300];
+
+extern double conserve;      // 16/06/21 AU -> New Variables for conservation law checks
+extern double ene;
+extern double mom;
 
 //extern double fProb[300] = {    
 //6.03456,    6.02429,    6.01155,    5.99636,    5.97873,    5.95869,    5.93626,    5.91147,    5.88435,    5.85493,
