@@ -18,7 +18,7 @@ while [[ $i -le $NumFiles ]]; do
     batch="${USER}_EICDempGen_5on100_${i}_Job.txt" # The name of the job submission script it'll create each time
     echo "Running ${batch} for file ${i}"
     cp /dev/null ${batch}
-    RandomSeed=$(od -An -N3 -i /dev/random)
+    RandomSeed=$(od -An -N3 -i /dev/urandom)
     echo "#!/bin/csh" >> ${batch} # Tells your job which shell to run in
     echo "#PBS -N DEMPGen_5on100_${NumEvents}_${i}" >> ${batch} # Name your job                     
     echo "#PBS -m abe" >> ${batch} # Email you on job start, end or error

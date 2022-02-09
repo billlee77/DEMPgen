@@ -18,7 +18,8 @@
     /// This section if for EIC simulation only
     "Targ_dir" : 1,                // Target Direction (1->Up, 2->Down)
     "Kinematics_type" : 1,         // Kinematics type (1->FF, 2->TSSA)
-    "particle": "Pion+", 		   // Choices: omega, pi+, pi0, KLambda, KSigma
+    "particle": "Pion+", 		   // Choices: omega, pi+, pi0, K+
+    "hadron": "",                // Choices: Empty OR Lambda or Sigma0 - For K+ production only!
     "ebeam": 5,                         // Electron beam energy in GeV
     "hbeam": 41,                        // Hadron beam energy in GeV
     //"hbeam_part":"proton",           // Hadron beam particle, proton, deut or helium3, work in progress

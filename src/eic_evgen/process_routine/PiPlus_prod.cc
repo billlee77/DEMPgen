@@ -100,7 +100,6 @@ void PiPlus_Production::Init() {
   /// Getting the particle mass from the data base
  
   produced_X = ParticleEnum(rParticle);
-
   fX_Mass = ParticleMass(produced_X)*1000; //MeV
   fX_Mass_GeV = fX_Mass/1000; //GeV
 
