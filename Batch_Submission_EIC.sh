@@ -4,13 +4,13 @@
 # This script creates batch job files and submits them, these jobs run the Process_EIC.csh script
 
 echo "Running as ${USER}" # Checks who you're running this as
-
+# If output directory for .out/.err files doesn't exist, make it
 if [ ! -d  "/home/${USER}/trq_output" ]; then
     echo "/home/${USER}/trq_output directory doesn't exist, making this directory for you..."
     mkdir "/home/${USER}/trq_output"
     echo "Directory created, check there for output and error logs from your job."
 fi
-
+# If 7 or 8 arguments not given, complain
 if [[ "$#" -ne 7 && "$#" -ne 8 ]]; then
     echo ""
     echo "!!! ERROR !!! - Expected 7 or 8 arguments - !!! ERROR !!!"
@@ -21,6 +21,7 @@ if [[ "$#" -ne 7 && "$#" -ne 8 ]]; then
     exit 0
 fi
 
+# Set variables equal to arguments provided
 NumFiles=$1
 NumEvents=$2
 EBeamE=$3
@@ -29,12 +30,13 @@ OutputType=$5
 InteractionPoint=$6
 Particle=$7
 
+# If K+ specified, check the 8th argument, expect this to exist for K+, if it does NOT (case 1), set a default
 if [[ $Particle == "K+" && -z "$8" ]]; then
     echo "!!! WARNING !!! - For K+ production expect a hadron specified, defaulting to Lambda - !!! WARNING !!!"
     Hadron="Lambda"
-elif [[ $Particle == "K+" && ! -z "$8" ]]; then
+elif [[ $Particle == "K+" && ! -z "$8" ]]; then # If 8th argument is not a blank string (i.e. it exists), set the Hadron to this
     Hadron=$8
-else
+else # Any other case (non K+), set Hadron to be a blank string. We don't actually care for Pi+, Pi0 production etc.
     Hadron=""
 fi
 
