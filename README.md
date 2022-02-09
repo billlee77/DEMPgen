@@ -102,7 +102,7 @@ So as an example if you executed the following -
 
 You would run the generator for 18 GeV e- on 275 protons for ip6, throwing 100000 events with the K+/Lambda generator.
 
-### Batch_Submission_EIC.sh
+### Batch_Submission_EIC.sh - SJDK 09/02/22
 
 This script creates and submits batch jobs. It is designed for use with the torque queueing system on Lark at the University of Regina. However, it could quickly be adapted for use on the JLab iFarm for example if desired.
 The jobs the script creates and submits all execute the Process_EIC.csh script described above. This script requries a very similar set of arguments -
@@ -117,3 +117,7 @@ Arg 7 - Particle -> The produced particle (meson) in the reaction, choose from o
 Arg 8 - Hadron -> OPTIONAL - This only matters if you select K+ as the particle, in this case, choose from Lambda or Sigma0 here. If your choice is invalid (or you don't specify arg9), the default is Lambda
 
 The script automatically generates a random seed itself using the /dev/urandom function
+
+### json_examples - SJDK 09/02/22
+
+There were several .json files clogging up the main directory, many of these were very outdated. As such, I've moved them all to a subfolder, json_examples. This folder has .json config files for a variety of different conditions. However, due to several of them being quite outdated, the Config_EIC.json file in the main (the directory of this README) directory should be consulted to see the options that are actually availble.
