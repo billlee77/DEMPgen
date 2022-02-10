@@ -25,9 +25,6 @@ PiPlus_Production::~PiPlus_Production() {
 
 }
 
-/*--------------------------------------------------*/
-///
-
 void PiPlus_Production::process_reaction() {
  
   Init();
@@ -51,8 +48,6 @@ void PiPlus_Production::process_reaction() {
   Detail_Output();
  
 }
-
-/*--------------------------------------------------*/
 
 void PiPlus_Production::Init() {
 
@@ -136,6 +131,7 @@ void PiPlus_Production::Init() {
 
   cout << "Produced particle in exclusive production: " << rParticle << ";  with mass: " << fX_Mass << " MeV "<< endl;
   cout << fEBeam << " GeV electrons on " << fPBeam << " GeV ions" << endl;
+
   // Depending upon beam energy combination, set the value for the max weight from the non normalised version to then generate unit weights
   // The values were determined from a set of 100 x 1B events thrown runs, the mean weight value + 6.5 sigma was taken as the "max" weight for a given beam energy combination
   // Probability of being more than 6.5 sigma away is over 1 in 12.5B
@@ -166,8 +162,6 @@ void PiPlus_Production::Init() {
   // }
 
 }
-
-/*--------------------------------------------------*/
 
 void PiPlus_Production::Processing_Event() {
 
@@ -296,6 +290,7 @@ void PiPlus_Production::Processing_Event() {
 
   // ----------------------------------------------------
   // Scattered proton collider (lab) frame
+  // ----------------------------------------------------
 
   r_l_scat_nucleon.SetPxPyPzE( ( r_lproton + r_lelectron - r_lscatelec - r_lX).X(),
 			       ( r_lproton + r_lelectron - r_lscatelec - r_lX ).Y(),
@@ -306,12 +301,9 @@ void PiPlus_Production::Processing_Event() {
   r_l_scat_nucleon_g = r_l_scat_nucleon * fm;
 
   // ----------------------------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------------------------
   // Calculate w = (proton + photon)^2
   // ----------------------------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------------------------
      
-  // cout << fW_GeV << endl;
   if ( fW_GeV < 3.0 || fW_GeV > 10.6 ) {
     w_ev++;
     return;
@@ -321,11 +313,9 @@ void PiPlus_Production::Processing_Event() {
   fW = r_lw.Mag();
 
   // ----------------------------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------------------------
   // Calculate w prime w' = (proton + photon - pion)^2                                             
   // ----------------------------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------------------------
-
+ 
   lwp = r_lprotong + r_lphotong - r_lX_g;
   fW_Prime_GeV = lwp.Mag();    
 
@@ -388,11 +378,9 @@ void PiPlus_Production::Processing_Event() {
 
 
   // -----------------------------------------------------------------------------------------
-  // -----------------------------------------------------------------------------------------
   // Calculate -t
   // -----------------------------------------------------------------------------------------
-  // -----------------------------------------------------------------------------------------
-
+ 
   fBeta_CM_RF           = (lphoton_rf.Vect()).Mag() / ( lphoton_rf.E() + fProton_Mass );
   fGamma_CM_RF          = ( lphoton_rf.E() + fProton_Mass ) / fW;
   fX_Energy_CM       = ( pow( fW , 2) + pow(fX_Mass , 2) - pow(f_Scat_Nucleon_Mass , 2) ) / ( 2.0 * fW);    
@@ -513,10 +501,8 @@ void PiPlus_Production::Processing_Event() {
   // -----------------------------------------------------------------------------------------------------------
   // CKY sigma L and T starts
   // -----------------------------------------------------------------------------------------------------------
-
   //	 r_fSig_T = 1;
   //	 r_fSig_L = 1;
-  // 
   // -------------------------------------------------------------------------------------------
  
   r_fSig = Get_Total_Cross_Section();
@@ -532,7 +518,6 @@ void PiPlus_Production::Processing_Event() {
     return;
   }
      
-  // -----------------------------------------------------------------------------------------------------------
   // -----------------------------------------------------------------------------------------------------------
   //             Lab cross section     Phase Space   Conversion     Luminosity                Total events tried
   // Hz        = ub / ( sr^2 * GeV ) * GeV * sr^2 * ( cm^2 / ub ) * ( # / ( cm^2 * sec ) ) / ( # )
@@ -553,6 +538,7 @@ void PiPlus_Production::Processing_Event() {
   //   fNWeightReject ++;
   //   return;
   // }
+
   fNRecorded++;
   fLundRecorded++;
   fRatio = fNRecorded / fNGenerated;
@@ -568,8 +554,6 @@ void PiPlus_Production::Processing_Event() {
   }
 }
 
-/*--------------------------------------------------*/
-
 void PiPlus_Production::Progress_Report() {
 
   dFractTime = time(0);
@@ -584,8 +568,6 @@ void PiPlus_Production::Progress_Report() {
 	 << endl;	  
   }
 }
-
-/*--------------------------------------------------*/
 
 TLorentzVector PiPlus_Production::GetProtonVector_lab() {
 
@@ -615,8 +597,6 @@ TLorentzVector PiPlus_Production::GetProtonVector_lab() {
 
 }
 
-/*--------------------------------------------------*/
-
 //*--------------------------------------------------*/
 // Proton in collider (lab) frame
 // ----------------------------------------------------
@@ -640,8 +620,6 @@ void PiPlus_Production::Consider_Proton_Fermi_Momentum() {
 
 }
 
-/*--------------------------------------------------*/
-
 // ----------------------------------------------------
 // Electron in collider (lab) frame
 // ----------------------------------------------------
@@ -664,107 +642,6 @@ TLorentzVector PiPlus_Production::GetElectronVector_lab() {
 
 }
 
-////*--------------------------------------------------
-/// Outputing to LUND file
-
-void PiPlus_Production::Lund_Output() {
-
-  ppiOut << "3"
-	 << " \t " << fPhi           // var 1
-	 << " \t " << fPhiS          // var 2
-	 << " \t " << fx             // var 3
-	 << " \t " << "1"	       
-	 << " \t " << fQsq_GeV       // var 4
-	 << " \t " << fT_GeV         // var 5
-	 << " \t " << fW_GeV 	       // var 6
-	 << " \t " << fEpsilon       // var 7
-	 << " \t " << fEventWeight   // var 8	   
-	 << endl;
-       
-  // Produced Particle X
-  ppiOut << setw(10) << "1" 
-	 << setw(10) << "1" 
-	 << setw(10) << "1" 
-	 << setw(10) << PDGtype(produced_X)
-	 << setw(10) << "0" 
-	 << setw(10) << "0" 
-	 << setw(16) << r_lX_g.X()
-	 << setw(16) << r_lX_g.Y()   
-	 << setw(16) << r_lX_g.Z()  
-	 << setw(16) << r_lX_g.E()
-	 << setw(16) << fX_Mass_GeV
-	 << setw(16) << fVertex_X
-	 << setw(16) << fVertex_Y
-	 << setw(16) << fVertex_Z
-	 << endl;
-     
-  // Scattered electron
-  ppiOut << setw(10) << "2" 
-	 << setw(10) << "-1" 
-	 << setw(10) << "1" 
-	 << setw(10) << "11" 
-	 << setw(10) << "0" 
-	 << setw(10) << "0" 
-	 << setw(16) << r_lscatelecg.X() 
-	 << setw(16) << r_lscatelecg.Y() 
-	 << setw(16) << r_lscatelecg.Z() 
-	 << setw(16) << r_lscatelecg.E()
-	 << setw(16) << fElectron_Mass_GeV
-	 << setw(16) << fVertex_X
-	 << setw(16) << fVertex_Y
-	 << setw(16) << fVertex_Z
-	 << endl;
- 	  
-  // Recoiled neutron
-  ppiOut << setw(10) << "3" 
-	 << setw(10) << "1" 
-	 << setw(10) << "1" 
-	 << setw(10) << PDGtype(recoil_nucleon)
-	 << setw(10) << "0" 
-	 << setw(10) << "0" 
-	 << setw(16) << r_l_scat_nucleon_g.X() 
-	 << setw(16) << r_l_scat_nucleon_g.Y()
-	 << setw(16) << r_l_scat_nucleon_g.Z()
-	 << setw(16) << r_l_scat_nucleon_g.E()
-	 << setw(16) << f_Scat_Nucleon_Mass_GeV
-	 << setw(16) << fVertex_X
-	 << setw(16) << fVertex_Y
-	 << setw(16) << fVertex_Z
-	 << endl;
-}
-
-/*--------------------------------------------------*/
-/// Output generator detail
-
-void PiPlus_Production::Detail_Output() {
-
-  ppiDetails << "Total events tried                                           " << setw(20) << fNGenerated   << endl;
-  ppiDetails << "Total events recorded                                        " << setw(20) << fNRecorded    << endl;
-  // 09/02/22 - Commented out, not used anymore
-  //ppiDetails << "Max weight value                                             " << setw(20) << fEventWeightCeil << endl; 
-  ppiDetails << "Number of events with w more than 10.6                       " << setw(20) << w_ev          << endl;
-  ppiDetails << "Number of events with wsq negative                           " << setw(20) << w_neg_ev      << endl;
-  ppiDetails << "Number of events with qsq less than 5                        " << setw(20) << qsq_ev        << endl;
-  ppiDetails << "Number of events with Meson (X) energy NaN                   " << setw(20) << fNaN          << endl;
-  ppiDetails << "Number of events failing conservation law check              " << setw(20) << fConserve     << endl;
-  ppiDetails << "Total events passing conservation laws                       " << setw(20) << conserve   << endl;
-  ppiDetails << "Total events failed energy conservation                      " << setw(20) << ene   << endl; 
-  ppiDetails << "Total events failed momentum conserveation                   " << setw(20) << mom   << endl;
-  ppiDetails << "Number of events with -t more than threshold                 " << setw(20) << t_ev          << endl;
-  // SJDK 21/06/21 - Commenting out, reverting to old weight determination
-  //ppiDetails << "Number of events with unit weight outside of 0 to 1          " << setw(20) << fNWeightUnphys << endl;
-  //ppiDetails << "Number of events with unit weight less than random number    " << setw(20) << fNWeightReject << endl;
-  ppiDetails << "Number of events with w less than threshold                  " << setw(20) << fWSqNeg       << endl;
-  ppiDetails << "Number of events with mom not conserve                       " << setw(20) << fNMomConserve << endl;
-  ppiDetails << "Number of events with Sigma negative                         " << setw(20) << fNSigmaNeg    << endl;
-  ppiDetails << "Number of lund events                                        " << setw(20) << fLundRecorded << endl;
-
-  ppiDetails << "Seed used for the Random Number Generator                    " << setw(20) << fSeed         << endl;
-
-}
-
-/*--------------------------------------------------*/
-
 Double_t PiPlus_Production::Get_Phi_X_LeptonPlane_RF () {
 
   fCos_Phi_X_LeptonPlane_RF = ( ( v3QUnitxL.Dot( v3QUnitxP ) ) / ( v3QUnitxL.Mag() * v3QUnitxP.Mag() ) ); // hep-ph/0410050v2
@@ -778,8 +655,6 @@ Double_t PiPlus_Production::Get_Phi_X_LeptonPlane_RF () {
 
 }
 
-/*--------------------------------------------------*/
-
 Double_t PiPlus_Production::Get_Phi_TargPol_LeptonPlane_RF () {
 
   fCos_Phi_TargPol_LeptonPlane_RF = ( ( v3QUnitxL.Dot( v3QUnitxS ) ) / ( v3QUnitxL.Mag() * v3QUnitxS.Mag() ) ); // hep-ph/0410050v2
@@ -792,8 +667,6 @@ Double_t PiPlus_Production::Get_Phi_TargPol_LeptonPlane_RF () {
   return fPhi_TargPol_LeptonPlane_RF;
 
 }
-
-/*--------------------------------------------------*/
 
 Double_t PiPlus_Production::Get_Total_Cross_Section() {
 
@@ -811,8 +684,6 @@ Double_t PiPlus_Production::Get_Total_Cross_Section() {
 
 }
 
-/*--------------------------------------------------*/
-
 Double_t PiPlus_Production::GetPi0_CrossSection() {
 
   double_t sig_total;	
@@ -824,7 +695,6 @@ Double_t PiPlus_Production::GetPi0_CrossSection() {
 /// Charged Pi+ moduel: 
 /// Author: Z. Ahmed 
 /// Date: 2017
-
 
 Double_t  PiPlus_Production::GetPiPlus_CrossSection(){
 
@@ -917,8 +787,103 @@ Double_t  PiPlus_Production::GetPiPlus_CrossSection(){
 }
 
 /*--------------------------------------------------*/
-/*--------------------------------------------------*/
-/*--------------------------------------------------*/
+/// Output generator detail
+
+void PiPlus_Production::Detail_Output() {
+
+  ppiDetails << "Total events tried                                           " << setw(20) << fNGenerated   << endl;
+  ppiDetails << "Total events recorded                                        " << setw(20) << fNRecorded    << endl;
+  // 09/02/22 - Commented out, not used anymore
+  //ppiDetails << "Max weight value                                             " << setw(20) << fEventWeightCeil << endl; 
+  ppiDetails << "Number of events with w more than 10.6                       " << setw(20) << w_ev          << endl;
+  ppiDetails << "Number of events with wsq negative                           " << setw(20) << w_neg_ev      << endl;
+  ppiDetails << "Number of events with qsq less than 5                        " << setw(20) << qsq_ev        << endl;
+  ppiDetails << "Number of events with Meson (X) energy NaN                   " << setw(20) << fNaN          << endl;
+  ppiDetails << "Number of events failing conservation law check              " << setw(20) << fConserve     << endl;
+  ppiDetails << "Total events passing conservation laws                       " << setw(20) << conserve   << endl;
+  ppiDetails << "Total events failed energy conservation                      " << setw(20) << ene   << endl; 
+  ppiDetails << "Total events failed momentum conserveation                   " << setw(20) << mom   << endl;
+  ppiDetails << "Number of events with -t more than threshold                 " << setw(20) << t_ev          << endl;
+  // SJDK 21/06/21 - Commenting out, reverting to old weight determination
+  //ppiDetails << "Number of events with unit weight outside of 0 to 1          " << setw(20) << fNWeightUnphys << endl;
+  //ppiDetails << "Number of events with unit weight less than random number    " << setw(20) << fNWeightReject << endl;
+  ppiDetails << "Number of events with w less than threshold                  " << setw(20) << fWSqNeg       << endl;
+  ppiDetails << "Number of events with mom not conserve                       " << setw(20) << fNMomConserve << endl;
+  ppiDetails << "Number of events with Sigma negative                         " << setw(20) << fNSigmaNeg    << endl;
+  ppiDetails << "Number of lund events                                        " << setw(20) << fLundRecorded << endl;
+
+  ppiDetails << "Seed used for the Random Number Generator                    " << setw(20) << fSeed         << endl;
+
+}
+
+////*--------------------------------------------------
+/// Functions for different output formats follow
+
+void PiPlus_Production::Lund_Output() {
+
+  ppiOut << "3"
+	 << " \t " << fPhi           // var 1
+	 << " \t " << fPhiS          // var 2
+	 << " \t " << fx             // var 3
+	 << " \t " << "1"	       
+	 << " \t " << fQsq_GeV       // var 4
+	 << " \t " << fT_GeV         // var 5
+	 << " \t " << fW_GeV 	       // var 6
+	 << " \t " << fEpsilon       // var 7
+	 << " \t " << fEventWeight   // var 8	   
+	 << endl;
+       
+  // Produced Particle X
+  ppiOut << setw(10) << "1" 
+	 << setw(10) << "1" 
+	 << setw(10) << "1" 
+	 << setw(10) << PDGtype(produced_X)
+	 << setw(10) << "0" 
+	 << setw(10) << "0" 
+	 << setw(16) << r_lX_g.X()
+	 << setw(16) << r_lX_g.Y()   
+	 << setw(16) << r_lX_g.Z()  
+	 << setw(16) << r_lX_g.E()
+	 << setw(16) << fX_Mass_GeV
+	 << setw(16) << fVertex_X
+	 << setw(16) << fVertex_Y
+	 << setw(16) << fVertex_Z
+	 << endl;
+     
+  // Scattered electron
+  ppiOut << setw(10) << "2" 
+	 << setw(10) << "-1" 
+	 << setw(10) << "1" 
+	 << setw(10) << "11" 
+	 << setw(10) << "0" 
+	 << setw(10) << "0" 
+	 << setw(16) << r_lscatelecg.X() 
+	 << setw(16) << r_lscatelecg.Y() 
+	 << setw(16) << r_lscatelecg.Z() 
+	 << setw(16) << r_lscatelecg.E()
+	 << setw(16) << fElectron_Mass_GeV
+	 << setw(16) << fVertex_X
+	 << setw(16) << fVertex_Y
+	 << setw(16) << fVertex_Z
+	 << endl;
+ 	  
+  // Recoiled neutron
+  ppiOut << setw(10) << "3" 
+	 << setw(10) << "1" 
+	 << setw(10) << "1" 
+	 << setw(10) << PDGtype(recoil_nucleon)
+	 << setw(10) << "0" 
+	 << setw(10) << "0" 
+	 << setw(16) << r_l_scat_nucleon_g.X() 
+	 << setw(16) << r_l_scat_nucleon_g.Y()
+	 << setw(16) << r_l_scat_nucleon_g.Z()
+	 << setw(16) << r_l_scat_nucleon_g.E()
+	 << setw(16) << f_Scat_Nucleon_Mass_GeV
+	 << setw(16) << fVertex_X
+	 << setw(16) << fVertex_Y
+	 << setw(16) << fVertex_Z
+	 << endl;
+}
 
 void PiPlus_Production::PiPlus_Pythia6_Out_Init() {
 
@@ -933,21 +898,7 @@ void PiPlus_Production::PiPlus_Pythia6_Out_Init() {
 
 }
 
-/*--------------------------------------------------*/
-
 void PiPlus_Production::PiPlus_Pythia6_Output() {
-
-//     ppiOut << "4"
-// 	   << " \t " << fPhi           // var 1
-// 	   << " \t " << fPhiS          // var 2
-// 	   << " \t " << fx             // var 3
-// 	   << " \t " << "1"	       
-// 	   << " \t " << fQsq_GeV       // var 4
-// 	   << " \t " << fT_GeV         // var 5
-// 	   << " \t " << fW_GeV 	       // var 6
-// 	   << " \t " << fEpsilon       // var 7
-// 	   << " \t " << fEventWeight   // var 8	   
-// 	   << endl;
 
   ppiOut << "0" << " \t\t\t "  << print_itt << " \t\t\t " << "1" << " \t\t\t " << fEventWeight << endl; // var 1
 

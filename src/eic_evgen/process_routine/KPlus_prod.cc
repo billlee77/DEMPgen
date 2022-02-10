@@ -9,7 +9,6 @@ KPlus_Production::KPlus_Production() {
 
 }
 
-/*--------------------------------------------------*/
 /// KPlus_Production 
 // 09/02/22 - SJDK - Added new hadron string argument
 KPlus_Production::KPlus_Production(TString particle_str, TString hadron_str) { 
@@ -25,9 +24,6 @@ KPlus_Production::~KPlus_Production() {
   ppiDetails.close();
 
 }
-
-/*--------------------------------------------------*/
-///
 
 void KPlus_Production::process_reaction() {
  
@@ -52,8 +48,6 @@ void KPlus_Production::process_reaction() {
   Detail_Output();
  
 }
-
-/*--------------------------------------------------*/
 
 void KPlus_Production::Init() {
   
@@ -82,15 +76,12 @@ void KPlus_Production::Init() {
 	
   rFermiMomentum = pd->fermiMomentum();
 
-  // ----------------------------------------------------
   // Proton in collider (lab) frame
 
   r_lproton = GetProtonVector_lab();
   r_lprotong = GetProtonVector_lab() * fm;
 
-  //cout << "Init check ::   " << r_lprotong.E() << endl;
-  // ----------------------------------------------------
-  // Electron in collider (lab) frame
+  /// Electron in collider (lab) frame
 
   cout << "Fermi momentum: " << rFermiMomentum << endl;
 
@@ -99,7 +90,8 @@ void KPlus_Production::Init() {
 
   ///*--------------------------------------------------*/
   /// Getting the particle mass from the data base
-  // Particle X is the produced meson, in this case, the K+
+  /// Particle X is the produced meson, in this case, the K+
+  ///*--------------------------------------------------*/
   produced_X = ParticleEnum(rParticle);
   fX_Mass = ParticleMass(produced_X)*1000; //MeV
   fX_Mass_GeV = fX_Mass/1000; //GeV
@@ -138,6 +130,7 @@ void KPlus_Production::Init() {
 
   cout << "Produced particle in exclusive production: " << rParticle << ";  with mass: " << fX_Mass << " MeV "<< endl;
   cout << fEBeam << " GeV electrons on " << fPBeam << " GeV ions" << endl;
+
   // Depending upon beam energy combination, set the value for the max weight from the non normalised version to then generate unit weights
   // The values were determined from a set of 100 x 1B events thrown runs, the mean weight value + 6.5 sigma was taken as the "max" weight for a given beam energy combination
   // Probability of being more than 6.5 sigma away is over 1 in 12.5B
@@ -310,12 +303,9 @@ void KPlus_Production::Processing_Event() {
   r_l_scat_hadron_g = r_l_scat_hadron * fm;
 
   // ----------------------------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------------------------
   // Calculate w = (proton + photon)^2
   // ----------------------------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------------------------
      
-  // cout << fW_GeV << endl;
   if ( fW_GeV < 3.0 || fW_GeV > 10.6 ) {
     w_ev++;
     return;
@@ -324,10 +314,9 @@ void KPlus_Production::Processing_Event() {
   r_lw = r_lproton + r_lphoton;
   fW = r_lw.Mag();
 
-  // ----------------------------------------------------------------------------------------------
+
   // ----------------------------------------------------------------------------------------------
   // Calculate w prime w' = (proton + photon - pion)^2                                             
-  // ----------------------------------------------------------------------------------------------
   // ----------------------------------------------------------------------------------------------
 
   lwp = r_lprotong + r_lphotong - r_lX_g;
@@ -392,9 +381,7 @@ void KPlus_Production::Processing_Event() {
 
 
   // -----------------------------------------------------------------------------------------
-  // -----------------------------------------------------------------------------------------
   // Calculate -t
-  // -----------------------------------------------------------------------------------------
   // -----------------------------------------------------------------------------------------
 
   fBeta_CM_RF           = (lphoton_rf.Vect()).Mag() / ( lphoton_rf.E() + fProton_Mass );
@@ -460,11 +447,9 @@ void KPlus_Production::Processing_Event() {
   v3QUnitxP    = v3PhotonUnit.Cross(v3X);
   v3QUnitxS    = v3PhotonUnit.Cross(v3S);
 
-  /*--------------------------------------------------*/
   // Get the Phi scattering angle with respect to the electron scattering plane
   fPhi   = Get_Phi_X_LeptonPlane_RF ();
 
-  /*--------------------------------------------------*/
   // Get the Phi scattering angle with respect to the electron scattering plane
   fPhiS  = Get_Phi_TargPol_LeptonPlane_RF();
 
@@ -572,8 +557,6 @@ void KPlus_Production::Processing_Event() {
   }	       
 }
 
-/*--------------------------------------------------*/
-
 void KPlus_Production::Progress_Report() {
 
   dFractTime = time(0);
@@ -589,8 +572,6 @@ void KPlus_Production::Progress_Report() {
   }
 }
 
-/*--------------------------------------------------*/
-
 TLorentzVector KPlus_Production::GetProtonVector_lab() {
 
   // Crossing angle
@@ -599,8 +580,6 @@ TLorentzVector KPlus_Production::GetProtonVector_lab() {
   // Set crossing angle to 0 for fun4all, also required for ATHENA simulations
   fProton_Theta_Col = 0.0;
 
-  ///*--------------------------------------------------*/
-  /// The 
   //     fProton_Phi_Col   = fPi; 
   fProton_Phi_Col   = fProton_incidence_phi; 
 
@@ -615,14 +594,9 @@ TLorentzVector KPlus_Production::GetProtonVector_lab() {
 			  fProton_Mom_Col * cos(fProton_Theta_Col),
 			  sqrt( pow( fProton_Mom_Col , 2 ) + pow( fProton_Mass , 2 ) ) ); 
 
-  //	cout << lproton.X() << "     " << lproton.Y() << "    " << lproton.Z() << endl;
-  //	exit(0);
-
   return lproton;
 
 }
-
-/*--------------------------------------------------*/
 
 //*--------------------------------------------------*/
 // Proton in collider (lab) frame
@@ -647,8 +621,6 @@ void KPlus_Production::Consider_Proton_Fermi_Momentum() {
 
 }
 
-/*--------------------------------------------------*/
-
 // ----------------------------------------------------
 // Electron in collider (lab) frame
 // ----------------------------------------------------
@@ -671,106 +643,6 @@ TLorentzVector KPlus_Production::GetElectronVector_lab() {
 
 }
 
-////*--------------------------------------------------
-/// Outputing to LUND file
-
-void KPlus_Production::Lund_Output() {
-
-  ppiOut << "3"
-	 << " \t " << fPhi           // var 1
-	 << " \t " << fPhiS          // var 2
-	 << " \t " << fx             // var 3
-	 << " \t " << "1"	       
-	 << " \t " << fQsq_GeV       // var 4
-	 << " \t " << fT_GeV         // var 5
-	 << " \t " << fW_GeV 	       // var 6
-	 << " \t " << fEpsilon       // var 7
-	 << " \t " << fEventWeight   // var 8	   
-	 << endl;
-       
-  // Produced Particle X
-  ppiOut << setw(10) << "1" 
-	 << setw(10) << "1" 
-	 << setw(10) << "1" 
-    // 	   << setw(10) << "11111111111"
-	 << setw(10) << PDGtype(produced_X)
-	 << setw(10) << "0" 
-	 << setw(10) << "0" 
-	 << setw(16) << r_lX_g.X()
-	 << setw(16) << r_lX_g.Y()   
-	 << setw(16) << r_lX_g.Z()  
-	 << setw(16) << r_lX_g.E()
-	 << setw(16) << fX_Mass_GeV
-	 << setw(16) << fVertex_X
-	 << setw(16) << fVertex_Y
-	 << setw(16) << fVertex_Z
-	 << endl;
-     
-  // Scattered electron
-  ppiOut << setw(10) << "2" 
-	 << setw(10) << "-1" 
-	 << setw(10) << "1" 
-	 << setw(10) << "11" 
-	 << setw(10) << "0" 
-	 << setw(10) << "0" 
-	 << setw(16) << r_lscatelecg.X() 
-	 << setw(16) << r_lscatelecg.Y() 
-	 << setw(16) << r_lscatelecg.Z() 
-	 << setw(16) << r_lscatelecg.E()
-	 << setw(16) << fElectron_Mass_GeV
-	 << setw(16) << fVertex_X
-	 << setw(16) << fVertex_Y
-	 << setw(16) << fVertex_Z
-	 << endl;
- 	  
-  // Recoiled hadron
-  ppiOut << setw(10) << "3" 
-	 << setw(10) << "1" 
-	 << setw(10) << "1" 
-	 << setw(10) << PDGtype(recoil_hadron)
-	 << setw(10) << "0" 
-	 << setw(10) << "0" 
-	 << setw(16) << r_l_scat_hadron_g.X() 
-	 << setw(16) << r_l_scat_hadron_g.Y()
-	 << setw(16) << r_l_scat_hadron_g.Z()
-	 << setw(16) << r_l_scat_hadron_g.E()
-	 << setw(16) << f_Scat_hadron_Mass_GeV
-	 << setw(16) << fVertex_X
-	 << setw(16) << fVertex_Y
-	 << setw(16) << fVertex_Z
-	 << endl;
-}
-
-/*--------------------------------------------------*/
-/// Output generator detail
-
-void KPlus_Production::Detail_Output() {
-
-  ppiDetails << "Total events tried                                           " << setw(20) << fNGenerated   << endl;
-  ppiDetails << "Total events recorded                                        " << setw(20) << fNRecorded    << endl;
-  // 09/02/22 - Commented out, not used anymore
-  //ppiDetails << "Max weight value                                             " << setw(20) << fEventWeightCeil << endl; 
-  ppiDetails << "Number of events with w more than 10.6                       " << setw(20) << w_ev          << endl;
-  ppiDetails << "Number of events with wsq negative                           " << setw(20) << w_neg_ev      << endl;
-  ppiDetails << "Number of events with qsq less than 5                        " << setw(20) << qsq_ev        << endl;
-  ppiDetails << "Number of events with Meson (X) energy NaN                   " << setw(20) << fNaN          << endl;
-  ppiDetails << "Number of events failing conservation law check              " << setw(20) << fConserve     << endl;
-  ppiDetails << "Total events passing conservation laws                       " << setw(20) << conserve   << endl;
-  ppiDetails << "Total events failed energy conservation                      " << setw(20) << ene   << endl; 
-  ppiDetails << "Total events failed momentum conserveation                   " << setw(20) << mom   << endl;
-
-  ppiDetails << "Number of events with -t more than threshold                 " << setw(20) << t_ev          << endl;
-  ppiDetails << "Number of events with w less than threshold                  " << setw(20) << fWSqNeg       << endl;
-  ppiDetails << "Number of events with mom not conserve                       " << setw(20) << fNMomConserve << endl;
-  ppiDetails << "Number of events with Sigma negative                         " << setw(20) << fNSigmaNeg    << endl;
-  ppiDetails << "Number of lund events                                        " << setw(20) << fLundRecorded << endl;
-
-  ppiDetails << "Seed used for the Random Number Generator                    " << setw(20) << fSeed         << endl;
-
-}
-
-/*--------------------------------------------------*/
-
 Double_t KPlus_Production::Get_Phi_X_LeptonPlane_RF () {
 
   fCos_Phi_X_LeptonPlane_RF = ( ( v3QUnitxL.Dot( v3QUnitxP ) ) / ( v3QUnitxL.Mag() * v3QUnitxP.Mag() ) ); // hep-ph/0410050v2
@@ -784,8 +656,6 @@ Double_t KPlus_Production::Get_Phi_X_LeptonPlane_RF () {
 
 }
 
-/*--------------------------------------------------*/
-
 Double_t KPlus_Production::Get_Phi_TargPol_LeptonPlane_RF () {
 
   fCos_Phi_TargPol_LeptonPlane_RF = ( ( v3QUnitxL.Dot( v3QUnitxS ) ) / ( v3QUnitxL.Mag() * v3QUnitxS.Mag() ) ); // hep-ph/0410050v2
@@ -798,8 +668,6 @@ Double_t KPlus_Production::Get_Phi_TargPol_LeptonPlane_RF () {
   return fPhi_TargPol_LeptonPlane_RF;
 
 }
-
-/*--------------------------------------------------*/
 
 Double_t KPlus_Production::Get_Total_Cross_Section() {
 
@@ -879,8 +747,6 @@ Double_t  KPlus_Production::GetKPlus_CrossSection(){
     fSig_L = 0;
   }
  
-  // -------------------------------------------------------------------------------------------
- 
   if ( ( fT_GeV > 0.0 ) && ( fT_GeV < 0.15 ) ) {
     eicSigmaT( fW_GeV,  fQsq_GeV, tpar0, tpar1, tpar2 , tpar3 , tpar4 );
     TF1 *fitCKYTranspol2 = new TF1("sigmaL","pol2", 0.0 , 0.2 );
@@ -953,7 +819,6 @@ Double_t  KPlus_Production::GetKPlus_CrossSection(){
   
   ratio_Khyp_pi = dl_poleKhyp / dl_polepi; 
 
-
   // --------------------------------------------------------------------------------
 
   fSig_VR = (0.1* fSig_T) + fEpsilon * (ratio_Khyp_pi* fSig_L);
@@ -962,13 +827,105 @@ Double_t  KPlus_Production::GetKPlus_CrossSection(){
   return sig_total;
 }
 
+/*--------------------------------------------------*/
+/// Output generator detail
+
+void KPlus_Production::Detail_Output() {
+
+  ppiDetails << "Total events tried                                           " << setw(20) << fNGenerated   << endl;
+  ppiDetails << "Total events recorded                                        " << setw(20) << fNRecorded    << endl;
+  // 09/02/22 - Commented out, not used anymore
+  //ppiDetails << "Max weight value                                             " << setw(20) << fEventWeightCeil << endl; 
+  ppiDetails << "Number of events with w more than 10.6                       " << setw(20) << w_ev          << endl;
+  ppiDetails << "Number of events with wsq negative                           " << setw(20) << w_neg_ev      << endl;
+  ppiDetails << "Number of events with qsq less than 5                        " << setw(20) << qsq_ev        << endl;
+  ppiDetails << "Number of events with Meson (X) energy NaN                   " << setw(20) << fNaN          << endl;
+  ppiDetails << "Number of events failing conservation law check              " << setw(20) << fConserve     << endl;
+  ppiDetails << "Total events passing conservation laws                       " << setw(20) << conserve   << endl;
+  ppiDetails << "Total events failed energy conservation                      " << setw(20) << ene   << endl; 
+  ppiDetails << "Total events failed momentum conserveation                   " << setw(20) << mom   << endl;
+
+  ppiDetails << "Number of events with -t more than threshold                 " << setw(20) << t_ev          << endl;
+  ppiDetails << "Number of events with w less than threshold                  " << setw(20) << fWSqNeg       << endl;
+  ppiDetails << "Number of events with mom not conserve                       " << setw(20) << fNMomConserve << endl;
+  ppiDetails << "Number of events with Sigma negative                         " << setw(20) << fNSigmaNeg    << endl;
+  ppiDetails << "Number of lund events                                        " << setw(20) << fLundRecorded << endl;
+
+  ppiDetails << "Seed used for the Random Number Generator                    " << setw(20) << fSeed         << endl;
+
+}
 
 /*--------------------------------------------------*/
-/*--------------------------------------------------*/
-/*--------------------------------------------------*/
+/// Output format functions follow
+
+void KPlus_Production::Lund_Output() {
+
+  ppiOut << "3"
+	 << " \t " << fPhi           // var 1
+	 << " \t " << fPhiS          // var 2
+	 << " \t " << fx             // var 3
+	 << " \t " << "1"	       
+	 << " \t " << fQsq_GeV       // var 4
+	 << " \t " << fT_GeV         // var 5
+	 << " \t " << fW_GeV 	       // var 6
+	 << " \t " << fEpsilon       // var 7
+	 << " \t " << fEventWeight   // var 8	   
+	 << endl;
+       
+  // Produced Particle X
+  ppiOut << setw(10) << "1" 
+	 << setw(10) << "1" 
+	 << setw(10) << "1" 
+    // 	   << setw(10) << "11111111111"
+	 << setw(10) << PDGtype(produced_X)
+	 << setw(10) << "0" 
+	 << setw(10) << "0" 
+	 << setw(16) << r_lX_g.X()
+	 << setw(16) << r_lX_g.Y()   
+	 << setw(16) << r_lX_g.Z()  
+	 << setw(16) << r_lX_g.E()
+	 << setw(16) << fX_Mass_GeV
+	 << setw(16) << fVertex_X
+	 << setw(16) << fVertex_Y
+	 << setw(16) << fVertex_Z
+	 << endl;
+     
+  // Scattered electron
+  ppiOut << setw(10) << "2" 
+	 << setw(10) << "-1" 
+	 << setw(10) << "1" 
+	 << setw(10) << "11" 
+	 << setw(10) << "0" 
+	 << setw(10) << "0" 
+	 << setw(16) << r_lscatelecg.X() 
+	 << setw(16) << r_lscatelecg.Y() 
+	 << setw(16) << r_lscatelecg.Z() 
+	 << setw(16) << r_lscatelecg.E()
+	 << setw(16) << fElectron_Mass_GeV
+	 << setw(16) << fVertex_X
+	 << setw(16) << fVertex_Y
+	 << setw(16) << fVertex_Z
+	 << endl;
+ 	  
+  // Recoiled hadron
+  ppiOut << setw(10) << "3" 
+	 << setw(10) << "1" 
+	 << setw(10) << "1" 
+	 << setw(10) << PDGtype(recoil_hadron)
+	 << setw(10) << "0" 
+	 << setw(10) << "0" 
+	 << setw(16) << r_l_scat_hadron_g.X() 
+	 << setw(16) << r_l_scat_hadron_g.Y()
+	 << setw(16) << r_l_scat_hadron_g.Z()
+	 << setw(16) << r_l_scat_hadron_g.E()
+	 << setw(16) << f_Scat_hadron_Mass_GeV
+	 << setw(16) << fVertex_X
+	 << setw(16) << fVertex_Y
+	 << setw(16) << fVertex_Z
+	 << endl;
+}
 
 void KPlus_Production::KPlus_Pythia6_Out_Init() {
-
 
 	print_itt = 0;
 
@@ -981,22 +938,7 @@ void KPlus_Production::KPlus_Pythia6_Out_Init() {
 
 }
 
-/*--------------------------------------------------*/
-
 void KPlus_Production::KPlus_Pythia6_Output() {
-
-//     ppiOut << "4"
-// 	   << " \t " << fPhi           // var 1
-// 	   << " \t " << fPhiS          // var 2
-// 	   << " \t " << fx             // var 3
-// 	   << " \t " << "1"	       
-// 	   << " \t " << fQsq_GeV       // var 4
-// 	   << " \t " << fT_GeV         // var 5
-// 	   << " \t " << fW_GeV 	       // var 6
-// 	   << " \t " << fEpsilon       // var 7
-// 	   << " \t " << fEventWeight   // var 8	   
-// 	   << endl;
-
 
   ppiOut << "0" << " \t\t\t "  << print_itt << " \t\t\t " << "1" << " \t\t\t " << fEventWeight << endl;           // var 1
 
@@ -1057,7 +999,6 @@ void KPlus_Production::KPlus_Pythia6_Output() {
   	   << setw(6) << fVertex_Y
   	   << setw(6) << fVertex_Z
   	   << endl;
-
 
  	///*--------------------------------------------------*/
   	// Final State
@@ -1127,8 +1068,6 @@ void KPlus_Production::KPlus_HEPMC3_Out_Init() {
   ppiOut << "HepMC::Asciiv3-START_EVENT_LISTING" << endl;
 
 }
-
-/*--------------------------------------------------*/
 
 void KPlus_Production::KPlus_HEPMC3_Output() {
   
