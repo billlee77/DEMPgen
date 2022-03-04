@@ -70,30 +70,22 @@ int main(int argc, char** argv){
    Json::Reader reader;
    reader.parse(ifs, obj);
  
-//   int nEvents = obj["n_events"].asInt();
-//   int nEvents = obj["n_events"].asUInt64();
    unsigned long long int nEvents = obj["n_events"].asUInt64();
    cout << "Generating "<< nEvents << " events."<<endl;
 
    TString file_name = obj["file_name"].asString();
 
    if (file_name == "") {
-
-	 file_name.Form("%i", nEvents);
-	
+	 file_name.Form("%i", nEvents);	
 	 file_name = file_name + "_" + get_date();
-
    } 
 
-
    int gen_seed = obj["generator_seed"].asInt();
-
    TString particle = obj["particle"].asString();
 
    //TString HBeamPart = obj["hbeam_part"].asString(); // Work in progress
 
 //	cout << obj["experiment"].asString() << endl;
-//	cout << particle << endl;
 //	cout << "File name: " << file_name << "  " << get_date() << endl;
 //	cout << particle << endl;
 //	exit(0);
@@ -106,6 +98,7 @@ int main(int argc, char** argv){
   		int kinematics_type = obj["Kinematics_type"].asInt();
 		double EBeam = obj["ebeam"].asDouble();
 		double HBeam = obj["hbeam"].asDouble();
+		TString hadron = obj["hadron"].asString(); // SJDK 08/02/22 - Add the hadron type as an argument
 //		bool = obj["pi0_particle"].asBool()
 //		eic(nEvents, target_direction, kinematics_type, file_name, gen_seed, particle);
  		eic(obj);
@@ -335,7 +328,6 @@ int main(int argc, char** argv){
                           targwindowthickness / ME->X0(Window_Z, Window_A));
        }
    
-   
        // Generate target and scattered electron
        *VertTargNeut = *NeutGen->GetParticle();
        *VertScatElec = *ElecGen->GetParticle();
@@ -352,8 +344,7 @@ int main(int argc, char** argv){
        *VertProdPion = *ProtonPionGen->ProdPion();
        *VertProdProt = *ProtonPionGen->ProdProton();
        //    cout<<VertProdPion->GetPid() << endl;
-   
-   
+      
        VertEvent->Update();
        // VertEvent and its components are not to be modified beyond this point.
    
@@ -394,8 +385,7 @@ int main(int argc, char** argv){
        sigma = Sig->sigma();
    
        epsilon = Sig->epsilon();
-   
-   
+
        // Cuts
    
        if (obj["Qsq_cut"].asBool()){
@@ -441,11 +431,8 @@ int main(int argc, char** argv){
            continue;
          }
        }
-   
-   
+      
        weight = Sig->weight(nEvents);
-       
-   
    
        // Final State Interaction.
        
@@ -592,13 +579,8 @@ int main(int argc, char** argv){
            airthickness = 950 * Air_Density / ME->X0(Air_Z,Air_A);
          ME->MultiScatter(LCorEvent->ProdPion, airthickness);
    
-   
-   
-   
        }
-   
-   
-   
+      
        Output->Fill();
    
      }
@@ -612,33 +594,7 @@ int main(int argc, char** argv){
      cout << "Failed Events: \t\t" << nFail << endl;
      cout << "Negative Events: \t\t" << nNeg << endl;
      cout << "Cut Events: \t\t" << nCut << endl;
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+
      // Checks against old event generator:
    
      if(nEvents <0){

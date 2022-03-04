@@ -49,7 +49,7 @@ void eic() {
 
 /*--------------------------------------------------*/
 
-void eic(int event_number, int target_direction, int kinematics_type, TString file_name, int fEIC_seed, TString particle, TString det_location, double EBeam, double HBeam) {
+void eic(int event_number, int target_direction, int kinematics_type, TString file_name, int fEIC_seed, TString particle, TString hadron, TString det_location, TString OutputType, double EBeam, double HBeam) {
 
    	TString targetname;
 	TString charge;
@@ -71,37 +71,25 @@ void eic(int event_number, int target_direction, int kinematics_type, TString fi
 
 	pim* myPim = new pim(fSeed);
   	myPim->Initilize();
- 
-//  	TDatime dsTime;
-//  	cout << "Start Time:   " << dsTime.GetHour() << ":" << dsTime.GetMinute() << endl;
-
-	particle = ExtractParticle(particle);
-	charge = ExtractCharge(particle);
-
-//	if (particle == "pi") {
-//		Exclusive_Pion_Prodoction(*myPim);
-//	} else if (particle == "omega") {
-//		Exclusive_Omega_Prodoction(*myPim);
-//	} else {
-//		cerr << "Choice of particle is not recognized." << endl;
-//		exit(0);
-//	}
-
-//    TDatime dsTime;
-//  	cout << "Start Time:   " << dsTime.GetHour() << ":" << dsTime.GetMinute() << endl;
-	
-//	TStopwatch tTime;
-//   	tTime.Start();
-//
-//	Exclusive_Pion_Prodoction(*myPim);
-//	
-//	tTime.Stop();
-//   	tTime.Print();
-
-	Reaction* r1 = new Reaction(particle);
-	r1->process_reaction();
-	delete r1;
-
+	// 09/02/22 - SJDK - Special case for the kaon, if hadron not specified, default to Lambda
+	if (particle == "K+"){
+	  if (hadron != "Lambda" && hadron != "Sigma0"){
+	    hadron = "Lambda";
+	  }
+	  else{
+	    hadron = ExtractParticle(hadron);
+	  }
+	  Reaction* r1 = new Reaction(particle, hadron);
+	  r1->process_reaction();
+	  delete r1;
+	}
+	else{
+	  particle = ExtractParticle(particle);
+	  charge = ExtractCharge(particle);
+	  Reaction* r1 = new Reaction(particle);
+	  r1->process_reaction();
+	  delete r1;
+	}
 }
 
 /*--------------------------------------------------*/
@@ -134,14 +122,48 @@ void eic(Json::Value obj) {
 //  	cout << "Start Time:   " << dsTime.GetHour() << ":" << dsTime.GetMinute() << endl;
 
 	TString particle = obj["particle"].asString();
-
+	TString hadron = obj["hadron"].asString(); // 09/02/22 - SJDK - Added in hadron type argument for K+
+	// SJDK - 08/02/22 - This is terrible, need to change this, particle should just be K+
+	// Add a new flag which, hadron - where this is specified too, then add conditionals elsewhere based on this
+	//New conditional, special case for Kaon
+	
 	particle = ExtractParticle(particle);
 	charge = ExtractCharge(particle);
-	
+	if (particle == "K+"){
+	  if (hadron != "Lambda" && hadron != "Sigma0"){
+	    hadron = "Lambda";
+	  }
+	  else{
+	    hadron = ExtractParticle(hadron);
+	  }
+	}
+	else { // SJDK -09/02/22 - Note that in future this could be changed to get different hadrons in other reactions if desired
+	  hadron = "";
+	}
+
 	// SJDK - 01/06/21
 	// Set beam energies from .json read in
 	fEBeam = obj["ebeam"].asDouble();
 	fPBeam = obj["hbeam"].asDouble();
+
+	// SJDK - 12/01/22
+	// Set output type as a .json read in
+	// Should be Pythia6, LUND or HEPMC3
+	gOutputType = obj["OutputType"].asString();
+	if (gOutputType == "Pythia6"){
+	  cout << "Using Pythia6 output format for Fun4All" << endl;
+	}
+	else if (gOutputType == "LUND"){
+	  cout << "Using LUND output format" << endl;
+	}
+	else if (gOutputType == "HEPMC3"){
+	  cout << "Using HEPMC3 output format for Athena" << endl;
+	}
+	else{
+	  cout << "Output type not recognised!" << endl;
+	  cout << "Setting output type to Pythia6 by default!" << endl;
+	  gOutputType = "Pythia6";
+	}
 
 	///*--------------------------------------------------*/
 	/// The detector selection is determined here
@@ -163,53 +185,25 @@ void eic(Json::Value obj) {
 		cout << "Therefore default opition ip6 is used." << endl;
 	}
 
-//	if (particle == "pi") {
-//		Exclusive_Pion_Prodoction(*myPim);
-//	} else if (particle == "omega") {
-//		Exclusive_Omega_Prodoction(*myPim);
-//	} else {
-//		cerr << "Choice of particle is not recognized." << endl;
-//		exit(0);
-//	}
-
-//    TDatime dsTime;
-//  	cout << "Start Time:   " << dsTime.GetHour() << ":" << dsTime.GetMinute() << endl;
-	
-//	TStopwatch tTime;
-//   	tTime.Start();
-//
-//	Exclusive_Pion_Prodoction(*myPim);
-//	
-//	tTime.Stop();
-//   	tTime.Print();
-
-	Reaction* r1 = new Reaction(particle);
-	r1->process_reaction();
-	delete r1;
+	if(particle != "K+"){
+	  Reaction* r1 = new Reaction(particle);
+	  r1->process_reaction();
+	  delete r1;
+	}
+	else{ // 09/02/22 - Special case for kaons, feed hadron in as well
+	  Reaction* r1 = new Reaction(particle, hadron);
+	  r1->process_reaction();
+	  delete r1;
+	}
 
 }
 
 /*--------------------------------------------------*/
 /*--------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
-
-
 
 void SetEICSeed (int seed) {
 	fSeed = seed;
 }
-
-
-
 
 ///*--------------------------------------------------*/
 ///*--------------------------------------------------*/
@@ -223,11 +217,10 @@ TString ExtractParticle(TString particle) {
 
 	/// Make the input particle case insansitive
 	particle.ToLower();
-
 	if (particle.Contains("on")) {
 		particle.ReplaceAll("on", "");
 	};
-	
+ 	
 	if (particle.Contains("plus")) {
 		particle.ReplaceAll("plus", "+");
 	}
@@ -241,9 +234,7 @@ TString ExtractParticle(TString particle) {
 	}
 
 	particle[0] = toupper(particle[0]);
-
 	cout << "Particle: " << particle << endl;
-
 	return particle;
 
 }
